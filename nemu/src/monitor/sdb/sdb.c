@@ -42,13 +42,13 @@ static int cmd_q(char *args) {
 static int cmd_si(char*args) {
     int N = 1;
     if(args != NULL) sscanf(args, "%d", &N); // if args only consists of blank , then N is still equal to 1
-   // printf("%d\n\n%s\n\n",N,args);
+    //printf("%d\n\n%s\n\n",N,args);
     cpu_exec(N);
     return 0;
 }
 
 static int cmd_info(char*args) {
-    isa_reg_display();
+    if(!strcmp(args,"r")) isa_reg_display();
     return 0;
 }
 
