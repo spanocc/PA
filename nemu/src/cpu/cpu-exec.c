@@ -86,7 +86,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
-  g_print_step = (n < MAX_INSTR_TO_PRINT);
+  g_print_step = (n < MAX_INSTR_TO_PRINT);// if n < max instruction ,print each step. else don't print
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
