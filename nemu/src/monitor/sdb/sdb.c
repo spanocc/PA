@@ -52,6 +52,19 @@ static int cmd_info(char*args) {
     return 0;
 }
 
+static int cmd_x(char*args) {
+    uint32_t adr = 0;
+    int N = 0;
+    //char *expression = NULL;
+
+    for(int i = 0; i < N; ++i) {
+        printf("0x%x: ",adr+4);
+    }
+
+    return 0;
+}
+
+
 
 static int cmd_help(char *args);
 
@@ -64,7 +77,8 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute N instructions", cmd_si },
-  { "info", "Print informations", cmd_info }
+  { "info", "Print informations", cmd_info },
+  { "x", "Scan memory", cmd_x }
   /* TODO: Add more commands */
 
 };
