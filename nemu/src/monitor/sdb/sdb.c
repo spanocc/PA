@@ -38,6 +38,18 @@ static int cmd_q(char *args) {
   return -1;
 }
 
+static int cmd_si(char*args) {
+    int N = 1;
+    if(args != NULL) sscanf("args", "%d", &N); // if args only consists of blank , then N is still equal to 1
+    cpu_exec(N);
+    return 0;
+}
+
+static int cmd_info(char*args) {
+   return 0;
+}
+
+
 static int cmd_help(char *args);
 
 static struct {
@@ -48,7 +60,8 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si", "Execute N instructions", cmd_si },
+  { "info", "Print message", cmd_info }
   /* TODO: Add more commands */
 
 };
