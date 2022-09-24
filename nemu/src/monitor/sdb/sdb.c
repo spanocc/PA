@@ -9,6 +9,8 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 void isa_reg_display(void);
+uint8_t* guest_to_host(paddr_t paddr); 
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -53,12 +55,19 @@ static int cmd_info(char*args) {
 }
 
 static int cmd_x(char*args) {
-    uint32_t adr = 0;
+    paddr_t adr = 0;
     int N = 0;
     //char *expression = NULL;
+    sscanf(args,"%d %u",&adr, &N);
 
     for(int i = 0; i < N; ++i) {
-        printf("0x%x: ",adr+4);
+        printf("0x%x: ",adr);
+        for(int j = 0; j < 4; ++j) {
+            uint8_t *ret = guest_to_host(adr+j);  
+            printf("%x ",*ret);
+        }
+        printf("\n");
+        adr += 4;
     }
 
     return 0;
