@@ -58,7 +58,7 @@ static int cmd_x(char*args) {
     paddr_t adr = 0;
     int N = 0;
     //char *expression = NULL;
-    sscanf(args,"%d %u",&N, &adr);
+    sscanf(args,"%d %u",&N, &adr);          printf("%d %x\n",N,adr);
 
     for(int i = 0; i < N; ++i) {
         printf("0x%x: ",adr);
