@@ -58,13 +58,13 @@ static int cmd_x(char*args) {
     paddr_t adr = 0;
     int N = 0;
     //char *expression = NULL;
-    sscanf(args,"%d %x",&N, &adr);          printf("%d %x\n",N,adr);
+    sscanf(args,"%d %x",&N, &adr);    //      printf("%d %x\n",N,adr);
 
     for(int i = 0; i < N; ++i) {
         printf("0x%x: ",adr);
         for(int j = 0; j < 4; ++j) {
             uint8_t *ret = guest_to_host(adr+j);  
-            printf("%x ",*ret);
+            printf("%02x ",*ret);
         }
         printf("\n");
         adr += 4;
