@@ -87,7 +87,7 @@ static bool make_token(char *e) {
         }
 
         strncpy(tokens[nr_token].str, substr_start, substr_len);   
-        tokens[nr_token].str[substr_len] = '\0';                    printf("%s\n",tokens[nr_token].str);
+        tokens[nr_token].str[substr_len] = '\0';                    //printf("%s\n",tokens[nr_token].str);
         ++nr_token;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -122,7 +122,7 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
    for(int i = 0; i < nr_token; ++i) {
         printf("%s \n",tokens[i].str);
-   }puts("");
+   }
    TODO();
 
   return 0;
