@@ -119,16 +119,17 @@ static bool make_token(char *e) {
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
-        
-        tokens[nr_token].type = rules[i].token_type; 
-        if(substr_len > 31) { //assert(substr_len <= 31);
-            printf("The token is too long, please make sure the length of the token is less than 31\n");
-            return false;
+        if(rules[i].token_type != TK_NOTYPE) { 
+            tokens[nr_token].type = rules[i].token_type; 
+            if(substr_len > 31) { //assert(substr_len <= 31);
+                printf("The token is too long, please make sure the length of the token is less than 31\n");
+                return false;
+            }
+            strncpy(tokens[nr_token].str, substr_start, substr_len);   
+            tokens[nr_token].str[substr_len] = '\0';                    //printf("%s\n",tokens[nr_token].str);
+            ++nr_token;
         }
 
-        strncpy(tokens[nr_token].str, substr_start, substr_len);   
-        tokens[nr_token].str[substr_len] = '\0';                    //printf("%s\n",tokens[nr_token].str);
-        ++nr_token;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
