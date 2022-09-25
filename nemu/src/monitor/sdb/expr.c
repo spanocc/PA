@@ -77,9 +77,9 @@ static bool make_token(char *e) {
 
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
-/*
+
         position += substr_len;
-        
+/*        
         tokens[nr_token].type = rules[i].token_type; 
         if(substr_len > 31) { //assert(substr_len <= 31);
             printf("The token is too long, please make sure the length of the token is less than 31\n");
