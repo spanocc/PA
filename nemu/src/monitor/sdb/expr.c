@@ -86,8 +86,8 @@ static bool make_token(char *e) {
             return false;
         }
 
-        strncpy(tokens[nr_token].str, substr_start, 31);   
-        tokens[nr_token].str[31] = '\0';                    printf("%s\n",tokens[nr_token].str);
+        strncpy(tokens[nr_token].str, substr_start, substr_len);   
+        tokens[nr_token].str[substr_len] = '\0';                    printf("%s\n",tokens[nr_token].str);
         ++nr_token;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
