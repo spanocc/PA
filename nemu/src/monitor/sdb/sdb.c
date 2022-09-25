@@ -63,8 +63,8 @@ static int cmd_x(char*args) {
     while(*expression != ' ') ++expression;
     printf("%d\n",N);
     printf("%s\n",expression);
-   // bool success = true;
-   // expr(expression, &success);
+    bool success = true;
+    expr(expression, &success);
 /*    
     sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
 
