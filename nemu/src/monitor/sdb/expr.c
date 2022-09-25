@@ -22,7 +22,7 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
+  {"\\+", '+'},         // plus    前面要用两个\,不然会编译报错
   {"==", TK_EQ},        // equal
   {"\\-", '-'},          // sub
   {"\\*", '*'},          // multiply 
