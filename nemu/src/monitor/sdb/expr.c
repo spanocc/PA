@@ -86,7 +86,7 @@ static word_t eval(int p, int q) {  //以后可能有负数，所以先用int存
             assert(tokens[p].type == '(' && tokens[q-1].type == ')');
             return eval(p+1, q);
         }
-        else sym1 = sym2;
+        else sym1 = sym2; //加减号都在括号内
     }
     l = eval(p, sym1);
     r = eval(sym1+1, q);
@@ -95,7 +95,7 @@ static word_t eval(int p, int q) {  //以后可能有负数，所以先用int存
         case '-': return l-r;
         case '*': return l*r;
         case '/': return l/r;
-        default: printf("expression fault!\n"); assert(0);
+        default: assert(0);
     }
     return 0;
 }
