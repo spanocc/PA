@@ -10,7 +10,7 @@ void init_regex();
 void init_wp_pool();
 void isa_reg_display(void);
 uint8_t* guest_to_host(paddr_t paddr); 
-
+word_t expr(char *e, bool *success);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -55,13 +55,14 @@ static int cmd_info(char*args) {
 }
 
 static int cmd_x(char*args) {
-    paddr_t adr = 0;
+    //paddr_t adr = 0;
     char *N = strtok(args, " ");
     char *expression = strtok(NULL, " ");  //参数为NULL表示接着上一个串分解
     printf("%s\n",N);
     printf("%s\n",expression);
-
-    
+    bool success = true;
+    expr(expression, &success);
+/*    
     sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
 
     for(int i = 0; i < atoi(N); ++i) {
@@ -73,7 +74,7 @@ static int cmd_x(char*args) {
         printf("\n");
         adr += 4;
     }
-
+*/
     return 0;
 }
 
