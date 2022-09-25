@@ -77,7 +77,7 @@ static bool make_token(char *e) {
 
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
-
+/*
         position += substr_len;
         
         tokens[nr_token].type = rules[i].token_type; 
@@ -89,7 +89,7 @@ static bool make_token(char *e) {
         strncpy(tokens[nr_token].str, substr_start, 31); 
         tokens[nr_token].str[31] = '\0';
         ++nr_token;
-
+*/
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
