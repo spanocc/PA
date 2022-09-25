@@ -56,11 +56,15 @@ static int cmd_info(char*args) {
 
 static int cmd_x(char*args) {
     paddr_t adr = 0;
-    int N = 0;
-    //char *expression = NULL;
-    sscanf(args,"%d %x",&N, &adr);    //      printf("%d %x\n",N,adr);
+    char *N = strtok(args, " ");
+    char *expression = strtok(NULL, " ");  //参数为NULL表示接着上一个串分解
+    printf("%s\n",N);
+    printf("%s\n",expression);
 
-    for(int i = 0; i < N; ++i) {
+    
+    sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
+
+    for(int i = 0; i < atoi(N); ++i) {
         printf("0x%x: ",adr);
         for(int j = 0; j < 4; ++j) {
             uint8_t *ret = guest_to_host(adr+j);  
