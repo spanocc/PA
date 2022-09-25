@@ -5,8 +5,8 @@
  */
 #include <regex.h>
 
-enum {
-  TK_NOTYPE = 256, TK_EQ,
+enum {       //256 is behind ASCII
+  TK_NOTYPE = 256, TK_EQ, TK_NUM
 
   /* TODO: Add more token types */
 
@@ -24,6 +24,12 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
+  {"\\-", '-'},          // sub
+  {"\\*", '*'},          // multiply 
+  {"\\/", '/'},          // div
+  {"\\d+", TK_NUM},      // num
+  {"\\(", '('},          // (
+  {"\\)", ')'}           // )
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -52,7 +58,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[32] __attribute__((used)) = {}; //__attribute__((used))通知编译器在目标文件中保留一个静态函数，即使它没有被引用
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -73,6 +79,16 @@ static bool make_token(char *e) {
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
+        
+        tokens[nr_token].type = rules[i].token_type; 
+        if(substr_len > 31) {
+            printf("The token is too long, please make sure the length of the token is less than 31\n");
+            return false;
+        }
+
+        strncpy(tokens[nr_token].str, substr_start, 31); 
+        tokens[nr_token].str[31] = '\0';
+        ++nr_token;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
