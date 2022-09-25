@@ -58,7 +58,7 @@ static int cmd_x(char*args) {
     //paddr_t adr = 0;
     int N = 0;
     char *expression = args;
-    while(*expression == '\0') ++expression;
+    while(*expression == ' ') ++expression;
     sscanf(expression, "%d", &N);
     while(*expression != ' ') ++expression;
     printf("%d\n",N);
