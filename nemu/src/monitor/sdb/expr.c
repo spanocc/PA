@@ -5,8 +5,8 @@
  */
 #include <regex.h>
 
-enum {       //256 is behind ASCII
-  TK_NOTYPE = 256, TK_EQ, TK_NUM
+enum {       //256 is behind ASCII        //TK_NEGNUM represent negative number
+  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_NEGNUM
 
   /* TODO: Add more token types */
 
@@ -60,6 +60,46 @@ typedef struct token {
 
 static Token tokens[32] __attribute__((used)) = {}; //__attribute__((used))通知编译器在目标文件中保留一个静态函数，即使它没有被引用
 static int nr_token __attribute__((used))  = 0;
+
+
+// [p,q)  紫书354页算法
+static word_t eval(int p, int q) {  //以后可能有负数，所以先用int存
+    assert(p < q);
+    if(p == q-1) {
+        assert(tokens[p].type == TK_NUM);
+        return atoi(tokens[p].str);
+    }
+    int divl = 0; //左括号减右括号的数
+    int sym1 = -1, sym2 = -1; //sym1:'+','-'  sym2: '*','/'
+    for(int i = p; i < q; ++i) {
+        switch(tokens[i].type) {
+            case '(': ++divl; break;
+            case ')': --divl; assert(divl >= 0); break;
+            case '-': case '+': if(!divl) sym1 = i; break;
+            case '*': case '/': if(!divl) sym2 = i; break;
+            default: break;
+        }
+    }
+    int l, r;
+    if(sym1 < 0) {
+        if(sym2 < 0){
+            assert(tokens[p].type == '(' && tokens[q-1].type == ')');
+            return eval(p+1, q);
+        }
+        else sym1 = sym2;
+    }
+    l = eval(p, sym1);
+    r = eval(sym1+1, q);
+    switch(tokens[sym1].type) {
+        case '+': return l+r;
+        case '-': return l-r;
+        case '*': return l*r;
+        case '/': return l/r;
+        default: printf("expression fault!\n"); assert(0);
+    }
+    return 0;
+}
+
 
 static bool make_token(char *e) {
   int position = 0;
@@ -120,9 +160,12 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-   for(int i = 0; i < nr_token; ++i) {
+  /* for(int i = 0; i < nr_token; ++i) {
         printf("%s \n",tokens[i].str);
-   }
+   }*/
+  int ans = eval(0,nr_token);
+  printf("%d\n",ans);
+  assert(0);
    TODO();
 
   return 0;
