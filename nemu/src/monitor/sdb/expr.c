@@ -84,7 +84,7 @@ static word_t eval(int p, int q) {  //以后可能有负数，所以先用int存
     if(sym1 < 0) {
         if(sym2 < 0){
             assert(tokens[p].type == '(' && tokens[q-1].type == ')');
-            return eval(p+1, q);
+            return eval(p+1, q-1);
         }
         else sym1 = sym2; //加减号都在括号内
     }
