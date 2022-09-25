@@ -74,7 +74,7 @@ static word_t eval(int p, int q) {  //以后可能有负数，所以先用int存
     for(int i = p; i < q; ++i) {
         switch(tokens[i].type) {
             case '(': ++divl; break;
-            case ')': --divl; assert(divl >= 0); break;
+            case ')': --divl; printf("%d %d\n",p,q); assert(divl >= 0); break;
             case '-': case '+': if(!divl) sym1 = i; break;
             case '*': case '/': if(!divl) sym2 = i; break;
             default: break;
