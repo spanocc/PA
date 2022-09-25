@@ -12,7 +12,7 @@ void isa_reg_display() {
     for(int i = 0; i < 32; ++i) {
         printf("%-4s: %u\n",regs[i],cpu.gpr[i]._32);
     }
-    printf("\npc  : %u\n\n",cpu.pc);
+    printf("\npc  : %x\n\n",cpu.pc);
     return;
 }
 
