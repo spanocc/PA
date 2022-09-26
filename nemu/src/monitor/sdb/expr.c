@@ -165,10 +165,10 @@ word_t expr(char *e, bool *success) {
   /* for(int i = 0; i < nr_token; ++i) {
         printf("%s \n",tokens[i].str);
    }*/
-  int ans = eval(0,nr_token);
-  printf("%d\n",ans);
-  assert(0);
-   TODO();
+  uint32_t ans = eval(0,nr_token);
+  //printf("%u\n",ans);
+  //assert(0);
+   //TODO();
 
-  return 0;
+  return ans;
 }
