@@ -63,7 +63,7 @@ static int nr_token __attribute__((used))  = 0;
 
 
 // [p,q)  紫书354页算法
-static word_t eval(int p, int q) {  //以后可能有负数，所以先用int存
+static word_t eval(int p, int q) { 
     assert(p < q);
     if(p == q-1) {
         assert(tokens[p].type == TK_NUM);
@@ -80,7 +80,7 @@ static word_t eval(int p, int q) {  //以后可能有负数，所以先用int存
             default: break;
         }
     }
-    int l, r;
+    uint32_t l, r;
     if(sym1 < 0) {
         if(sym2 < 0){
             assert(tokens[p].type == '(' && tokens[q-1].type == ')');
