@@ -81,7 +81,6 @@ static void gen_rand_expr(int* fault) { //防止除0（我的笨方法）：如�
 }
 
 
-word_t expr(char *e, bool *success);
 
 int main(int argc, char *argv[]) {
   int seed = time(0);
@@ -120,14 +119,7 @@ int main(int argc, char *argv[]) {
    // printf("%d:\n",i);
   }
 
-  FILE *fp = fopen("./input", "r");
-  char array[bufsize];
-  while(fgets(array,bufsize,fp)){
-      array[strlen(array)-1] = '\0';
-      char* result = strtok(array, " ");
-      char* arg = result + strlen(result) +1;
-      int success;
-      uint32_t ret = 
+
 
   return 0;
 }

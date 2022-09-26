@@ -166,9 +166,9 @@ word_t expr(char *e, bool *success) {
         printf("%s \n",tokens[i].str);
    }*/
   uint32_t ans = eval(0,nr_token);
-  //printf("%u\n",ans);
-  //assert(0);
-   //TODO();
+  printf("%u\n",ans);
+  assert(0);
+  TODO();
 
   return ans;
 }

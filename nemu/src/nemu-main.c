@@ -16,15 +16,16 @@ int main(int argc, char *argv[]) {
 #endif
 
   /* Start engine. */
-  //engine_start();
+  engine_start();
 
-  //return is_exit_status_bad();  
- 
-  int bufsize = 65536;
-printf("000");  FILE *fp = fopen("tools/gen-expr/input", "r"); printf("111");
-   char array[bufsize];
-   int cnt = 1;
-   while(fgets(array,bufsize,fp)){
+  return is_exit_status_bad();  
+/* 测试表达式求值
+    int bufsize = 65536;
+    printf("000"); 
+    FILE *fp = fopen("tools/gen-expr/input", "r"); printf("111");
+    char array[bufsize];
+    int cnt = 1;
+    while(fgets(array,bufsize,fp)){
        array[strlen(array)-1] = '\0';
        char* result = strtok(array, " ");
        char* arg = result + strlen(result) +1;
@@ -37,7 +38,7 @@ printf("000");  FILE *fp = fopen("tools/gen-expr/input", "r"); printf("111");
            printf("false: %d %d\n",ret,(unsigned)atoi(result));
            break;
        }
-   }
+   }*/
 
 }
 
