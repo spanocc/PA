@@ -29,7 +29,8 @@ static struct rule {
   {"\\/", '/'},          // div
   {"[0-9]{1,}", TK_NUM},      // num
   {"\\(", '('},          // (
-  {"\\)", ')'}           // )
+  {"\\)", ')'},           // )
+  {"\\u", 'u'}           //匹配表达式生成器中的u无符号后缀
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -119,7 +120,7 @@ static bool make_token(char *e) {
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
-        if(rules[i].token_type != TK_NOTYPE) { 
+        if(rules[i].token_type != TK_NOTYPE && rules[i].token_type != 'u') { 
             tokens[nr_token].type = rules[i].token_type; 
             if(substr_len > 31) { //assert(substr_len <= 31);
                 printf("The token is too long, please make sure the length of the token is less than 31\n");
