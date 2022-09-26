@@ -9,17 +9,17 @@ int is_exit_status_bad();
 word_t expr(char *e, bool *success);
 int main(int argc, char *argv[]) { 
   /* Initialize the monitor. */
-//#ifdef CONFIG_TARGET_AM
-  //am_init_monitor();
-//#else
-  //init_monitor(argc, argv);
-//#endif
+#ifdef CONFIG_TARGET_AM
+  am_init_monitor();
+#else
+  init_monitor(argc, argv);
+#endif
 
   /* Start engine. */
   //engine_start();
 
   //return is_exit_status_bad();  
-  //
+ 
   int bufsize = 65536;
 printf("000");  FILE *fp = fopen("tools/gen-expr/input", "r"); printf("111");
    char array[bufsize];
