@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
   //return is_exit_status_bad();  
   //
   int bufsize = 65536;
-  FILE *fp = fopen("./tools/gen-expr/input", "r"); printf("111");
+  FILE *fp = fopen("tools/gen-expr/input", "r"); printf("111");
    char array[bufsize];
    int cnt = 1;
    while(fgets(array,bufsize,fp)){
