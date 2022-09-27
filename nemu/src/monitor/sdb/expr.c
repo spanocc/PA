@@ -251,7 +251,7 @@ word_t expr(char *e, bool *success) {
    }assert(0);*/
 
   uint32_t ans = eval(0,nr_token);
-  printf("%u\n",ans);
+  printf("value: 0x%x\n",ans);
   assert(0);
   TODO();
 
