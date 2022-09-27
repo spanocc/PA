@@ -50,11 +50,13 @@ static int cmd_si(char*args) {
 }
 
 static int cmd_info(char*args) {
+    if(!args) return 0;
     if(!strcmp(args,"r")) isa_reg_display();
     return 0;
 }
 
 static int cmd_x(char*args) {
+    if(!args) return 0;
     //paddr_t adr = 0;
     int N = 0;
     char *expression = args;
