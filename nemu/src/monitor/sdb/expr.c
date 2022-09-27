@@ -80,7 +80,7 @@ static uint32_t fetch_memory(paddr_t adr) {
 
 
 // [p,q)  紫书354页算法
-static uint32_t eval(int p, int q) { 
+static uint32_t eval(int p, int q) {  printf("%d   %d\n",p,q); 
     assert(p < q);
     if(p == q-1) {
         //assert(tokens[p].type == TK_NUM);
