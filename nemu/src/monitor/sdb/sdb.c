@@ -57,7 +57,7 @@ static int cmd_info(char*args) {
 
 static int cmd_x(char*args) {
     if(!args) return 0;
-    //paddr_t adr = 0;
+    paddr_t adr = 0;
     int N = 0;
     char *expression = args;
     while(*expression == ' ') ++expression;
@@ -66,9 +66,14 @@ static int cmd_x(char*args) {
     printf("%d\n",N);
     printf("%s\n",expression);
     bool success = true;
-    expr(expression, &success);
-/*    
-    sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
+    adr = expr(expression, &success);
+
+    if(success == false) {
+        printf("Expression is wrong!\n");
+        return 0;
+    }
+   
+//    sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
 
     for(int i = 0; i < N; ++i) {
         printf("0x%x: ",adr);
@@ -79,7 +84,7 @@ static int cmd_x(char*args) {
         printf("\n");
         adr += 4;
     }
-*/
+
     return 0;
 }
 

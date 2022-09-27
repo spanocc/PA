@@ -249,11 +249,12 @@ word_t expr(char *e, bool *success) {
   /* for(int i = 0; i < nr_token; ++i) {
         printf("%s   %d\n",tokens[i].str,tokens[i].type);
    }assert(0);*/
-
+    
   uint32_t ans = eval(0,nr_token);
+  *success = true;
   printf("value: 0x%x\n",ans);
-  assert(0);
-  TODO();
+ // assert(0);
+ //TODO();
 
   return ans;
 }
