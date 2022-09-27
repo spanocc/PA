@@ -71,7 +71,7 @@ word_t isa_reg_str2val(const char *s, bool *success);
 uint8_t* guest_to_host(paddr_t paddr);   
 //小端序
 static uint32_t fetch_memory(paddr_t adr) {
-    uint32_t result = 0;
+    uint32_t result = 0;                                       printf("0x%x    ",adr);
     for(int i = 0; i < 4; ++i) {
         result += (*guest_to_host(adr+i))<<(i*8);
     }
