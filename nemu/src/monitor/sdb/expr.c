@@ -140,14 +140,14 @@ static bool make_token(char *e) {
             case '-':
                 if(i == 0 || (tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_REG &&
                               tokens[i-1].type != TK_HEX )) {
-                    tokens[i].type = TK_NEG;
-                }else tokens[i].type = '-';
+                    tokens[nr_token].type = TK_NEG;
+                }else tokens[nr_token].type = '-';
                 break;
             case '*':
                 if(i == 0 || (tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_REG &&
                               tokens[i-1].type != TK_HEX )) {
-                     tokens[i].type = TK_PTR;
-                }else tokens[i].type = '*';
+                     tokens[nr_token].type = TK_PTR;
+                }else tokens[nr_token].type = '*';
                 break;
             //case TK_REG: tokens[i].type = TK_REG; break;
             //case TK_HEX: tokens[i].type = TK_HEX; break;
