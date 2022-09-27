@@ -5,8 +5,10 @@
  */
 #include <regex.h>
 
-enum {       //256 is behind ASCII        //TK_NEGNUM represent negative number
-  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_NEGNUM
+enum {       //256 is behind ASCII        //TK_PTR represent pointer
+             //  TK_REG代表寄存器$    TK_HEX代表十六进制0x/0X   TK_NEG代表负号
+  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_PTR, TK_AND,  TK_REG, TK_HEX, TK_NEG
+
 
   /* TODO: Add more token types */
 
@@ -17,20 +19,23 @@ static struct rule {
   int token_type;
 } rules[] = {
 
-  /* TODO: Add more rules.
+  /* TODO: Add more rules. 因为是无符号数，所以负数-1与4294967295相等，但1+ -1 ==0 和 --1==1仍成立
    * Pay attention to the precedence level of different rules.
    */
 
-  {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus    前面要用两个\,不然会编译报错
-  {"==", TK_EQ},        // equal
+  {" +", TK_NOTYPE},     // spaces
+  {"\\+", '+'},          // plus    前面要用两个\,不然会编译报错
+  {"==", TK_EQ},         // equal ==
+  {"&&", TK_AND},        // &&
+  {"0[xX][0-9a-fA-F]+", TK_HEX},     //十六进制匹配要在数字前面，防止数字匹配
   {"\\-", '-'},          // sub
   {"\\*", '*'},          // multiply 
   {"\\/", '/'},          // div
-  {"[0-9]{1,}", TK_NUM},      // num
+  {"[0-9]{1,}", TK_NUM} ,// num
   {"\\(", '('},          // (
-  {"\\)", ')'},           // )
-  {"\\u", 'u'}           //匹配表达式生成器中的u无符号后缀
+  {"\\)", ')'},          // )
+  {"\\u", 'u'},           //匹配表达式生成器中的u无符号后缀
+  {"\\$[$0-9a-z]+", TK_REG}        
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -71,6 +76,7 @@ static word_t eval(int p, int q) {
         return atoi(tokens[p].str);
     }
     int divl = 0; //左括号减右括号的数
+    int sym0 = -1; // sym0: "&&" "==" 优先级比加减还低
     int sym1 = -1, sym2 = -1; //sym1:'+','-'  sym2: '*','/'
     for(int i = p; i < q; ++i) {
         switch(tokens[i].type) {
@@ -78,24 +84,31 @@ static word_t eval(int p, int q) {
             case ')': --divl; assert(divl >= 0); break;
             case '-': case '+': if(!divl) sym1 = i; break;
             case '*': case '/': if(!divl) sym2 = i; break;
+            case TK_AND: case TK_EQ: if(!divl) sym0 = i; break;
             default: break;
         }
     }
     uint32_t l, r;
-    if(sym1 < 0) {
-        if(sym2 < 0){
-            assert(tokens[p].type == '(' && tokens[q-1].type == ')');
-            return eval(p+1, q-1);
+    if(sym0 < 0) {
+        if(sym1 < 0) {
+            if(sym2 < 0){
+                assert(tokens[p].type == '(' && tokens[q-1].type == ')');
+                return eval(p+1, q-1);
+            }
+            else sym0 = sym2; //加减号都在括号内
         }
-        else sym1 = sym2; //加减号都在括号内
+        else sym0 = sym1; //等号都在括号内
     }
-    l = eval(p, sym1);
-    r = eval(sym1+1, q);
-    switch(tokens[sym1].type) {
+
+    l = eval(p, sym0);
+    r = eval(sym0+1, q);
+    switch(tokens[sym0].type) {
         case '+': return l+r;
         case '-': return l-r;
         case '*': return l*r;
-        case '/': return l/r;
+        case '/': assert(r); return l/r;
+        case TK_EQ: return l==r;
+        case TK_AND: return l&&r;
         default: assert(0);
     }
     return 0;
@@ -120,6 +133,40 @@ static bool make_token(char *e) {
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
+        
+        //寄存器和十六进制作为整体匹配
+        //负号和解引用作为单个符号匹配
+        switch (rules[i].token_type) {
+            case '-':
+                if(i == 0 || (tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_REG &&
+                              tokens[i-1].type != TK_HEX )) {
+                    tokens[i].type = TK_NEG;
+                }else tokens[i].type = '-';
+                break;
+            case '*':
+                if(i == 0 || (tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_REG &&
+                              tokens[i-1].type != TK_HEX )) {
+                     tokens[i].type = TK_PTR;
+                }else tokens[i].type = '*';
+                break;
+            case TK_REG: tokens[i].type = TK_REG; break;
+            case TK_HEX: tokens[i].type = TK_HEX; break;
+            case TK_NOTYPE: case 'u': break;
+            default: 
+                tokens[nr_token].type = rules[i].token_type;
+                break;
+               
+        }
+        if(substr_len > 31) { //assert(substr_len <= 31);
+            printf("The token is too long, please make sure the length of the token is less than 31\n");
+            return false;
+        }
+        strncpy(tokens[nr_token].str, substr_start, substr_len);
+        tokens[nr_token].str[substr_len] = '\0';                    //printf("%s\n",tokens[nr_token].str);
+        ++nr_token;
+
+
+/*        
         if(rules[i].token_type != TK_NOTYPE && rules[i].token_type != 'u') { 
             tokens[nr_token].type = rules[i].token_type; 
             if(substr_len > 31) { //assert(substr_len <= 31);
@@ -130,7 +177,7 @@ static bool make_token(char *e) {
             tokens[nr_token].str[substr_len] = '\0';                    //printf("%s\n",tokens[nr_token].str);
             ++nr_token;
         }
-
+*/ 
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
