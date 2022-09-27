@@ -127,7 +127,7 @@ static uint32_t eval(int p, int q) {  printf("%d   %d\n",p,q);
         }
         else sym0 = sym1; //等号都在括号内
     }
-                                                         printf("sym0: %d\n",sym0);
+                                                         printf("sym0: %d %s\n",sym0,tokens[sym0].str);
     l = eval(p, sym0);
     r = eval(sym0+1, q);
     switch(tokens[sym0].type) {
