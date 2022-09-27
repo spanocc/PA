@@ -212,9 +212,9 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-   for(int i = 0; i < nr_token; ++i) {
+  /* for(int i = 0; i < nr_token; ++i) {
         printf("%s   %d\n",tokens[i].str,tokens[i].type);
-   }assert(0);
+   }assert(0);*/
 
   uint32_t ans = eval(0,nr_token);
   printf("%u\n",ans);
