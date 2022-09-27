@@ -138,19 +138,19 @@ static bool make_token(char *e) {
         //负号和解引用作为单个符号匹配
        switch (rules[i].token_type) {
             case '-':
-                if(i == 0 || (tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_REG &&
-                              tokens[i-1].type != TK_HEX )) {
+                if(nr_token == 0 || (tokens[nr_token-1].type != ')' && tokens[nr_token-1].type != TK_NUM && tokens[nr_token-1].type != TK_REG &&
+                              tokens[nr_token-1].type != TK_HEX )) {
                     tokens[nr_token].type = TK_NEG;
                 }else tokens[nr_token].type = '-';
                 break;
             case '*':
-                if(i == 0 || (tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_REG &&
-                              tokens[i-1].type != TK_HEX )) {
+                if(nr_token == 0 || (tokens[nr_token-1].type != ')' && tokens[nr_token-1].type != TK_NUM && tokens[nr_token-1].type != TK_REG &&
+                              tokens[nr_token-1].type != TK_HEX )) {
                      tokens[nr_token].type = TK_PTR;
                 }else tokens[nr_token].type = '*';
                 break;
-            //case TK_REG: tokens[i].type = TK_REG; break;
-            //case TK_HEX: tokens[i].type = TK_HEX; break;
+            //case TK_REG: tokens[nr_token].type = TK_REG; break;
+            //case TK_HEX: tokens[nr_token].type = TK_HEX; break;
             case TK_NOTYPE: case 'u': break;
             default: 
                 tokens[nr_token].type = rules[i].token_type;
