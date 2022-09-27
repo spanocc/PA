@@ -67,17 +67,41 @@ typedef struct token {
 static Token tokens[65536] __attribute__((used)) = {}; //__attribute__((used))通知编译器在目标文件中保留一个静态函数，即使它没有被引用
 static int nr_token __attribute__((used))  = 0;
 
+word_t isa_reg_str2val(const char *s, bool *success);
+uint8_t* guest_to_host(paddr_t paddr);   
+//小端序
+static uint32_t fetch_memory(paddr_t adr) {
+    uint32_t result = 0;
+    for(int i = 0; i < 4; ++i) {
+        result += (*guest_to_host(adr+i))<<(i*8);
+    }
+    return result;
+}
+
 
 // [p,q)  紫书354页算法
-static word_t eval(int p, int q) { 
+static uint32_t eval(int p, int q) { 
     assert(p < q);
     if(p == q-1) {
-        assert(tokens[p].type == TK_NUM);
-        return atoi(tokens[p].str);
+        //assert(tokens[p].type == TK_NUM);
+        uint32_t ret = 0;
+        bool success = 0;
+        switch(tokens[p].type) {
+            case TK_NUM: return atoi(tokens[p].str);
+            case TK_REG:
+                ret = isa_reg_str2val(tokens[p].str+1, &success);
+                if(success == true) return ret;
+                printf("can't find %s!\n'",tokens[p].str);
+                assert(0);
+            case TK_HEX: sscanf(tokens[p].str,"%x",&ret); return ret;
+        }
     }
+
+
     int divl = 0; //左括号减右括号的数
     int sym0 = -1; // sym0: "&&" "==" 优先级比加减还低
     int sym1 = -1, sym2 = -1; //sym1:'+','-'  sym2: '*','/'
+    int sym3 = -1; ////负号和解引用，优先级最高，最后处理
     for(int i = p; i < q; ++i) {
         switch(tokens[i].type) {
             case '(': ++divl; break;
@@ -85,6 +109,7 @@ static word_t eval(int p, int q) {
             case '-': case '+': if(!divl) sym1 = i; break;
             case '*': case '/': if(!divl) sym2 = i; break;
             case TK_AND: case TK_EQ: if(!divl) sym0 = i; break;
+            case TK_NEG: case TK_PTR: if(!divl) sym3 = i; break;
             default: break;
         }
     }
@@ -92,8 +117,10 @@ static word_t eval(int p, int q) {
     if(sym0 < 0) {
         if(sym1 < 0) {
             if(sym2 < 0){
-                assert(tokens[p].type == '(' && tokens[q-1].type == ')');
-                return eval(p+1, q-1);
+                if(sym3 < 0) {
+                    assert(tokens[p].type == '(' && tokens[q-1].type == ')');
+                    return eval(p+1, q-1);
+                }else sym0 = sym3;//只剩下解引用和负号，其余都在括号内
             }
             else sym0 = sym2; //加减号都在括号内
         }
@@ -109,6 +136,9 @@ static word_t eval(int p, int q) {
         case '/': assert(r); return l/r;
         case TK_EQ: return l==r;
         case TK_AND: return l&&r;
+        case TK_NEG: return -1 * eval(p+1, q);
+        case TK_PTR: return fetch_memory(eval(p+1, q));
+            
         default: assert(0);
     }
     return 0;
@@ -212,9 +242,9 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-   for(int i = 0; i < nr_token; ++i) {
+  /* for(int i = 0; i < nr_token; ++i) {
         printf("%s   %d\n",tokens[i].str,tokens[i].type);
-   }assert(0);
+   }assert(0);*/
 
   uint32_t ans = eval(0,nr_token);
   printf("%u\n",ans);

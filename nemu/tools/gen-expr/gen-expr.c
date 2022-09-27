@@ -82,6 +82,7 @@ static void gen_rand_expr(int* fault) { //防止除0（我的笨方法）：如�
 
 
 
+
 int main(int argc, char *argv[]) {
   int seed = time(0);
   srand(seed);
@@ -118,8 +119,6 @@ int main(int argc, char *argv[]) {
     printf("%u %s\n", result, buf);
    // printf("%d:\n",i);
   }
-
-
 
   return 0;
 }
