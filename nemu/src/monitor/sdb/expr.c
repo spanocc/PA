@@ -109,7 +109,8 @@ static uint32_t eval(int p, int q) {  printf("%d   %d\n",p,q);
             case '-': case '+': if(!divl) sym1 = i; break;
             case '*': case '/': if(!divl) sym2 = i; break;
             case TK_AND: case TK_EQ: if(!divl) sym0 = i; break;
-            case TK_NEG: case TK_PTR: if(!divl) sym3 = i; break;
+            //和其他三种情况不一样，负号和解引用 谁在前面 谁后计算 选第一个作为主运算符，最后计算    
+            case TK_NEG: case TK_PTR: if(!divl && sym3 == -1) sym3 = i; break; 
             default: break;
         }
     }
