@@ -89,11 +89,11 @@ static uint32_t eval(int p, int q) {  printf("%d   %d\n",p,q);
         switch(tokens[p].type) {
             case TK_NUM: return atoi(tokens[p].str);
             case TK_REG:
-                ret = isa_reg_str2val(tokens[p].str+1, &success);
+                ret = isa_reg_str2val(tokens[p].str+1, &success);         printf("%u\n",ret);
                 if(success == true) return ret;
                 printf("can't find %s!\n'",tokens[p].str);
                 assert(0);
-            case TK_HEX: sscanf(tokens[p].str,"%x",&ret); return ret;
+            case TK_HEX: sscanf(tokens[p].str,"%x",&ret);          printf("%u\n",ret);      return ret;
         }
     }
 
