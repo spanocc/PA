@@ -71,17 +71,17 @@ word_t isa_reg_str2val(const char *s, bool *success);
 uint8_t* guest_to_host(paddr_t paddr);   
 //小端序
 static uint32_t fetch_memory(paddr_t adr) {
-    uint32_t result = 0;                                       printf("0x%x    ",adr);
+    uint32_t result = 0;                                     //  printf("0x%x    ",adr);
     for(int i = 0; i < 4; ++i) {
         result += (*guest_to_host(adr+i))<<(i*8);
     }
-                                                               printf("%u\n",result);
+                                                              // printf("%u\n",result);
     return result;
 }
 
-
+//没有实现防止内存越界
 // [p,q)  紫书354页算法
-static uint32_t eval(int p, int q) {  printf("%d   %d\n",p,q); 
+static uint32_t eval(int p, int q) {  //printf("%d   %d\n",p,q); 
     assert(p < q);
     if(p == q-1) {
         //assert(tokens[p].type == TK_NUM);
