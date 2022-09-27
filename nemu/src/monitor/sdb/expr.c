@@ -158,7 +158,7 @@ static bool make_token(char *e) {
                
        }
 
-       if(rules[i].token_type == 'u' && rules[i].token_type == TK_NOTYPE) break;
+       if(rules[i].token_type == 'u' || rules[i].token_type == TK_NOTYPE) break;
 
        if(substr_len > 31) { //assert(substr_len <= 31);
             printf("The token is too long, please make sure the length of the token is less than 31\n");
