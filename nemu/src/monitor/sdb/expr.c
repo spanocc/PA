@@ -136,7 +136,7 @@ static bool make_token(char *e) {
         
         //寄存器和十六进制作为整体匹配
         //负号和解引用作为单个符号匹配
-        switch (rules[i].token_type) {
+       switch (rules[i].token_type) {
             case '-':
                 if(i == 0 || (tokens[i-1].type != ')' && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_REG &&
                               tokens[i-1].type != TK_HEX )) {
@@ -149,21 +149,24 @@ static bool make_token(char *e) {
                      tokens[i].type = TK_PTR;
                 }else tokens[i].type = '*';
                 break;
-            case TK_REG: tokens[i].type = TK_REG; break;
-            case TK_HEX: tokens[i].type = TK_HEX; break;
+            //case TK_REG: tokens[i].type = TK_REG; break;
+            //case TK_HEX: tokens[i].type = TK_HEX; break;
             case TK_NOTYPE: case 'u': break;
             default: 
                 tokens[nr_token].type = rules[i].token_type;
                 break;
                
-        }
-        if(substr_len > 31) { //assert(substr_len <= 31);
+       }
+
+       if(rules[i].token_type == 'u' && rules[i].token_type == TK_NOTYPE) break;
+
+       if(substr_len > 31) { //assert(substr_len <= 31);
             printf("The token is too long, please make sure the length of the token is less than 31\n");
             return false;
-        }
-        strncpy(tokens[nr_token].str, substr_start, substr_len);
-        tokens[nr_token].str[substr_len] = '\0';                    //printf("%s\n",tokens[nr_token].str);
-        ++nr_token;
+       }
+       strncpy(tokens[nr_token].str, substr_start, substr_len);
+       tokens[nr_token].str[substr_len] = '\0';                    //printf("%s\n",tokens[nr_token].str);
+       ++nr_token;
 
 
 /*        
@@ -209,9 +212,10 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  /* for(int i = 0; i < nr_token; ++i) {
+   for(int i = 0; i < nr_token; ++i) {
         printf("%s \n",tokens[i].str);
-   }*/
+   }assert(0);
+
   uint32_t ans = eval(0,nr_token);
   printf("%u\n",ans);
   assert(0);
