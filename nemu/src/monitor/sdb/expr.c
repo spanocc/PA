@@ -114,7 +114,7 @@ static uint32_t eval(int p, int q) {  printf("%d   %d\n",p,q);
             default: break;
         }
     }
-    uint32_t l, r;
+    uint32_t l = 0, r = 0;
     if(sym0 < 0) {
         if(sym1 < 0) {
             if(sym2 < 0){
@@ -127,9 +127,11 @@ static uint32_t eval(int p, int q) {  printf("%d   %d\n",p,q);
         }
         else sym0 = sym1; //等号都在括号内
     }
-                                                         printf("sym0: %d %s\n",sym0,tokens[sym0].str);
-    l = eval(p, sym0);
-    r = eval(sym0+1, q);
+    //负号和解引用不需要计算l和r
+    //if(tokens[sym0].type != TK_NEG && (tokens[sym0].type != TK_PTR) {              printf("sym0: %d %s\n",sym0,tokens[sym0].str);
+        l = eval(p, sym0);
+        r = eval(sym0+1, q);
+    //}
     switch(tokens[sym0].type) {
         case '+': return l+r;
         case '-': return l-r;
