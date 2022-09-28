@@ -73,4 +73,16 @@ void delete_wp(int num) {
     return;
 }
 
+void display_watchpoint() {
+    if(head == NULL) {
+        printf("There is no watchpoint!\n");
+        return;
+    }
+
+    printf("%-20s%-20s%s\n", "Num", "Value", "What" );
+    WP* pwp = head;
+    while(pwp != NULL) {
+        printf("%-20d%-20d%s", pwp->NO, pwp->value, pwp->WatchName);
+    }
+}
 
