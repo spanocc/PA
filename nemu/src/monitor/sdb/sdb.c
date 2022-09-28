@@ -99,7 +99,7 @@ static int cmd_p(char*args) {
         printf("Expression is wrong!\n");
         return 0;
     }
-    printf("%u\n",result);
+    printf("value:%u\n",result);
     return 0;
 }
 
