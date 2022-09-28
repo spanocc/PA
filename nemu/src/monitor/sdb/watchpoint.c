@@ -82,7 +82,7 @@ void display_watchpoint() {
     printf("%-20s%-20s%s\n", "Num", "Value", "What" );
     WP* pwp = head;
     while(pwp != NULL) {
-        printf("%-20d%-20d%s", pwp->NO, pwp->value, pwp->WatchName);
+        printf("%-20d%-20d%s\n", pwp->NO, pwp->value, pwp->WatchName);
         pwp = pwp->next;
     }
 }
