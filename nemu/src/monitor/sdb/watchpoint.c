@@ -87,3 +87,22 @@ void display_watchpoint() {
     }
 }
 
+int check_watchpoint() {
+    WP* pwp = head;
+    if(pwp == NULL) return 0;
+    int ret = 0; //ret为1表示监视点的值有变化
+    while(pwp != NULL) {
+        bool success;
+        uint32_t new_result = expr(pwp->WatchName, &success);
+        if(new_result != pwp->value) {
+            ret = 1;
+            printf("Watchpoint %d change! : %s\ninitial:%u   now:%u\n", pwp->NO, pwp->WatchName, pwp->value, new_result);
+        }
+
+        pwp = pwp->next;
+    }
+    return ret;
+}
+
+
+

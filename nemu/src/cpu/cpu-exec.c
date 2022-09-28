@@ -20,6 +20,7 @@ rtlreg_t tmp_reg[4];
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
+void check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
@@ -31,10 +32,11 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
 
   //todo()
-
-
-
-
+#ifdef CONFIG_WATCHPOINT
+   if(check_watchpoint() == 1) {
+       nemu_state.state = NEMU_STOP;
+   }
+#endif
 
 }
 
