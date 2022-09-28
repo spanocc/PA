@@ -5,12 +5,15 @@
 #include "sdb.h"
 
 static int is_batch_mode = false;
-
 void init_regex();
 void init_wp_pool();
 void isa_reg_display(void);
 uint8_t* guest_to_host(paddr_t paddr); 
 word_t expr(char *e, bool *success);
+WP* new_wp();
+void free_wp(WP *wp);
+void delete_wp(int num);
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -63,8 +66,8 @@ static int cmd_x(char*args) {
     while(*expression == ' ') ++expression;
     sscanf(expression, "%d", &N);
     while(*expression != ' ') ++expression;
-    printf("%d\n",N);
-    printf("%s\n",expression);
+  //  printf("%d\n",N);
+  //  printf("%s\n",expression);
     bool success = true;
     adr = expr(expression, &success);
 
@@ -72,7 +75,7 @@ static int cmd_x(char*args) {
         printf("Expression is wrong!\n");
         return 0;
     }
-   
+    printf("value: 0x%x\n",adr);   
 //    sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
 
     for(int i = 0; i < N; ++i) {
@@ -87,7 +90,41 @@ static int cmd_x(char*args) {
 
     return 0;
 }
+static int cmd_p(char*args) {
+    if(!args) return 0;
+    uint32_t result = 0;
+    bool success = true;
+    result = expr(args, &success);
+    if(success == false) {
+        printf("Expression is wrong!\n");
+        return 0;
+    }
+    printf("%u\n",result);
+    return 0;
+}
 
+
+static int cmd_w(char*args) {
+    if(!args) return 0;
+    WP* pwp = new_wp();
+    bool success = true;
+    uint32_t result = expr(args,&success);
+    if(success == false) {
+        printf("Expression is wrong!\n");
+        return 0;
+    }
+    strncpy(pwp->WatchName, args, 63);
+    pwp->value = result;
+    return 0;
+}
+
+static int cmd_d(char*args) {
+    if(!args) return 0;
+    int num;
+    sscanf(args, "%d", &num);
+    delete_wp(num);
+    return 0;
+}
 
 
 static int cmd_help(char *args);
@@ -102,7 +139,10 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute N instructions", cmd_si },
   { "info", "Print informations", cmd_info },
-  { "x", "Scan memory", cmd_x }
+  { "x", "Scan memory", cmd_x },
+  { "p", "Expression evaluation", cmd_p },
+  { "w", "Set watchpoint", cmd_w },
+  { "d", "Delete watchpoint", cmd_d }
   /* TODO: Add more commands */
 
 };

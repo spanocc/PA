@@ -27,6 +27,15 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }  //if n < max instructions ,print each step. else don't print
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+
+
+
+  //todo()
+
+
+
+
+
 }
 
 #include <isa-exec.h>
