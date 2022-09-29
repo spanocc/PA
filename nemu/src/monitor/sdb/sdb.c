@@ -5,9 +5,15 @@
 #include "sdb.h"
 
 static int is_batch_mode = false;
-
 void init_regex();
 void init_wp_pool();
+void isa_reg_display(void);
+uint8_t* guest_to_host(paddr_t paddr); 
+word_t expr(char *e, bool *success);
+WP* new_wp();
+void free_wp(WP *wp);
+void delete_wp(int num);
+void display_watchpoint();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -34,8 +40,93 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+	nemu_state.state = NEMU_QUIT;
   return -1;
 }
+
+static int cmd_si(char*args) {
+    int N = 1;
+    if(args != NULL) sscanf(args, "%d", &N); // if args only consists of blank , then N is still equal to 1
+    //printf("%d\n\n%s\n\n",N,args);
+    cpu_exec(N);
+    return 0;
+}
+
+static int cmd_info(char*args) {
+    if(!args) return 0;
+    if(!strcmp(args,"r")) isa_reg_display();
+    else if(!strcmp(args,"w")) display_watchpoint();
+    return 0;
+}
+
+static int cmd_x(char*args) {
+    if(!args) return 0;
+    paddr_t adr = 0;
+    int N = 0;
+    char *expression = args;
+    while(*expression == ' ') ++expression;
+    sscanf(expression, "%d", &N);
+    while(*expression != ' ') ++expression;
+  //  printf("%d\n",N);
+  //  printf("%s\n",expression);
+    bool success = true;
+    adr = expr(expression, &success);
+
+    if(success == false) {
+        printf("Expression is wrong!\n");
+        return 0;
+    }
+    printf("value: 0x%x\n",adr);   
+//    sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
+
+    for(int i = 0; i < N; ++i) {
+        printf("0x%x: ",adr);
+        for(int j = 0; j < 4; ++j) {
+            uint8_t *ret = guest_to_host(adr+j);  
+            printf("%02x ",*ret);
+        }
+        printf("\n");
+        adr += 4;
+    }
+
+    return 0;
+}
+static int cmd_p(char*args) {
+    if(!args) return 0;
+    uint32_t result = 0;
+    bool success = true;
+    result = expr(args, &success);
+    if(success == false) {
+        printf("Expression is wrong!\n");
+        return 0;
+    }
+    printf("value:%u\n",result);
+    return 0;
+}
+
+
+static int cmd_w(char*args) {
+    if(!args) return 0;
+    WP* pwp = new_wp();
+    bool success = true;
+    uint32_t result = expr(args,&success);
+    if(success == false) {
+        printf("Expression is wrong!\n");
+        return 0;
+    }
+    strncpy(pwp->WatchName, args, 63);
+    pwp->value = result;
+    return 0;
+}
+
+static int cmd_d(char*args) {
+    if(!args) return 0;
+    int num;
+    sscanf(args, "%d", &num);
+    delete_wp(num);
+    return 0;
+}
+
 
 static int cmd_help(char *args);
 
@@ -47,7 +138,12 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si", "Execute N instructions", cmd_si },
+  { "info", "Print informations", cmd_info },
+  { "x", "Scan memory", cmd_x },
+  { "p", "Expression evaluation", cmd_p },
+  { "w", "Set watchpoint", cmd_w },
+  { "d", "Delete watchpoint", cmd_d }
   /* TODO: Add more commands */
 
 };
@@ -110,7 +206,7 @@ void sdb_mainloop() {
     int i;
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }
+        if (cmd_table[i].handler(args) < 0) {  return; }
         break;
       }
     }

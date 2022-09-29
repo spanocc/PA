@@ -9,8 +9,20 @@ const char *regs[] = {
 };
 
 void isa_reg_display() {
+    for(int i = 0; i < 32; ++i) {
+        printf("%-4s: %u\n",regs[i],cpu.gpr[i]._32);
+    }
+    printf("\npc  : 0x%x\n\n",cpu.pc);
+    return;
 }
 
-word_t isa_reg_str2val(const char *s, bool *success) {
+word_t isa_reg_str2val(const char *s, bool *success) { 
+  for(int i = 0; i  < 32; ++i) {
+    if(!strcmp(s, regs[i])) {
+        *success = true;
+        return cpu.gpr[i]._32;
+    }
+  }
+  *success = false;
   return 0;
 }

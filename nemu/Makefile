@@ -44,3 +44,8 @@ else
 # Include rules to build NEMU
 include $(NEMU_HOME)/scripts/native.mk
 endif
+
+MAKE_COUNT := $(shell find -name "*.c" -o -name "*.h" | xargs cat|grep -v ^\$$|wc -l)
+
+count :
+	@echo $(MAKE_COUNT)

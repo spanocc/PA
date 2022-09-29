@@ -20,13 +20,24 @@ rtlreg_t tmp_reg[4];
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
+int check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) log_write("%s\n", _this->logbuf);
 #endif
-  if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
+  if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }  //if n < max instructions ,print each step. else don't print
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+
+
+
+  //todo()
+#ifdef CONFIG_WATCHPOINT
+   if(check_watchpoint() == 1) {
+       nemu_state.state = NEMU_STOP;
+   }
+#endif
+
 }
 
 #include <isa-exec.h>
@@ -86,7 +97,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
-  g_print_step = (n < MAX_INSTR_TO_PRINT);
+  g_print_step = (n < MAX_INSTR_TO_PRINT);// if n < max instructions ,print each step. else don't print
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
