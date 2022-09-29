@@ -32,11 +32,11 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
 
   //todo()
-//#ifdef CONFIG_WATCHPOINT
+#ifdef CONFIG_WATCHPOINT
    if(check_watchpoint() == 1) {
        nemu_state.state = NEMU_STOP;
    }
-//#endif
+#endif
 
 }
 
