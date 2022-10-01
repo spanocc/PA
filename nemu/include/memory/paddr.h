@@ -3,7 +3,7 @@
 
 #include <common.h>
 
-#define RESET_VECTOR (CONFIG_MBASE + CONFIG_PC_RESET_OFFSET)
+#define RESET_VECTOR (CONFIG_MBASE + CONFIG_PC_RESET_OFFSET)//CONFIG_PC_RESET_OFFSET在./include/generated/autoconf.h中，值为0,应该可以通过编译make menuconfig改这个值
 
 /* convert the guest physical address in the guest program to host virtual address in NEMU */
 uint8_t* guest_to_host(paddr_t paddr);

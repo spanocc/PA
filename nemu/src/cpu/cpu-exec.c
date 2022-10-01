@@ -49,7 +49,7 @@ static const void* g_exec_table[TOTAL_INSTR] = {
 
 static void fetch_decode_exec_updatepc(Decode *s) {
   fetch_decode(s, cpu.pc);
-  s->EHelper(s);
+  s->EHelper(s);//调用函数
   cpu.pc = s->dnpc;
 }
 
