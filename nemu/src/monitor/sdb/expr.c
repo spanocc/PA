@@ -68,15 +68,15 @@ static Token tokens[65536] __attribute__((used)) = {}; //__attribute__((used))�
 static int nr_token __attribute__((used))  = 0;
 
 word_t isa_reg_str2val(const char *s, bool *success);
-//word_t vaddr_read(vaddr_t addr, int len);
-uint8_t* guest_to_host(paddr_t paddr);   
+word_t vaddr_read(vaddr_t addr, int len);
+//uint8_t* guest_to_host(paddr_t paddr);   
 //小端序
 static uint32_t fetch_memory(vaddr_t adr) {
     uint32_t result = 0;                                     //  printf("0x%x    ",adr);
-    for(int i = 0; i < 4; ++i) {
+/*    for(int i = 0; i < 4; ++i) {
         result += (*guest_to_host(adr+i))<<(i*8);
     }
- // result = vaddr_read(adr, 4);                                                            // printf("%u\n",result);
+*/  result = vaddr_read(adr, 4);                                                            // printf("%u\n",result);
     return result;
 }
 
