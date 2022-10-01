@@ -8,8 +8,8 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 void isa_reg_display(void);
-uint8_t* guest_to_host(paddr_t paddr); 
-//word_t vaddr_read(vaddr_t addr, int len);
+//uint8_t* guest_to_host(paddr_t paddr); 
+word_t vaddr_read(vaddr_t addr, int len);
 word_t expr(char *e, bool *success);
 WP* new_wp();
 void free_wp(WP *wp);
@@ -79,14 +79,13 @@ static int cmd_x(char*args) {
     }
     printf("value: 0x%x\n",adr);   
 //    sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
-
     for(int i = 0; i < N; ++i) {
         printf("0x%x: ",adr);
-        for(int j = 0; j < 4; ++j) {
-            uint8_t *ret = guest_to_host(adr+j);  
-            //uint8_t ret = vaddr_read(adr, j+1);
-            printf("%02x ",*ret);
-            //printf("%02x", ret);
+        uint32_t ret = vaddr_read(adr, 4);
+        uint8_t* ptu = (uint8_t*)&ret;
+        for(int j = 0; j < 4; ++j) {  
+            printf("%02x ",*ptu);
+            ptu++;
         }
         printf("\n");
         adr += 4;
