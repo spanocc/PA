@@ -7,7 +7,7 @@ typedef struct {
   union {
     IFDEF(CONFIG_ISA_x86, uint64_t *pfreg);
     IFDEF(CONFIG_ISA_x86, uint64_t fval);
-    rtlreg_t *preg;
+    rtlreg_t *preg; //rtl寄存器指针，只指向寄存器
     word_t imm;
     sword_t simm;
   };
