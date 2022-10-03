@@ -57,7 +57,7 @@ typedef struct {
       uint32_t rs1       : 5;
       uint32_t rs2       : 5;
       uint32_t imm10_5   : 6;
-      uint32_t imm12     : 1;
+      int32_t  simm12    : 1;
     } b;
 
     struct {
@@ -67,7 +67,7 @@ typedef struct {
       uint32_t imm19_12  : 8;
       uint32_t imm11     : 1;
       uint32_t imm10_1   :10;
-      uint32_t imm20     : 1;
+      int32_t  simm20    : 1;
     } j;
 
 
