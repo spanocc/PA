@@ -1,6 +1,9 @@
 def_EHelper(jal) {
     rtl_li(s, ddest, s->snpc); //将snpc（pc+4）的值赋给目的寄存器(通常是返回地址寄存器 ra)，如果是x0寄存器，则什么都不做
     rtl_j(s, cpu.pc + id_src1->imm); //相对地址
+
+    printf("\n\n%u\n%u\n%u\n\n",cpu.pc,cpu.pc + id_src1->imm,id_src1->imm);
+
 }
 
 
