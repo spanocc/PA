@@ -36,7 +36,7 @@ static def_DHelper(U) {
 //src1寄存器的值是基址 ，立即数是偏移， src2寄存器的值写入的值
 static def_DHelper(S) {
   decode_op_r(s, id_src1, s->isa.instr.s.rs1, false);
-  sword_t simm = (s->isa.instr.s.simm11_5 << 5) | s->isa.instr.s.imm4_0;  //需要符号扩展,用有符号int
+  sword_t simm = (s->isa.instr.s.simm11_5 << 5) | s->isa.instr.s.imm4_0;  //符号扩展在这一步,将12位的数符号扩展到32位
   decode_op_i(s, id_src2, simm, false);
   decode_op_r(s, id_dest, s->isa.instr.s.rs2, false);
 }

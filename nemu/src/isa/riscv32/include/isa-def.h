@@ -38,7 +38,7 @@ typedef struct {
       uint32_t imm31_12  :20;  //反正是高20位，不需要符号扩展，所以没必要用int
     } u;
 
-    //没有确定哪个是int有符号类型的
+
     struct {
       uint32_t opcode1_0 : 2;
       uint32_t opcode6_2 : 5;
@@ -57,7 +57,7 @@ typedef struct {
       uint32_t rs1       : 5;
       uint32_t rs2       : 5;
       uint32_t imm10_5   : 6;
-      int32_t  simm12    : 1;
+      int32_t  simm12    : 1;  //立即数的首位要是int，为了进行符号扩展
     } b;
 
     struct {
@@ -67,7 +67,7 @@ typedef struct {
       uint32_t imm19_12  : 8;
       uint32_t imm11     : 1;
       uint32_t imm10_1   :10;
-      int32_t  simm20    : 1;
+      int32_t  simm20    : 1; //立即数的首位要是int，为了进行符号扩展
     } j;
 
 
