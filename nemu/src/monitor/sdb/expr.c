@@ -91,6 +91,7 @@ static uint32_t eval(int p, int q) {  //printf("%d   %d\n",p,q);
         switch(tokens[p].type) {
             case TK_NUM: return atoi(tokens[p].str);
             case TK_REG:
+            	if(!strcmp("pc",tokens[p].str+1))return cpu.pc;
                 ret = isa_reg_str2val(tokens[p].str+1, &success);        // printf("%u\n",ret);
                 if(success == true) return ret;
                 printf("can't find %s!\n'",tokens[p].str);
