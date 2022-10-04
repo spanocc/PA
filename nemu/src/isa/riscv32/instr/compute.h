@@ -42,11 +42,11 @@ def_EHelper(sra) {
 }
 
 def_EHelper(slt) {
-
+TODO();
 }
 
 def_EHelper(sltu) {
-
+TODO();
 }
 
 //没有slti和sltiu
@@ -84,11 +84,11 @@ def_EHelper(srai) {
 }
 
 def_EHelper(slti) {
-
+TODO();
 }
 
 def_EHelper(sltiu) {
-
+TODO();
 }
 
 
