@@ -51,7 +51,7 @@ def_EHelper(mul) {
 }
 
 def_EHelper(div) {
-    rtl_divs_q(s, ddest, dsrc1, dsrc2);
+    rtl_divs_q(s, ddest, dsrc1, dsrc2);printf("sddddddddddddddd");
 }
 
 
