@@ -17,27 +17,27 @@ def_EHelper(jalr) {
 }
 
 def_EHelper(beq) {
-
+  TODO();
 }
 
 def_EHelper(bne) {
- printf("sdddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+  TODO();
 }
 
 def_EHelper(blt) {
-
+  TODO();
 }
 
 def_EHelper(bge) {
-
+  TODO();
 }
 
 def_EHelper(bltu) {
-
+  TODO();
 }
 
 def_EHelper(bgeu) {
-
+  TODO();
 }
 
 
