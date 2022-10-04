@@ -109,7 +109,7 @@ static inline def_rtl(lm, rtlreg_t *dest, const rtlreg_t* addr, word_t offset, i
 static inline def_rtl(sm, const rtlreg_t *src1, const rtlreg_t* addr, word_t offset, int len) {
   vaddr_write(*addr + offset, len, *src1);
 }
-
+//有符号读内存
 static inline def_rtl(lms, rtlreg_t *dest, const rtlreg_t* addr, word_t offset, int len) {
   word_t val = vaddr_read(*addr + offset, len);
   switch (len) {
