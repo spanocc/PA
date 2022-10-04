@@ -50,8 +50,8 @@ def_EHelper(mul) {
     rtl_mulu_lo(s, ddest, dsrc1, dsrc2);
 }
 
-def_EHelper(divq) {
-    rtl_divs_q(s, ddest, dsrc1, dsrc2);printf("sddddddddddddddd");
+def_EHelper(divq) {         printf("sddddddddddddddd"); 
+    rtl_divs_q(s, ddest, dsrc1, dsrc2);
 }
 
 
