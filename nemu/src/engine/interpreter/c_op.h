@@ -22,7 +22,7 @@
 #define c_srlw(a, b) c_sext32to64((uint32_t)(a) >> ((b) & 0x1f))
 #define c_sraw(a, b) c_sext32to64(( int32_t)(a) >> ((b) & 0x1f))
 #endif
-
+//对于有符号乘法的低32位，指令的行为和无符号整数的乘法行为一致
 #define c_mulu_lo(a, b) ((a) * (b))
 #ifdef CONFIG_ISA64
 # define c_mulu_hi(a, b) (((__uint128_t)(a) * (__uint128_t)(b)) >> 64)
@@ -33,6 +33,7 @@
 # define c_remw(a, b)  c_sext32to64(( int32_t)(a) % ( int32_t)(b))
 # define c_remuw(a, b) c_sext32to64((uint32_t)(a) % (uint32_t)(b))
 #else
+//实际是64位数的计算，所以在算术右移时，有符号数会在高位补1，无符号会补0，如果结果赋值给64位数，则两种运算结果不同，如果赋值给32位数，两种运算结果相同（因为高位被截断了）
 #define c_mulu_hi(a, b) (((uint64_t)(a) * (uint64_t)(b)) >> 32)
 #define c_muls_hi(a, b) (((int64_t)(sword_t)(a) * (int64_t)(sword_t)(b)) >> 32)
 #endif
