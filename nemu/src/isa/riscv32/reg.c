@@ -10,9 +10,9 @@ const char *regs[] = {
 
 void isa_reg_display() {
     for(int i = 0; i < 32; ++i) {
-        printf("%-4s: %-15u%x\n",regs[i],cpu.gpr[i]._32, cpu.gpr[i]._32);
+        printf("%-4s: %-15u0x%x\n",regs[i],cpu.gpr[i]._32, cpu.gpr[i]._32);
     }
-    printf("\npc  : 0x%x\n\n",cpu.pc);
+    printf("\npc  : %-15u0x%x\n\n",cpu.pc, cpu.pc);
     return;
 }
 
