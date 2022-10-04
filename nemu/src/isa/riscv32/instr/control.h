@@ -21,7 +21,7 @@ def_EHelper(beq) {
 }
 
 def_EHelper(bne) {
-
+ printf("sdddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 }
 
 def_EHelper(blt) {
