@@ -78,6 +78,7 @@ static const void* g_exec_table[TOTAL_INSTR] = {
 static void fetch_decode_exec_updatepc(Decode *s) {
   fetch_decode(s, cpu.pc);
   s->EHelper(s);//调用函数
+  TODO();
   cpu.pc = s->dnpc;
 }
 
@@ -143,7 +144,7 @@ void cpu_exec(uint64_t n) {
   uint64_t timer_start = get_time();
 
   Decode s;
-  for (;n > 0; n --) {  if(n==2) TODO();
+  for (;n > 0; n --) {                       
     fetch_decode_exec_updatepc(&s);
     g_nr_guest_instr ++;
     trace_and_difftest(&s, cpu.pc);
