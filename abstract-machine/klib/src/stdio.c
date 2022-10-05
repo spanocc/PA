@@ -23,7 +23,7 @@ static int dig2str(char *str, int dig) {
     while(len--) {
         *str++ = buf[len];
     }
-    return len;
+    return strlen(buf);
 }
 
 
@@ -37,33 +37,35 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
     int ret = 0;
     int flag = 0;
     int arg_int;
+    int dig_len;
     const char *arg_str;
     while(*fmt != '\0') {
         if(flag == 0) {
             if(*fmt == '%') flag = 1;
-            else *out = *fmt;
-            ret++;
+            else {
+                *out++ = *fmt;
+                ret++;
+            }
         }
         else {
             flag = 0;
             switch(*fmt) {
                 case 'd':
                     arg_int = va_arg(ap, int);
-                    ret += dig2str(out, arg_int);
+                    dig_len = dig2str(out, arg_int);
+                    out += dig_len;
+                    ret += dig_len;
                     break;
                 case 's':
                     arg_str = va_arg(ap, char *);
-                    while(*arg_str != '\0') {
-                        *out = *arg_str;
-                        out++;
-                        arg_str++;
-                    }//不加空字符
                     ret += strlen(arg_str);
+                    while(*arg_str != '\0') {
+                        *out++ = *arg_str++;
+                    }//不加空字符
                     break;
                 default: break;
             }
         }
-        out++;
         fmt++;
     }
     return ret;
