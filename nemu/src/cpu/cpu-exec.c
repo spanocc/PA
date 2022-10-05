@@ -18,6 +18,27 @@ static bool g_print_step = false;
 const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
 
+//按照Decode的logbuf成员来定义
+#define IRINGBUF_SIZE 20  //指令环形缓冲区大小
+char iringbuf[IRINGBUF_SIZE][128];
+char (*iringbuf_start)[128] = iringbuf;
+char (*iringbuf_end)[128] = iringbuf + IRINGBUF_SIZE;
+char (*ptirb)[128] = iringbuf;
+
+void add_to_irbuf(Decode *s) {
+    if(ptirb == iringbuf_end) ptirb = iringbuf_start;
+    strcpy(*ptirb, s->logbuf);
+    ptirb++;
+}
+/*
+void irbuf_display() {
+    for(int i = 0; i < IRINGBUF_SIZE; ++i) {
+
+     }
+}
+*/
+
+
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
 int check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
@@ -30,8 +51,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   //make menuconfig中开启Enable instruction tracer 
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }  //if n < 10 ,print each step. else don't print
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
-
-
+ 
+  //在指令环形缓冲区添加指令
+  add_to_irbuf(_this);
 
   //todo()
 #ifdef CONFIG_WATCHPOINT
@@ -63,7 +85,7 @@ static void statistic() {
   if (g_timer > 0) Log("simulation frequency = " NUMBERIC_FMT " instr/s", g_nr_guest_instr * 1000000 / g_timer);
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
 }
-
+//出错时会调用 eg：x 1 0（访问内存错误）
 void assert_fail_msg() {
   isa_reg_display();
   statistic();
