@@ -60,7 +60,7 @@ def_EHelper(rem) {
     rtl_divs_r(s, ddest, dsrc1, dsrc2);
 }
 
-def_EHelper(mulh) {
+def_EHelper(mulh) { printf("sxddddddd");
     rtl_muls_hi(s, ddest, dsrc1, dsrc2);
 }
 
