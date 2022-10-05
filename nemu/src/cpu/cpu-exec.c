@@ -23,9 +23,11 @@ void fetch_decode(Decode *s, vaddr_t pc);
 int check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
+  //make menuconfig中开启 Only trace instructions when the condition is true 
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) log_write("%s\n", _this->logbuf); 
 #endif
+  //make menuconfig中开启Enable instruction tracer 
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }  //if n < 10 ,print each step. else don't print
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
@@ -104,7 +106,7 @@ void cpu_exec(uint64_t n) {
       return;
     default: nemu_state.state = NEMU_RUNNING;
   }
-
+assert(0);
   uint64_t timer_start = get_time();
 
   Decode s;
