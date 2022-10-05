@@ -85,7 +85,7 @@ static void statistic() {
   if (g_timer > 0) Log("simulation frequency = " NUMBERIC_FMT " instr/s", g_nr_guest_instr * 1000000 / g_timer);
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
 }
-//出错时会调用 eg：x 1 0（访问内存错误）
+//出错时会调用(在debug.h中)
 void assert_fail_msg() {
   isa_reg_display();
   statistic();
