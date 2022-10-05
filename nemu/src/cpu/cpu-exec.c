@@ -74,12 +74,12 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 static const void* g_exec_table[TOTAL_INSTR] = {
   MAP(INSTR_LIST, FILL_EXEC_TABLE)
 };
-int ssss = 0;
+
 static void fetch_decode_exec_updatepc(Decode *s) {
   fetch_decode(s, cpu.pc);
   s->EHelper(s);//调用函数
   
-++ssss; if(ssss == 3 ) TODO();
+  //TODO()可以用TODO(）宏来测试iringbuf
 
   cpu.pc = s->dnpc;
 }
