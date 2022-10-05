@@ -24,8 +24,7 @@ int check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpo
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
-    //printf("\n\n\n\n\n\n\n\nWTF\n\n\n\n\n\n\n\n\n\n");
-  if (ITRACE_COND) {log_write("%s\n", _this->logbuf); printf("\n\n\n\n\n\n\n\nWTF\n\n\n\n\n\n\n\n\n\n");}
+  if (ITRACE_COND) log_write("%s\n", _this->logbuf); 
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }  //if n < 10 ,print each step. else don't print
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
