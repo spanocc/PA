@@ -30,19 +30,26 @@ void add_to_irbuf(Decode *s) {
     strcpy(*ptirb, s->logbuf);
     ptirb++;
 }
-/*
-void irbuf_display() {
-    for(int i = 0; i < IRINGBUF_SIZE; ++i) {
 
-     }
+void irbuf_display() {
+    vaddr_t adr;
+    for(int i = 0; i < IRINGBUF_SIZE; ++i) {
+        sscanf(*ptirb, "%x", &adr);
+        if(adr == cpu.pc) printf(" --> ");
+        else printf("     ");
+        printf("%s\n", *ptirb);
+    }
 }
-*/
+
 
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
 int check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
 
+
+//该函数是在一条指令执行完才调用的，但是在执行指令之前就要把指令的logbuf放在iringbuf里，所以不能在这个函数里实现
+//但是查看watchpoint的值要在指令执行之后，所以要放在这个函数里
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   //make menuconfig中开启 Only trace instructions when the condition is true 
 #ifdef CONFIG_ITRACE_COND
@@ -52,9 +59,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }  //if n < 10 ,print each step. else don't print
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
  
-  //在指令环形缓冲区添加指令
-  add_to_irbuf(_this);
-
   //todo()
 #ifdef CONFIG_WATCHPOINT
    if(check_watchpoint() == 1) {
@@ -85,10 +89,11 @@ static void statistic() {
   if (g_timer > 0) Log("simulation frequency = " NUMBERIC_FMT " instr/s", g_nr_guest_instr * 1000000 / g_timer);
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
 }
-//出错时会调用(在debug.h中)
+//出错时会调用(在debug.h中)  x 1 0 或者 TODO()
 void assert_fail_msg() {
   isa_reg_display();
   statistic();
+  irbuf_display();
 }
 
 void fetch_decode(Decode *s, vaddr_t pc) {
@@ -116,6 +121,11 @@ void fetch_decode(Decode *s, vaddr_t pc) {
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.instr.val, ilen);
+
+  //在指令环形缓冲区添加指令(在执行指令之前)
+  add_to_irbuf(s);
+
+
 #endif
 }
 
@@ -128,7 +138,7 @@ void cpu_exec(uint64_t n) {
       return;
     default: nemu_state.state = NEMU_RUNNING;
   }
-TODO();
+
   uint64_t timer_start = get_time();
 
   Decode s;
