@@ -25,7 +25,7 @@ char (*iringbuf_start)[128] = iringbuf;
 char (*iringbuf_end)[128] = iringbuf + IRINGBUF_SIZE;
 char (*ptirb)[128] = iringbuf;
 
-void add_to_irbuf(Decode *s) {
+void add_to_irbuf(Decode *s) {  printf("wtfsss");
     if(ptirb == iringbuf_end) ptirb = iringbuf_start;
     strcpy(*ptirb, s->logbuf);  printf("%s  111\n",*ptirb);
     ptirb++;
@@ -121,7 +121,8 @@ void fetch_decode(Decode *s, vaddr_t pc) {
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.instr.val, ilen);
-printf("wtf");
+
+
   //在指令环形缓冲区添加指令(在执行指令之前)
   add_to_irbuf(s);
 
