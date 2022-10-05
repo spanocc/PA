@@ -33,9 +33,9 @@ void add_to_irbuf(Decode *s) {
 
 void irbuf_display() {
     for(int i = 0; i < IRINGBUF_SIZE; ++i) {
-        vaddr_t adr;
-        sscanf(*(iringbuf+i), "%x", &adr);
-        if(adr == cpu.pc) printf("%x --> %x ",adr,cpu.pc);
+        vaddr_t adr_tmp = 0;
+        sscanf(*(iringbuf+i), "%x", &adr_tmp);
+        if(adr_tmp == cpu.pc) printf("%x --> %x ",adr_tmp,cpu.pc);
         else printf("     ");
         printf("%s\n", *(iringbuf+i));
     }
