@@ -27,7 +27,7 @@ char (*ptirb)[128] = iringbuf;
 
 void add_to_irbuf(Decode *s) {  
     if(ptirb == iringbuf_end) ptirb = iringbuf_start;
-    strcpy(*ptirb, s->logbuf);  printf("%s  111\n",s->logbuf);
+    strcpy(*ptirb, s->logbuf);  //printf("%s  111\n",s->logbuf);
     ptirb++;
 }
 
