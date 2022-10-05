@@ -25,9 +25,9 @@ char (*iringbuf_start)[128] = iringbuf;
 char (*iringbuf_end)[128] = iringbuf + IRINGBUF_SIZE;
 char (*ptirb)[128] = iringbuf;
 
-void add_to_irbuf(Decode *s) {  printf("wtfsss");
+void add_to_irbuf(Decode *s) {  
     if(ptirb == iringbuf_end) ptirb = iringbuf_start;
-    strcpy(*ptirb, s->logbuf);  printf("%s  111\n",*ptirb);
+    strcpy(*ptirb, s->logbuf);  printf("%s  111\n",s->logbuf);
     ptirb++;
 }
 
