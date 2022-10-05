@@ -27,7 +27,7 @@ char (*ptirb)[128] = iringbuf;
 
 void add_to_irbuf(Decode *s) {
     if(ptirb == iringbuf_end) ptirb = iringbuf_start;
-    strcpy(*ptirb, s->logbuf);
+    strcpy(*ptirb, s->logbuf);  printf("%s  111\n",*ptirb);
     ptirb++;
 }
 
@@ -92,8 +92,8 @@ static void statistic() {
 //出错时会调用(在debug.h中)  x 1 0 或者 TODO()
 void assert_fail_msg() {
   isa_reg_display();
-  statistic();
   irbuf_display();
+  statistic();
 }
 
 void fetch_decode(Decode *s, vaddr_t pc) {
