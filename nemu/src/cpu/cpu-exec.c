@@ -27,17 +27,17 @@ char (*ptirb)[128] = iringbuf;
 
 void add_to_irbuf(Decode *s) {  
     if(ptirb == iringbuf_end) ptirb = iringbuf_start;
-    strcpy(*ptirb, s->logbuf);  printf("%s  111\n",*ptirb);
+    strcpy(*ptirb, s->logbuf);                               // printf("%s  111\n",*ptirb);
     ptirb++;
 }
 
 void irbuf_display() {
     vaddr_t adr;
     for(int i = 0; i < IRINGBUF_SIZE; ++i) {
-        sscanf(*ptirb, "%x", &adr);
+        sscanf(*(iringbuf+i), "%x", &adr);
         if(adr == cpu.pc) printf(" --> ");
         else printf("     ");
-        printf("%s\n", *ptirb);
+        printf("%s\n", *(iringbuf+i));
     }
 }
 
