@@ -32,8 +32,8 @@ void add_to_irbuf(Decode *s) {
 }
 
 void irbuf_display() {
-    vaddr_t adr;
     for(int i = 0; i < IRINGBUF_SIZE; ++i) {
+        vaddr_t adr;
         sscanf(*(iringbuf+i), "%x", &adr);
         if(adr == cpu.pc) printf(" --> ");
         else printf("     ");
