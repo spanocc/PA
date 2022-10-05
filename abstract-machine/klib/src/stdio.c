@@ -78,6 +78,8 @@ int sprintf(char *out, const char *fmt, ...) {
     ret = vsprintf(out, fmt, ap);
     va_end(ap);
 
+    out[ret] = '\0';
+
     return ret;
 }
 
