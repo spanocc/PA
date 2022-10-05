@@ -35,7 +35,7 @@ void irbuf_display() {
     for(int i = 0; i < IRINGBUF_SIZE; ++i) {
         vaddr_t adr;
         sscanf(*(iringbuf+i), "%x", &adr);
-        if(adr == cpu.pc) printf(" --> ");
+        if(adr == cpu.pc) printf("%d --> %d ",adr,cpu.pc);
         else printf("     ");
         printf("%s\n", *(iringbuf+i));
     }
