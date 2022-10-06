@@ -79,7 +79,7 @@ void init_ftrace() {
         }
     }
 
-    for(int i =0;i<sym_num;++i) printf("%x   %s\n",sym_table[i].st_value, str_table+sym_table[i].st_name);
+    for(int i =0;i<sym_num;++i) printf("%x   \n",sym_table[i].st_value);
 
     free(shdr);
     fclose(fp);
