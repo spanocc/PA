@@ -40,7 +40,7 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
 
 #ifdef CONFIG_MTRACE
-    printf("read memory: 0x%x  len:%d\n", addr, len);
+    printf(" read memory: 0x%x  len:%d\n", addr, len);
 #endif
 
   if (likely(in_pmem(addr))) return pmem_read(addr, len);
