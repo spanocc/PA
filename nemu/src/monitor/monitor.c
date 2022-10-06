@@ -70,12 +70,10 @@ void init_ftrace() {
             ret = fread(sym_table, shdr[i].sh_size, 1, fp);
             rewind(fp);
             sym_num = shdr[i].sh_size / sizeof(Elf32_Sym);
-            break;
         }
-        if(!strcmp(shstrtab+shdr[i].sh_name, ".strtab")) { printf("222\n888\n");
+       else if(!strcmp(shstrtab+shdr[i].sh_name, ".strtab")) { printf("222\n888\n");
             ret = fread(str_table, shdr[i].sh_size, 1, fp);
             rewind(fp);
-            break;
         }
     }
 
