@@ -40,6 +40,7 @@ Elf32_Sym sym_table[128];
 int sym_num = 0;
 char str_table[512];
 void init_ftrace() {
+    int ret ;
     //将img_file指向的.bin文件后缀改成elf
     strcpy(elf_file_name, img_file);
     strcpy(elf_file_name+strlen(elf_file_name) - 3, "elf");    printf("%s\n",elf_file_name);
@@ -49,22 +50,31 @@ void init_ftrace() {
 
     Elf32_Ehdr elf_head;   //最开始的文件头
     Elf32_Shdr* shdr = malloc(sizeof(Elf32_Shdr) * elf_head.e_shnum);
-    fread(&elf_head, sizeof(Elf32_Ehdr), 1, fp);
+    ret = fread(&elf_head, sizeof(Elf32_Ehdr), 1, fp);
     //移动到Section Header table
-    fseek(fp, elf_head.e_shoff, SEEK_SET)；
-    fread(shdr, sizeof(Elf32_Shdr) * elf_head.e_shnum, 1, fp);
+    fseek(fp, elf_head.e_shoff, SEEK_SET);
+    ret = fread(shdr, sizeof(Elf32_Shdr) * elf_head.e_shnum, 1, fp);
+    assert(ret);
+
 
     // 重置指针位置到文件流开头
 	rewind(fp);
     // 将fp指针移到 字符串表偏移位置处
 	fseek(fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
-    fread(str_table, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
+    char shstrtab[shdr[elf_head.e_shstrndx].sh_size];
+    ret = fread(shstrtab, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
 
     rewind(fp);
     for(int i = 0; i < elf_head.e_shnum; i++) {
-        if(!strcmp(shdr[i].sh_name, ".symtab")) {
-            fread(sym_table, shdr[i].sh_size, 1, fp);
+        if(!strcmp(shstrtab+shdr[i].sh_name, ".symtab")) {
+            ret = fread(sym_table, shdr[i].sh_size, 1, fp);
+            rewind(fp);
             sym_num = shdr[i].sh_size / sizeof(Elf32_Sym);
+            break;
+        }
+        if(!strcmp(shstrtab+shdr[i].sh_name, ".strtab")) {
+            ret = fread(str_table, shdr[i].sh_size, 1, fp);
+            rewind(fp);
             break;
         }
     }
@@ -155,6 +165,10 @@ void init_monitor(int argc, char *argv[]) {
   /* Load the image to memory. This will overwrite the built-in image. */
   long img_size = load_img();
 
+#ifdef CONFIG_FTRACE
+  /*ftrace（后加的）*/
+  init_ftrace();
+#endif
   /* Initialize differential testing. */
   init_difftest(diff_so_file, img_size, difftest_port);
 
