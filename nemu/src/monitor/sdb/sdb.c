@@ -80,8 +80,9 @@ static int cmd_x(char*args) {
     printf("value: 0x%x\n",adr);   
 //    sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
     for(int i = 0; i < N; ++i) {
-        printf("0x%x: ",adr);
+      
         uint32_t ret = vaddr_read(adr, 4);
+        printf("0x%x: ",adr);
         uint8_t* ptu = (uint8_t*)&ret;
         for(int j = 0; j < 4; ++j) {  
             printf("%02x ",*ptu);
