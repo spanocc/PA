@@ -13,13 +13,11 @@ config ISA_riscv64
   bool "riscv64"
 endchoice
 
-choice
-	prompt "CONFIG_WATCHPOINT"
+menu "CONFIG_WATCHPOINT"
 config WATCHPOINT
 	bool "CONFIG_WATCHPOINT"
-config NO_WATCHPOINT
-	bool "Don't CONFIG_WATCHPOINT"
-endchoice
+    default y
+endmenu
 
 config ISA
   string
