@@ -9,6 +9,7 @@ void init_device();
 void init_sdb();
 void init_disasm(const char *triple);
 
+
 static void welcome() {
   Log("Trace: %s", MUXDEF(CONFIG_TRACE, ASNI_FMT("ON", ASNI_FG_GREEN), ASNI_FMT("OFF", ASNI_FG_RED)));
   IFDEF(CONFIG_TRACE, Log("If trace is enabled, a log file will be generated "
@@ -21,15 +22,62 @@ static void welcome() {
   //assert(0);
 }
 
+
 #ifndef CONFIG_TARGET_AM
 #include <getopt.h>
-
+#include<elf.h>
 void sdb_set_batch_mode();
 
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
+
+
+#ifdef CONFIG_FTRACE
+char elf_file_name[128];
+Elf32_Sym sym_table[128];
+int sym_num = 0;
+char str_table[512];
+void init_ftrace() {
+    //将img_file指向的.bin文件后缀改成elf
+    strcpy(elf_file_name, img_file);
+    strcpy(elf_file_name+strlen(elf_file_name) - 3, "elf");    printf("%s\n",elf_file_name);
+
+    FILE *fp = fopen(elf_file_name, "rb");
+    Assert(fp, "Can not open '%s'", elf_file_name);
+
+    Elf32_Ehdr elf_head;   //最开始的文件头
+    Elf32_Shdr* shdr = malloc(sizeof(Elf32_Shdr) * elf_head.e_shnum);
+    fread(&elf_head, sizeof(Elf32_Ehdr), 1, fp);
+    //移动到Section Header table
+    fseek(fp, elf_head.e_shoff, SEEK_SET)；
+    fread(shdr, sizeof(Elf32_Shdr) * elf_head.e_shnum, 1, fp);
+
+    // 重置指针位置到文件流开头
+	rewind(fp);
+    // 将fp指针移到 字符串表偏移位置处
+	fseek(fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
+    fread(str_table, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
+
+    rewind(fp);
+    for(int i = 0; i < elf_head.e_shnum; i++) {
+        if(!strcmp(shdr[i].sh_name, ".symtab")) {
+            fread(sym_table, shdr[i].sh_size, 1, fp);
+            sym_num = shdr[i].sh_size / sizeof(Elf32_Sym);
+            break;
+        }
+    }
+    
+    for(int i =0;i<sym_num;++i) printf("%x\n",sym_table[i].st_name);
+
+    free(shdr);
+    fclose(fp);
+}
+
+
+#endif
+
 
 static long load_img() {
   if (img_file == NULL) {
