@@ -64,20 +64,22 @@ void init_ftrace() {
     char shstrtab[shdr[elf_head.e_shstrndx].sh_size];
     ret = fread(shstrtab, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
 
-    rewind(fp);
+
     for(int i = 0; i < elf_head.e_shnum; i++) {
         if(!strcmp(shstrtab+shdr[i].sh_name, ".symtab")) {      //printf("111\n777\n");
-            ret = fread(sym_table, shdr[i].sh_size, 1, fp);
             rewind(fp);
+            fseek(fp, shdr[i].sh_offset, SEEK_SET);
+            ret = fread(sym_table, shdr[i].sh_size, 1, fp);
             sym_num = shdr[i].sh_size / sizeof(Elf32_Sym);
         }
         else if(!strcmp(shstrtab+shdr[i].sh_name, ".strtab")) {  //printf("222\n888\n");
-            ret = fread(str_table, shdr[i].sh_size, 1, fp);
             rewind(fp);
+            fseek(fp, shdr[i].sh_offset, SEEK_SET);
+            ret = fread(str_table, shdr[i].sh_size, 1, fp);
         }
     }
 
-    for(int i =0;i<sym_num;++i) printf("%x   %s\n",sym_table[i].st_value,str_table+sym_table[i].st_name);
+    for(int i =0;i<sym_num;++i) printf("%x   \n",sym_table[i].st_value);
 
     free(shdr);
     fclose(fp);
