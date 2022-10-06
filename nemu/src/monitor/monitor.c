@@ -66,18 +66,18 @@ void init_ftrace() {
 
     rewind(fp);
     for(int i = 0; i < elf_head.e_shnum; i++) {
-        if(!strcmp(shstrtab+shdr[i].sh_name, ".symtab")) { printf("111\n777\n");
+        if(!strcmp(shstrtab+shdr[i].sh_name, ".symtab")) {      //printf("111\n777\n");
             ret = fread(sym_table, shdr[i].sh_size, 1, fp);
             rewind(fp);
             sym_num = shdr[i].sh_size / sizeof(Elf32_Sym);
         }
-       else if(!strcmp(shstrtab+shdr[i].sh_name, ".strtab")) { printf("222\n888\n");
+        else if(!strcmp(shstrtab+shdr[i].sh_name, ".strtab")) {  //printf("222\n888\n");
             ret = fread(str_table, shdr[i].sh_size, 1, fp);
             rewind(fp);
         }
     }
 
-    for(int i =0;i<sym_num;++i) printf("%x   \n",sym_table[i].st_value);
+    for(int i =0;i<sym_num;++i) printf("%x   %s\n",sym_table[i].st_value,str_table+sym_table[i].st_name);
 
     free(shdr);
     fclose(fp);
