@@ -78,7 +78,7 @@ void init_ftrace() {
             break;
         }
     }
-    
+    printf("46666666666");
     for(int i =0;i<sym_num;++i) printf("%x\n",sym_table[i].st_name);
 
     free(shdr);
