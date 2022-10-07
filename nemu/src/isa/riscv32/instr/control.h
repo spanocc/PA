@@ -25,7 +25,7 @@ def_EHelper(jalr) {
     if(dsrc1 == &gpr(1)) { //ret
         ftrace_display(cpu.pc, RET_TYPE);
     }
-    else { 
+    else {  printf("64646545"); 
         ftrace_display((*dsrc1 + id_src2->imm) & 0xfffffffe, CALL_TYPE);
     }
 #endif
