@@ -22,7 +22,7 @@ def_EHelper(jalr) {
     rtl_j(s, (*dsrc1 + id_src2->imm) & 0xfffffffe);
 
 #ifdef CONFIG_FTRACE 
-    if(ddest == &gpr(0) && dsrc1 == &gpr(1)) { printf("jjjjjjjjjjjjj"); //ret
+    if(dsrc1 == &gpr(1)) { //ret
         ftrace_display(cpu.pc, RET_TYPE);
     }
     else { 
