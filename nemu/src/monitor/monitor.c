@@ -94,7 +94,7 @@ void init_ftrace() {
 }
 
 void print_space() {
-    for(int i = 0; i < space_num; ++i) printf(" ");
+    for(int i = 0; i < space_num; ++i) printf("  ");
 }
 
 
