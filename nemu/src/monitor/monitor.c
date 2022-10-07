@@ -39,6 +39,12 @@ char elf_file_name[128];
 Elf32_Sym sym_table[128];
 int sym_num = 0;
 char str_table[512];
+
+void ftrace_display() {
+    for(int i =0;i<sym_num;++i) printf("%-12x%s\n",sym_table[i].st_value,str_table+sym_table[i].st_name);
+}
+
+
 void init_ftrace() {
     int ret ;
     //将img_file指向的.bin文件后缀改成elf
@@ -79,11 +85,12 @@ void init_ftrace() {
         }
     }
 
-    for(int i =0;i<sym_num;++i) printf("%x   %s\n",sym_table[i].st_value,str_table+sym_table[i].st_name);
+    ftrace_display();
 
     free(shdr);
     fclose(fp);
 }
+
 
 
 #endif
