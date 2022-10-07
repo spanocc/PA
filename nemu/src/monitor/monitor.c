@@ -102,7 +102,7 @@ void ftrace_display(vaddr_t ad,int flag) {
     char func_name[32] = "???";
     vaddr_t ad_start = 0;
     for(int i = 0; i < sym_num; ++i) {
-        if(ad >= sym_table[i].st_value && ad < sym_table[i].st_value + sym_table[i].st_size) {
+        if(((sym_table[i].st_info) & 0xff) == STT_FUNC && ad >= sym_table[i].st_value && ad < sym_table[i].st_value + sym_table[i].st_size) {
             strcpy(func_name, str_table+sym_table[i].st_name);
             ad_start = sym_table[i].st_value;
         }
@@ -111,7 +111,7 @@ void ftrace_display(vaddr_t ad,int flag) {
     if(flag == CALL_TYPE) {
         printf("0x%x: ",cpu.pc);
         print_space();
-        printf("call [%s@0x%x]\n", func_name, ad_start);           printf("0x%x\n",ad);
+        printf("call [%s@0x%x]\n", func_name, ad_start);         //  printf("0x%x\n",ad);
         ++space_num;
     }
     else if(flag == RET_TYPE) {
