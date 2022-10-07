@@ -39,8 +39,10 @@ char elf_file_name[128];
 Elf32_Sym sym_table[128];
 int sym_num = 0;
 char str_table[512];
+static int space_num = 0;
+enum func_type { CALL_TYPE, RET_TYPE };
 
-void ftrace_display() {
+void sys_table_display() {
     for(int i =0;i<sym_num;++i) printf("%-12x%-12x%s\n", sym_table[i].st_value, sym_table[i].st_size, str_table+sym_table[i].st_name);
 }
 
@@ -85,12 +87,38 @@ void init_ftrace() {
         }
     }
 
-    ftrace_display();
+    sys_table_display();
 
     free(shdr);
     fclose(fp);
 }
 
+void print_space() {
+    for(int i = 0; i < space_num; ++i) printf(" ");
+}
+
+
+void ftrace_display(vaddr_t ad,int flag) {
+    char func_name[32] = "???";
+    vaddr_t ad_start = 0;
+    for(int i = 0; i < sym_num; ++i) {
+        if(sym_table[i].st_info == STT_FUNC && ad >= sym_table[i].st_value && ad < sym_table[i].st_value + sym_table[i].st_size) {
+            strcpy(func_name, str_table+sym_table[i].st_name);
+            ad_start = sym_table[i].st_value;
+        }
+    }
+
+    if(flag == CALL_TYPE) {
+        print_space();
+        printf("call [%s@0x%x]\n", func_name, ad_start);
+        ++space_num;
+    }
+    else if(flag == RET_TYPE) {
+        --space_num;
+        print_space();
+        printf("ret  [%s]\n", func_name);
+    }
+}
 
 
 #endif
