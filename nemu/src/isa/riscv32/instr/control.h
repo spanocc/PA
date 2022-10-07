@@ -7,8 +7,12 @@ void ftrace_display();
 def_EHelper(jal) {
     rtl_li(s, ddest, s->snpc); //将snpc（pc+4）的值赋给目的寄存器(通常是返回地址寄存器 ra)，如果是x0寄存器，则什么都不做
     rtl_j(s, cpu.pc + id_src1->imm); //相对地址
-
+        
 //    printf("\n\n0x%x\n0x%x\n0x%x\n\n",cpu.pc,cpu.pc + id_src1->imm,id_src1->imm);
+
+#ifdef CONFIG_FTRACE
+    ftrace_display(cpu.pc + id_src1->imm, CALL_TYPE);
+#endif
 
 }
 
@@ -25,7 +29,7 @@ def_EHelper(jalr) {
     if(dsrc1 == &gpr(1)) { //ret
         ftrace_display(cpu.pc, RET_TYPE);
     }
-    else {  printf("64646545"); 
+    else {   //printf("64646545"); 
         ftrace_display((*dsrc1 + id_src2->imm) & 0xfffffffe, CALL_TYPE);
     }
 #endif
