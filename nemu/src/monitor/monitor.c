@@ -41,7 +41,7 @@ int sym_num = 0;
 char str_table[512];
 
 void ftrace_display() {
-    for(int i =0;i<sym_num;++i) printf("%-12x%s\n",sym_table[i].st_value,str_table+sym_table[i].st_name);
+    for(int i =0;i<sym_num;++i) printf("%-12x%-12x%s\n", sym_table[i].st_value, sym_table[i].st_size, str_table+sym_table[i].st_name);
 }
 
 
