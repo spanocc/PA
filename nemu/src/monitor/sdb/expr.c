@@ -140,8 +140,8 @@ static uint32_t eval(int p, int q) {  //printf("%d   %d\n",p,q);
         case '-': return l-r;
         case '*': return l*r;
         case '/': assert(r); return l/r;
-        case TK_EQ: return l==r;
-        case TK_AND: return l&&r;
+        case TK_EQ: return (l == r) ? 1 : 0;
+        case TK_AND: return (l && r) ? 1 : 0;
         case TK_NEG: return -1 * eval(p+1, q);
         case TK_PTR: return fetch_memory(eval(p+1, q));
             
