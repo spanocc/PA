@@ -177,7 +177,7 @@ static int cmd_help(char *args) {
 }
 
 void sdb_set_batch_mode() {
-  /*is_batch_mode = true;*/
+  is_batch_mode = true;
 }
 
 void sdb_mainloop() {

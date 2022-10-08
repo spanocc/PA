@@ -10,20 +10,25 @@ static int dig2str(char *str, int dig) {
     assert(str != NULL);
 
     char  buf[32];
+    int is_neg = 0;
     char *p = buf;
-    if(dig == 0) *p++ = 0;   
+ 
+   	if(dig == -2147483648) strcpy(buf, "8463847412-"); //对INT_MIN特判，因为int范围内没有214783648
     else {
     	if(dig < 0) {
+    		is_neg = 1;
     		dig = -dig;
-    		*p++ = '-';
     	}
         while(dig / 10) {
             *p++ = (dig % 10) + '0';
             dig /= 10;
         }
         *p++ = (dig % 10) + '0';
+        if(is_neg) *p++ = '-';
+        *p = '\0';
     }
-    *p = '\0';
+   
+    
     int len = strlen(buf);
     assert(len > 0);
     while(len--) {
