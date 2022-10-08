@@ -40,10 +40,7 @@ static int dig2str(char *str, int dig) {
 
 
 int printf(const char *fmt, ...) {
-
-    panic("Not implemented");
-
-   /* assert(fmt != NULL);
+    assert(fmt != NULL);
     char buf[256];
     va_list ap;
     int ret;
@@ -56,7 +53,7 @@ int printf(const char *fmt, ...) {
     char *p = buf;
     while(*p != '\0') putch(*p++);
 
-    return ret;*/
+    return ret;
 }
 //返回值为写入的字符数
 int vsprintf(char *out, const char *fmt, va_list ap) {
