@@ -102,10 +102,14 @@ void ftrace_display(vaddr_t ad,int flag) {
     char func_name[32] = "???";
     vaddr_t ad_start = 0;
     for(int i = 0; i < sym_num; ++i) {
-        if(((sym_table[i].st_info) & 0xf) == STT_FUNC && ad >= sym_table[i].st_value && ad < sym_table[i].st_value + sym_table[i].st_size) {
-            strcpy(func_name, str_table+sym_table[i].st_name);
-            ad_start = sym_table[i].st_value;
+        if(((sym_table[i].st_info) & 0xf) == STT_FUNC) {
+            if( (flag == CALL_TYPE && ad == sym_table[i].st_value) || (flag == RET_TYPE && ad >= sym_table[i].st_value && ad < sym_table[i].st_value + sym_table[i].st_size)) {
+                 strcpy(func_name, str_table+sym_table[i].st_name);
+                 ad_start = sym_table[i].st_value;
+            }
+
         }
+
     }
 
     if(flag == CALL_TYPE) {
