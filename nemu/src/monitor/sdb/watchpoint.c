@@ -94,7 +94,7 @@ int check_watchpoint() {
     while(pwp != NULL) {
         bool success;
         uint32_t new_result = expr(pwp->WatchName, &success);
-        if(new_result != pwp->value) {  printf("\n\n\nWTF\n\n\n");
+        if(new_result != pwp->value) {  printf("0x%x  0x%x\n",new_result, pwp->value);
             ret = 1;
             printf("Watchpoint %d change! : %s\ninitial:%u   now:%u\n", pwp->NO, pwp->WatchName, pwp->value, new_result);
         }
