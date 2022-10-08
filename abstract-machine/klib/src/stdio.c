@@ -41,7 +41,19 @@ static int dig2str(char *str, int dig) {
 
 int printf(const char *fmt, ...) {
     assert(fmt != NULL);
-  panic("Not implemented");
+    char buf[256];
+    va_list ap;
+    int ret;
+
+    va_start(ap, fmt);
+    ret = vsprintf(buf, fmt, ap);
+    va_end(ap);
+
+    buf[ret] = '\0';
+    char *p = buf;
+    while(*p != '\0') putch(*p++);
+
+    return ret;
 }
 //返回值为写入的字符数
 int vsprintf(char *out, const char *fmt, va_list ap) {
@@ -91,7 +103,7 @@ int sprintf(char *out, const char *fmt, ...) {
     ret = vsprintf(out, fmt, ap);
     va_end(ap);
 
-    out[ret] = '\0';
+    out[ret] = '\0';   //printf("my sprintf");
 
     return ret;
 }
