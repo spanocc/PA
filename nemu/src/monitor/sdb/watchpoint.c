@@ -93,8 +93,8 @@ int check_watchpoint() {
     int ret = 0; //ret为1表示监视点的值有变化
     while(pwp != NULL) {
         bool success;
-        uint32_t new_result = expr(pwp->WatchName, &success);
-        if(new_result != pwp->value) {  printf("0x%x  0x%x\n",new_result, pwp->value);
+        uint32_t new_result = expr(pwp->WatchName, &success);   printf("0x%x  0x%x\n",new_result, pwp->value);
+        if(new_result != pwp->value) { 
             ret = 1;
             printf("Watchpoint %d change! : %s\ninitial:%u   now:%u\n", pwp->NO, pwp->WatchName, pwp->value, new_result);
         }
