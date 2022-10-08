@@ -256,7 +256,7 @@ word_t expr(char *e, bool *success) {
   *success = true;
   
   
-  printf("pc:0x%x  value: 0x%x\n",cpu.pc,ans);
+  //printf("pc:0x%x  value: 0x%x\n",cpu.pc,ans);
  // assert(0);
  //TODO();
 
