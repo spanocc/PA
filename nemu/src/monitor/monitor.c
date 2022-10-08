@@ -111,7 +111,7 @@ void ftrace_display(vaddr_t ad,int flag) {
         }
 
     }
-
+    if(!strcmp(func_name, "???")) return; //函数内的跳转不算，只有call函数首地址的时候才打印
     if(flag == CALL_TYPE) {
         printf("0x%x: ",cpu.pc);
         print_space();
