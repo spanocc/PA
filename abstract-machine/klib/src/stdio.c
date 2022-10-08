@@ -8,10 +8,15 @@
 //返回字符串长度
 static int dig2str(char *str, int dig) {
     assert(str != NULL);
+
     char  buf[32];
     char *p = buf;
-    if(dig == 0) *p++ = 0;
+    if(dig == 0) *p++ = 0;   
     else {
+    	if(dig < 0) {
+    		dig = -dig;
+    		*p++ = '-';
+    	}
         while(dig / 10) {
             *p++ = (dig % 10) + '0';
             dig /= 10;
