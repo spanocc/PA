@@ -6,7 +6,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 //数字转为字符串
 //返回字符串长度
-static int dig2str(char *str, int dig) {
+int dig2str(char *str, int dig) {
     assert(str != NULL);
 
     char  buf[32];
