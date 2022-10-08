@@ -19,9 +19,7 @@ char *strcpy(char *dst, const char *src) {
     char *p1 = dst;
     const char *p2 = src;
     while(*p2 != '\0') {
-        *p1 = *p2;
-        p1++;
-        p2++;
+        *p1++ = *p2++;              
     }
     *p1 = '\0';
     return dst;

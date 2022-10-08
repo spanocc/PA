@@ -13,7 +13,7 @@ static int dig2str(char *str, int dig) {
     int is_neg = 0;
     char *p = buf;
  
-   	if(dig == -2147483648) ;//strcpy(buf, "8463847412-"); //对INT_MIN特判，因为int范围内没有214783648
+   	if(dig == -2147483648)  strcpy(buf, "8463847412-"); //对INT_MIN特判，因为int范围内没有214783648
     else {
     	if(dig < 0) {
     		is_neg = 1;
