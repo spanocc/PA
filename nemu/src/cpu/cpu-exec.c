@@ -18,6 +18,7 @@ static bool g_print_step = false;
 const rtlreg_t rzero = 0;
 rtlreg_t tmp_reg[4];
 
+#ifdef CONFIG_ITRACE
 //按照Decode的logbuf成员来定义
 #define IRINGBUF_SIZE 20  //指令环形缓冲区大小
 char iringbuf[IRINGBUF_SIZE][128];
@@ -40,7 +41,7 @@ void irbuf_display() {
         printf("%s\n", *(iringbuf+i));
     }
 }
-
+#endif
 
 
 void device_update();
@@ -95,7 +96,9 @@ static void statistic() {
 //出错时会调用(在debug.h中)  x 1 0 或者 TODO()
 void assert_fail_msg() {
   isa_reg_display();
+#ifdef CONFIG_ITRACE
   irbuf_display();
+#endif
   statistic();
 }
 
