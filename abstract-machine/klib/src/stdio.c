@@ -59,7 +59,7 @@ int printf(const char *fmt, ...) {
 int vsprintf(char *out, const char *fmt, va_list ap) {
     int ret = 0;
     int flag = 0;
-    volatile int arg_int;
+    int arg_int;
     int dig_len;
     const char *arg_str;
     while(*fmt != '\0') {
