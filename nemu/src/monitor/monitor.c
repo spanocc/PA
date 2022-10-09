@@ -59,6 +59,7 @@ void init_ftrace() {
     Elf32_Ehdr elf_head;   //最开始的文件头
     Elf32_Shdr* shdr = malloc(sizeof(Elf32_Shdr) * elf_head.e_shnum);
     ret = fread(&elf_head, sizeof(Elf32_Ehdr), 1, fp);
+    assert(ret);
     //移动到Section Header table
     fseek(fp, elf_head.e_shoff, SEEK_SET);
     ret = fread(shdr, sizeof(Elf32_Shdr) * elf_head.e_shnum, 1, fp);
@@ -71,6 +72,7 @@ void init_ftrace() {
 	fseek(fp, shdr[elf_head.e_shstrndx].sh_offset, SEEK_SET);
     char shstrtab[shdr[elf_head.e_shstrndx].sh_size];
     ret = fread(shstrtab, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
+    assert(ret);
 
 
     for(int i = 0; i < elf_head.e_shnum; i++) {
@@ -78,12 +80,14 @@ void init_ftrace() {
             rewind(fp);
             fseek(fp, shdr[i].sh_offset, SEEK_SET);
             ret = fread(sym_table, shdr[i].sh_size, 1, fp);
+            assert(ret);
             sym_num = shdr[i].sh_size / sizeof(Elf32_Sym);
         }
         else if(!strcmp(shstrtab+shdr[i].sh_name, ".strtab")) {  //printf("222\n888\n");
             rewind(fp);
             fseek(fp, shdr[i].sh_offset, SEEK_SET);
             ret = fread(str_table, shdr[i].sh_size, 1, fp);
+            assert(ret);
         }
     }
 
