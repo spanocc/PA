@@ -13,10 +13,10 @@ int main(int argc, char *argv[]) {
   am_init_monitor();
 #else
 //打印参数
-  /*printf("argc:%d\n",argc);
+  printf("argc:%d\n",argc);
   for(int i = 0; i < argc; ++i) {
       printf("argv[%d]:%s\n", i, argv[i]);
-  }*/
+  }
 
   init_monitor(argc, argv);
 #endif
