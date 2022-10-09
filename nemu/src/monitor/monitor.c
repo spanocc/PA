@@ -35,8 +35,8 @@ static int difftest_port = 1234;
 
 
 #ifdef CONFIG_FTRACE
-char elf_file_name[128];
-Elf32_Sym sym_table[128];
+char elf_file_name[512];
+Elf32_Sym sym_table[512];
 int sym_num = 0;
 char str_table[512];
 static int space_num = 0;
@@ -99,7 +99,7 @@ void print_space() {
 
 
 void ftrace_display(vaddr_t ad,int flag) {
-    char func_name[32] = "???";
+    char func_name[64] = "???";
     vaddr_t ad_start = 0;
     for(int i = 0; i < sym_num; ++i) {
         if(((sym_table[i].st_info) & 0xf) == STT_FUNC) {
