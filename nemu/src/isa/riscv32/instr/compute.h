@@ -54,8 +54,8 @@ def_EHelper(mul) {
 
 def_EHelper(divq) {                      
 
-printf("%d\n",*ddest);
-printf("%d\n",*dsrc1);
+printf("%d  ",*ddest);
+printf("%d  ",*dsrc1);
 printf("%d\n",*dsrc2);
 
 
