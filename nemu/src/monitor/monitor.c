@@ -74,7 +74,7 @@ void init_ftrace() {
     ret = fread(shstrtab, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
     assert(ret);
 
-//printf("aaaaaaaaaaaaaaaaaaaaaaaa\n");
+printf("%d\n",elf_head.e_shnum);
 
 
     for(int i = 0; i < elf_head.e_shnum; i++) {          printf("%d %s\n",i,shstrtab+shdr[i].sh_name);
