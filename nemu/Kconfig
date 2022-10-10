@@ -154,6 +154,11 @@ config MTRACE
   depends on TRACE
   bool "Enable memory trace"
   default y
+  
+config DTRACE
+  depends on TRACE
+  bool "Enable device trace"
+  default y
 
 config FTRACE
   depends on TRACE
