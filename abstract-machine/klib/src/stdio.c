@@ -52,7 +52,7 @@ int printf(const char *fmt, ...) {
     buf[ret] = '\0';
     char *p = buf;
     while(*p != '\0') putch(*p++);
-putch('@');
+
     return ret;
 }
 //返回值为写入的字符数
