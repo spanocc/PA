@@ -52,7 +52,14 @@ def_EHelper(mul) {
     rtl_mulu_lo(s, ddest, dsrc1, dsrc2);
 }
 
-def_EHelper(divq) {          
+def_EHelper(divq) {                      
+
+printf("%d\n",*ddest);
+printf("%d\n",*dsrc1);
+printf("%d\n",*dsrc2);
+
+
+
     rtl_divs_q(s, ddest, dsrc1, dsrc2);
 }
 
