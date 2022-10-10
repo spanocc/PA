@@ -53,11 +53,11 @@ def_EHelper(mul) {
 }
 
 def_EHelper(divq) {                      
-
+/*
 printf("%d  ",*ddest);
 printf("%d  ",*dsrc1);
 printf("%d\n",*dsrc2);
-
+*/
 
     rtl_divs_q(s, ddest, dsrc1, dsrc2);
 }
