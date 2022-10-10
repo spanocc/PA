@@ -74,6 +74,8 @@ void init_ftrace() {
     ret = fread(shstrtab, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
     assert(ret);
 
+printf("aaaaaaaaaaaaaaaaaaaaaaaa\n");
+
 
     for(int i = 0; i < elf_head.e_shnum; i++) {
         if(!strcmp(shstrtab+shdr[i].sh_name, ".symtab")) {      //printf("111\n777\n");
@@ -90,6 +92,8 @@ void init_ftrace() {
             assert(ret);
         }
     }
+
+printf("bbbbbbbbbbbbbbbbbbb\b");
 
     sys_table_display();
 
