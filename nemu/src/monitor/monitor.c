@@ -74,10 +74,10 @@ void init_ftrace() {
     ret = fread(shstrtab, shdr[elf_head.e_shstrndx].sh_size, 1, fp);
     assert(ret);
 
-printf("%d\n",elf_head.e_shnum);
+//printf("%d\n",elf_head.e_shnum);
 
 
-    for(int i = 0; i < elf_head.e_shnum; i++) {          printf("%d %s\n",i,shstrtab+shdr[i].sh_name);
+    for(int i = 0; i < elf_head.e_shnum; i++) {          //printf("%d %s\n",i,shstrtab+shdr[i].sh_name);
         if(!strcmp(shstrtab+shdr[i].sh_name, ".symtab")) {      //printf("111\n777\n");
             rewind(fp);
             fseek(fp, shdr[i].sh_offset, SEEK_SET);
@@ -93,7 +93,7 @@ printf("%d\n",elf_head.e_shnum);
         }
     }
 
-printf("bbbbbbbbbbbbbbbbbbb\b");
+//printf("bbbbbbbbbbbbbbbbbbb\b");
 
     sys_table_display();
 
