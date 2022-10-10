@@ -77,7 +77,7 @@ void init_ftrace() {
 //printf("aaaaaaaaaaaaaaaaaaaaaaaa\n");
 
 
-    for(int i = 0; i < elf_head.e_shnum; i++) {          printf("%d\n",i);
+    for(int i = 0; i < elf_head.e_shnum; i++) {          printf("%d %s\n",i,shstrtab+shdr[i].sh_name);
         if(!strcmp(shstrtab+shdr[i].sh_name, ".symtab")) {      //printf("111\n777\n");
             rewind(fp);
             fseek(fp, shdr[i].sh_offset, SEEK_SET);
