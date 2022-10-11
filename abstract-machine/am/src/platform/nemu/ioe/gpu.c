@@ -11,7 +11,7 @@ void __am_gpu_init() {
 //printf("%s:%d %d\n","__am_gpu_init",w,h);
 
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for (i = 0; i < w * h; i ++) fb[i] = 25;
+  for (i = 0; i < w * h; i ++) fb[i] = 100;
   outl(SYNC_ADDR, 1);  //马上将帧缓冲中的内容同步到屏幕上
 }
 
@@ -37,8 +37,8 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   
   uint32_t *p = ctl->pixels;
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for(int i = 10; i <= h+10; ++i) {
-      for(int j = 10; j <= w+10; ++j) {
+  for(int i = 0; i < h; ++i) {
+      for(int j = 0; j < w; ++j) {
            fb[(y+i) * width + x+j] = *p++;
            //fb[(x+i) * height + (y+j)] = *p++;
       }
