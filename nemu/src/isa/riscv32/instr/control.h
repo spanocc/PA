@@ -9,11 +9,11 @@ def_EHelper(jal) {
     rtl_j(s, cpu.pc + id_src1->imm); //相对地址
         
 //    printf("\n\n0x%x\n0x%x\n0x%x\n\n",cpu.pc,cpu.pc + id_src1->imm,id_src1->imm);
-
+/*
 #ifdef CONFIG_FTRACE
     ftrace_display(cpu.pc + id_src1->imm, CALL_TYPE);
 #endif
-
+*/
 }
 
 
@@ -24,7 +24,7 @@ def_EHelper(jalr) {
     rtl_li(s, ddest, s->snpc); //把 jump 指令的下一地址（pc + 4）写入寄存器 rd
     //由寄存器 rs1 中的操作数加上 12 比特位的 I 格式的有符号立即数，然后把最小有效位设置为 0 来产生分支目标地址。
     rtl_j(s, (*dsrc1 + id_src2->imm) & 0xfffffffe);
-
+/*
 #ifdef CONFIG_FTRACE 
     if(dsrc1 == &gpr(1)) { //ret
         ftrace_display(cpu.pc, RET_TYPE);
@@ -33,7 +33,7 @@ def_EHelper(jalr) {
         ftrace_display((*dsrc1 + id_src2->imm) & 0xfffffffe, CALL_TYPE);
     }
 #endif
-
+*/
 }
 
 def_EHelper(beq) {
