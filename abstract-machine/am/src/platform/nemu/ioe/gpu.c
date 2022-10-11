@@ -8,7 +8,7 @@ void __am_gpu_init() {
   int w = io_read(AM_GPU_CONFIG).width;  // TODO: get the correct width
   int h = io_read(AM_GPU_CONFIG).height ;  // TODO: get the correct height
 
-printf("%s:%d %d\n","__am_gpu_init",w,h);
+//printf("%s:%d %d\n","__am_gpu_init",w,h);
 
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   for (i = 0; i < w * h; i ++) fb[i] = i;

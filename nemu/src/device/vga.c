@@ -65,7 +65,7 @@ void vga_update_screen(uint32_t offset, int len, bool is_write) {
 
 void init_vga() {
   vgactl_port_base = (uint32_t *)new_space(8);
-  vgactl_port_base[0] = (screen_width() << 16) | screen_height();
+  vgactl_port_base[0] = (screen_width() << 16) | screen_height();      printf("\n\n\n\n\n%d %d\n\n\n\n\n",screen_width(),screen_height());
 #ifdef CONFIG_HAS_PORT_IO
   add_pio_map ("vgactl", CONFIG_VGA_CTL_PORT, vgactl_port_base, 8, vga_update_screen);
 #else
