@@ -31,15 +31,16 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   int h = ctl->h;
   int x = ctl->x;
   int y = ctl->y;
-  int width = io_read(AM_GPU_CONFIG).width;
-
+  //int width = io_read(AM_GPU_CONFIG).width;
+  int height = io_read(AM_GPU_CONFIG).height;
 //printf("%s:%d\n","__am_gpu_fbdraw",width);
   
   uint32_t *p = ctl->pixels;
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   for(int i = 0; i < w; ++i) {
       for(int j = 0; j < h; ++j) {
-            fb[(y+j)*width+x+i] = *p++;
+           // fb[(y+j)*width+x+i] = *p++;
+           fb[(x+i) * height + (y+j)] = *p++;
       }
   }
 
