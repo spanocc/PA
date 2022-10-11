@@ -11,7 +11,7 @@ void __am_gpu_init() {
 //printf("%s:%d %d\n","__am_gpu_init",w,h);
 
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for (i = 0; i < w * h; i ++) fb[i] = 1;
+  for (i = 0; i < w * h; i ++) fb[i] = 25;
   outl(SYNC_ADDR, 1);  //马上将帧缓冲中的内容同步到屏幕上
 }
 
