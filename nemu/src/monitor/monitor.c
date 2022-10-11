@@ -38,7 +38,7 @@ static int difftest_port = 1234;
 char elf_file_name[512];
 Elf32_Sym sym_table[512];
 int sym_num = 0;
-char str_table[1024];
+char str_table[65536];
 static int space_num = 0;
 enum func_type { CALL_TYPE, RET_TYPE };
 
