@@ -26,7 +26,7 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
- 
+/* 
   int w = ctl->w;
   int h = ctl->h;
   int x = ctl->x;
@@ -43,7 +43,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
            fb[(x+i) * height + (y+j)] = *p++;
       }
   }
-
+*/
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
