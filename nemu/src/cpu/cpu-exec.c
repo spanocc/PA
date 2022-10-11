@@ -61,14 +61,14 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   //make menuconfig中开启Enable instruction tracer 
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }  //if n < 10 ,print each step. else don't print
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
- 
+ /*
   //todo()
 #ifdef CONFIG_WATCHPOINT
    if(check_watchpoint() == 1) {
        nemu_state.state = NEMU_STOP;
    }
 #endif
-
+*/
 }
 
 #include <isa-exec.h>
