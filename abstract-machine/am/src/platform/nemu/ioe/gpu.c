@@ -5,8 +5,8 @@
 
 void __am_gpu_init() {
   int i;
-  int w = 32;  // TODO: get the correct width
-  int h = 32;  // TODO: get the correct height
+  int w = io_read(AM_GPU_CONFIG).width;  // TODO: get the correct width
+  int h = io_read(AM_GPU_CONFIG).height ;  // TODO: get the correct height
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   for (i = 0; i < w * h; i ++) fb[i] = i;
   outl(SYNC_ADDR, 1);  //马上将帧缓冲中的内容同步到屏幕上
@@ -23,10 +23,15 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-/*    
+/* 
   int w = ctl->w;
   int h = ctl->h;
-*/
+  int x = ctl->x;
+  int y = ctl->y;
+  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
+  for(int i = 0; i < w; ++i) {
+      for(int j = 0; j < h; ++j) {
+            fb[x+i]*/
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
