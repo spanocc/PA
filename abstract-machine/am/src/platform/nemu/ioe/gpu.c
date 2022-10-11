@@ -33,7 +33,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   int y = ctl->y;
   int width = io_read(AM_GPU_CONFIG).width;
 
-printf("%s:%d\n","__am_gpu_fbdraw",width);
+//printf("%s:%d\n","__am_gpu_fbdraw",width);
   
   uint32_t *p = ctl->pixels;
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
