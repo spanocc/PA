@@ -46,8 +46,10 @@ void irbuf_display() {
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
-int check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
 
+#ifdef CONFIG_WATCHPOINT
+int check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
+#endif
 
 //该函数是在一条指令执行完才调用的，但是在执行指令之前就要把指令的logbuf放在iringbuf里，所以不能在这个函数里实现
 //但是查看watchpoint的值要在指令执行之后，所以要放在这个函数里
