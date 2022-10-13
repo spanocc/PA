@@ -12,10 +12,10 @@ void isa_reg_display() {
     for(int i = 0; i < 32; ++i) {
         printf("%-10s: %-15u0x%x\n",regs[i],cpu.gpr[i]._32, cpu.gpr[i]._32);
     }
-    printf("\n%-10s: %-15u0x%x\n\n", "mepc", cpu.mepc, cpu.mepc);
-    printf("%-10s: %-15u0x%x\n\n", "mstatus", cpu.mstatus, cpu.mstatus);
-    printf("%-10s: %-15u0x%x\n\n", "mcause", cpu.mcause, cpu.mcause);
-    printf("%-10s: %-15u0x%x\n\n", "mtvec", cpu.mtvec, cpu.mtvec);
+    printf("\n%-10s: %-15u0x%x\n", "mepc", cpu.mepc, cpu.mepc);
+    printf("%-10s: %-15u0x%x\n", "mstatus", cpu.mstatus, cpu.mstatus);
+    printf("%-10s: %-15u0x%x\n", "mcause", cpu.mcause, cpu.mcause);
+    printf("%-10s: %-15u0x%x\n", "mtvec", cpu.mtvec, cpu.mtvec);
     printf("\n%-10s: %-15u0x%x\n\n", "pc", cpu.pc, cpu.pc);
     return;
 }
