@@ -4,10 +4,10 @@
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {//  printf("checking..\n");
     bool flag = true;
-    /*if(ref_r->pc != cpu.pc) {
+    if(ref_r->pc != cpu.pc) {
         flag = false;
         printf("0x%x: pc fault!   spike: 0x%x nemu: 0x%x\n",pc, ref_r->pc, cpu.pc);
-    }*/
+    }
     for(int i = 0; i < 32; ++i) {
         if(ref_r->gpr[i]._32 != cpu.gpr[i]._32) {
             flag = false;
