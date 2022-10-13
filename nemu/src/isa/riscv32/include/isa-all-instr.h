@@ -8,6 +8,7 @@
                       f(beq) f(bne) f(blt) f(bge) f(bltu) f(bgeu) \
                       f(lb) f(lh) f(lbu) f(lhu) f(sb) f(sh) \
                       f(mul) f(mulh) f(divq) f(rem) f(divu) f(mulhu) f(remu) \
+                      f(csrrw) f(csrrs) f(csrrc) f(csrrwi) f(csrrsi) f(csrrci) f(ecall) 
                       
 
 
