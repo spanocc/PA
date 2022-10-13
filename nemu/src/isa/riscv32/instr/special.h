@@ -5,7 +5,7 @@ def_EHelper(inv) {
 def_EHelper(nemu_trap) {
   rtl_hostcall(s, HOSTCALL_EXIT, NULL, &gpr(10), NULL, 0); // gpr(10) is $a0
 }
-
+/*
 def_EHelper(ecall) {
   vaddr_t in_addr = isa_raise_intr(gpr(17), cpu.pc);
   rtl_j(s, in_addr);
@@ -41,4 +41,4 @@ def_EHelper(csrrsi) {
 def_EHelper(csrrci) {
   rtl_mv(s, ddest, dsrc2);
   rtl_andi(s, dsrc2, dsrc2, ~id_src1->imm);
-}
+}*/
