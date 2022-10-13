@@ -7,11 +7,12 @@ typedef struct {
   struct {
     rtlreg_t _32; //   ./include/common.h:typedef word_t rtlreg_t;  word_t == uint32_t
   } gpr[32];
+ 
+  vaddr_t pc;   // ./include/common.h:typedef word_t vaddr_ts;
   rtlreg_t mepc;
   rtlreg_t mstatus;
   rtlreg_t mcause;
   rtlreg_t mtvec;
-  vaddr_t pc;   // ./include/common.h:typedef word_t vaddr_ts;
 } riscv32_CPU_state;
 
 // decode
