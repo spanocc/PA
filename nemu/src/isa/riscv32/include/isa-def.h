@@ -7,7 +7,10 @@ typedef struct {
   struct {
     rtlreg_t _32; //   ./include/common.h:typedef word_t rtlreg_t;  word_t == uint32_t
   } gpr[32];
-
+  rtlreg_t mepc;
+  rtlreg_t mstatus;
+  rtlreg_t mcause;
+  rtlreg_t mtvec;
   vaddr_t pc;   // ./include/common.h:typedef word_t vaddr_ts;
 } riscv32_CPU_state;
 
@@ -70,7 +73,23 @@ typedef struct {
       int32_t  simm20    : 1; //立即数的首位要是int，为了进行符号扩展
     } j;
 
+    struct {
+      uint32_t opcode1_0 : 2;
+      uint32_t opcode6_2 : 5;
+      uint32_t rd        : 5;
+      uint32_t funct3    : 3;
+      uint32_t rs1       : 5;
+      uint32_t csr       :12;
+    } c;
 
+     struct {
+      uint32_t opcode1_0 : 2;
+      uint32_t opcode6_2 : 5;
+      uint32_t rd        : 5;
+      uint32_t funct3    : 3;
+      uint32_t uimm4_0   : 5;
+      uint32_t csr       :12;
+    } ci;
 
     uint32_t val;
   } instr;

@@ -11,7 +11,7 @@
 #elif defined(__ISA_MIPS32__)
 # define nemu_trap(code) asm volatile ("move $v0, %0; .word 0xf0000000" : :"r"(code))
 #elif defined(__ISA_RISCV32__) || defined(__ISA_RISCV64__)
-# define nemu_trap(code) asm volatile("mv a0, %0; .word 0x0000006b" : :"r"(code)) //a0既能存返回值，又能作为参数传递，mv a0 a0意味着把main函数的返回值传给halt
+# define nemu_trap(code) asm volatile("mv a0, %0; .word 0x0000006b" : :"r"(code)) //a0既能存返回值，又能作为参数传递，mv a0 code意味着把main函数的返回值传给halt
 #elif
 # error unsupported ISA __ISA__
 #endif
