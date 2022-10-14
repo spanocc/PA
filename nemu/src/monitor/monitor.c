@@ -104,12 +104,10 @@ void print_space() {
 
 
 void ftrace_display(vaddr_t ad,int flag) {
-    if(ad == 0x80000600) printf("AAA");
-    if(flag == CALL_TYPE) printf("BBB");
     char func_name[64] = "???";
     vaddr_t ad_start = 0;
     for(int i = 0; i < sym_num; ++i) {
-        if(((sym_table[i].st_info) & 0xf) == STT_FUNC) {
+        if(1) {
             if( (flag == CALL_TYPE && ad == sym_table[i].st_value) || (flag == RET_TYPE && ad >= sym_table[i].st_value && ad < sym_table[i].st_value + sym_table[i].st_size)) {
                  strcpy(func_name, str_table+sym_table[i].st_name);
                  ad_start = sym_table[i].st_value;
@@ -117,7 +115,7 @@ void ftrace_display(vaddr_t ad,int flag) {
 
         }
     }
-    if(ad == 0x80000600) printf("%s\n",func_name);
+    //if(ad == 0x80000600) printf("%s\n",func_name);
     if((!strcmp(func_name, "???")) && flag == CALL_TYPE) return; //函数内的跳转不算，只有call函数首地址的时候才打印
     if(flag == CALL_TYPE) {
         printf("0x%x: ",cpu.pc);
