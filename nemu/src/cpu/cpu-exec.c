@@ -25,6 +25,7 @@ char iringbuf[IRINGBUF_SIZE][128];
 char (*iringbuf_start)[128] = iringbuf;
 char (*iringbuf_end)[128] = iringbuf + IRINGBUF_SIZE;
 char (*ptirb)[128] = iringbuf;
+static vaddr_t now_pc;
 
 void add_to_irbuf(Decode *s) {  
     if(ptirb == iringbuf_end) ptirb = iringbuf_start;
@@ -36,10 +37,11 @@ void irbuf_display() {
     for(int i = 0; i < IRINGBUF_SIZE; ++i) {
         vaddr_t adr_tmp = 0;
         sscanf(*(iringbuf+i), "%x", &adr_tmp);
-        if(adr_tmp == cpu.pc) printf(" --> ");
+        if(adr_tmp == now_pc) printf(" --> ");
         else printf("     ");
         printf("%s\n", *(iringbuf+i));
     }
+    printf("%x %x\n",cpu.pc, now_pc);
 }
 #endif
 
@@ -133,6 +135,7 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
   //在指令环形缓冲区添加指令(在执行指令之前)
   add_to_irbuf(s);
+  now_pc = pc;
 
 
 #endif
