@@ -1,5 +1,5 @@
 #ifdef CONFIG_FTRACE
-enum func_type { CALL_TYPE, RET_TYPE };
+enum func_type { CALL_TYPE, RET_TYPE } FUNC_TYPE;
 void ftrace_display();
 #endif
 
