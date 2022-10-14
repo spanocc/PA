@@ -22,7 +22,7 @@ extern void __am_asm_trap(void);
 
 bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
-  //把寄存器（__am_asm_trap是寄存器名称,他的值在trap.s中设置）的值写入mtvec中
+  //把_am_asm_trap（在trap.s中）的地址作为异常入口地址
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));  //asm volatile是内联汇编指令，类似于之前的halt指令，不过csrw mtvec是riscv32可以识别的指令（本来就有的指令，这点与halt不同）
 
   // register event handler
