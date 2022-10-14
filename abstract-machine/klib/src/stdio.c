@@ -41,7 +41,7 @@ int dig2str(char *str, int dig) {
 
 int printf(const char *fmt, ...) {
     assert(fmt != NULL);
-    char buf[256];
+    char buf[65536];
     va_list ap;
     int ret;
 
