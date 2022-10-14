@@ -41,7 +41,7 @@ void irbuf_display() {
         else printf("     ");
         printf("%s\n", *(iringbuf+i));
     }
-    printf("%x %x\n",cpu.pc, now_pc);
+    //printf("%x %x\n",cpu.pc, now_pc);
 }
 #endif
 
