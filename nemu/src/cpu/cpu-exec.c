@@ -31,6 +31,7 @@ void add_to_irbuf(Decode *s) {
     if(ptirb == iringbuf_end) ptirb = iringbuf_start;
     strcpy(*ptirb, s->logbuf);                               // printf("%s  111\n",*ptirb);
     ptirb++;
+    now_pc = s->pc;
 }
 
 void irbuf_display() {
@@ -50,7 +51,7 @@ void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
 
 #ifdef CONFIG_WATCHPOINT
-int check_watchpoint(); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
+int check_watchpoint(vaddr_t); //检查监视点 ~/ics2021/nemu/src/monitor/sdb/watchpoint.c
 #endif
 
 //该函数是在一条指令执行完才调用的，但是在执行指令之前就要把指令的logbuf放在iringbuf里，所以不能在这个函数里实现
@@ -66,7 +67,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
  
   //todo()
 #ifdef CONFIG_WATCHPOINT
-   if(check_watchpoint() == 1) {
+   if(check_watchpoint(_this->pc) == 1) {
        nemu_state.state = NEMU_STOP;
    }
 #endif
@@ -135,7 +136,6 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 
   //在指令环形缓冲区添加指令(在执行指令之前)
   add_to_irbuf(s);
-  now_pc = pc;
 
 
 #endif

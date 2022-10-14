@@ -87,7 +87,7 @@ void display_watchpoint() {
     }
 }
 
-int check_watchpoint() {
+int check_watchpoint(vaddr_t now_pc) {
     WP* pwp = head;
     if(pwp == NULL) return 0;
     int ret = 0; //ret为1表示监视点的值有变化
@@ -96,7 +96,7 @@ int check_watchpoint() {
         uint32_t new_result = expr(pwp->WatchName, &success);   //printf("0x%x  0x%x\n",new_result, pwp->value);
         if(new_result != pwp->value) { 
             ret = 1;
-            printf("Watchpoint %d change! : %s\ninitial:%u   now:%u\n", pwp->NO, pwp->WatchName, pwp->value, new_result);
+            printf("Watchpoint %d change! : %s\npc:0x%x\ninitial:%u   now:%u\n", pwp->NO, pwp->WatchName, now_pc,pwp->value, new_result);
         }
 
         pwp = pwp->next;
