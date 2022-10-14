@@ -20,7 +20,6 @@ def_EHelper(ecall) {
   vaddr_t in_addr = isa_raise_intr(11, cpu.pc);
   rtl_j(s, in_addr);
 #ifdef CONFIG_FTRACE 
-printf("%x aaaaaaaaaaaaaaaaaaa\n",in_addr);
   ftrace_display(in_addr, 0);  // 0 代表CALL_TYPE
 #endif
 }
