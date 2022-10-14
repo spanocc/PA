@@ -19,7 +19,8 @@ ecall 指令会将 CPU 从用户态转换到内核态，并跳转到 Syscall 的
 def_EHelper(ecall) {
   vaddr_t in_addr = isa_raise_intr(11, cpu.pc);
   rtl_j(s, in_addr);
-#ifdef CONFIG_FTRACE
+#ifdef CONFIG_FTRACE 
+printf("wozaizhewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww\n");
   ftrace_display(in_addr, 0);  // 0 代表CALL_TYPE
 #endif
 }
