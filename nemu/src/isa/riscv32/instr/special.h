@@ -5,9 +5,14 @@ def_EHelper(inv) {
 def_EHelper(nemu_trap) {
   rtl_hostcall(s, HOSTCALL_EXIT, NULL, &gpr(10), NULL, 0); // gpr(10) is $a0
 }
-
+/*
+RISC-V 中通过 ecall 指令进行 Syscall 的调用。 
+ecall 指令会将 CPU 从用户态转换到内核态，并跳转到 Syscall 的入口处。通过 a7 寄存器来标识是哪个 Syscall。
+至于调用 Syscall 要传递的参数则可以依次使用 a0-a5 这 6 个寄存器来存储。
+*/
+//从 M-mode 进行环境调用,异常号是11，我们的ecall环境调用都是从M（最高级）模式调用的，所以ecall的异常号都是11
 def_EHelper(ecall) {
-  vaddr_t in_addr = isa_raise_intr(gpr(17), cpu.pc);
+  vaddr_t in_addr = isa_raise_intr(11, cpu.pc);
   rtl_j(s, in_addr);
 }
 
