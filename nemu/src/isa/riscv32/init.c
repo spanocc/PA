@@ -17,7 +17,7 @@ static void restart() {
   /* The zero register is always 0. */
   cpu.gpr[0]._32 = 0;
   
-  //cpu.mstatus = 0x1800;  初始化反而会difftest错误
+  cpu.mstatus = 0x1800; 
 }
 
 void init_isa() {
