@@ -177,7 +177,11 @@ static int cmd_help(char *args) {
 }
 
 void sdb_set_batch_mode() {
+
+#ifndef CONFIG_WATCHPOINT //和监视点一起控制，如果定义了监视点则开启nemu调试
   is_batch_mode = true;
+#endif
+
 }
 
 void sdb_mainloop() {
