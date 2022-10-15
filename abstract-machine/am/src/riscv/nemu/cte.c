@@ -20,7 +20,7 @@ Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中�
     assert(c != NULL);
   }
 
-  return c;
+  return c;   //返回c的指针，同时也是sp的指针，所以sp可以不用保存
 }
 
 extern void __am_asm_trap(void);
