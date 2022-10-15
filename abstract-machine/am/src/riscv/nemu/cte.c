@@ -4,7 +4,11 @@
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
-Context* __am_irq_handle(Context *c) {
+Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中变出来的参数sp指针，而不是在c语言中创建的
+ 
+  for(int i = 0 ; i < 32; i++) printf("%d ",c->gpr[i]);
+  printf("\n%d\n%d\n%d\n",c->mcause,c->mstatus,c->mepc);
+
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
