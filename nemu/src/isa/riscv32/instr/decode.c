@@ -24,7 +24,7 @@ static def_DopHelper(r) {
 }
 
 static def_DopHelper(c) {
-  printf("0x%x\n",val);
+  //printf("0x%x\n",val);
   switch(val) {
     case 0x341:
       op->preg = &cpu.mepc; break;
