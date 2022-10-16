@@ -47,11 +47,12 @@ int dig2str16(char*str, uintptr_t dig) { //uintptr_t 有可移植性 在64(32)�
     }
     *p++ = c[(dig % 16)];
     //*p++ = 'x'; *p++ = '0';
+    *p = '\0';
     int len = strlen(buf);
     assert(len > 0);
     while(len--) {
         *str++ = buf[len];
-    }         printf("\n%s\n",buf);
+    }        // printf("\n%s\n",buf);
     return strlen(buf);
 }
 
