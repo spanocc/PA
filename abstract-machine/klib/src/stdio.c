@@ -112,7 +112,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                     ret += dig_len;
                     break;
                 case 'p':
-                    arg_ptr = va_arg(ap, int);
+                    arg_ptr = (int)va_arg(ap, int*);
                     dig_len = dig2str16(out, arg_ptr);
                     out += dig_len;
                     ret += dig_len;
