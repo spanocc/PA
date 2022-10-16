@@ -37,7 +37,7 @@ int dig2str(char *str, long long dig) {
     return strlen(buf);
 }
 
-int dig2str16(char*str, uint32_t dig) {
+int dig2str16(char*str, uintptr_t dig) {
     char c[32] = "0123456789abcdef";
     char  buf[32];
     char *p = buf;
