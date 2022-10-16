@@ -42,11 +42,11 @@ int dig2str16(char*str, uint32_t dig) {
     char  buf[32];
     char *p = buf;
     while(dig / 16) {
-        *p++ = c[(dig % 10)];
+        *p++ = c[(dig % 16)];
         dig /= 16;
     }
-    *p++ = c[(dig % 10)];
-    *p++ = 'x'; *p++ = '0';
+    *p++ = c[(dig % 16)];
+    //*p++ = 'x'; *p++ = '0';
     int len = strlen(buf);
     assert(len > 0);
     while(len--) {
