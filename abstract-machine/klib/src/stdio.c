@@ -79,6 +79,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
     int flag = 0;
     int arg_int;
     int dig_len;
+    uintptr_t arg_ptr;
     const char *arg_str;
     while(*fmt != '\0') {
         if(flag == 0) {
@@ -105,12 +106,18 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                     }//不加空字符
                     break;
                 case 'x':
-                case 'p':
                     arg_int = va_arg(ap, int);
                     dig_len = dig2str16(out, arg_int);
                     out += dig_len;
                     ret += dig_len;
                     break;
+                case 'p':
+                    arg_ptr = va_arg(ap, int);
+                    dig_len = dig2str16(out, arg_ptr);
+                    out += dig_len;
+                    ret += dig_len;
+                    break;
+
                 default: break;
             }
         }
