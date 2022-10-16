@@ -79,6 +79,7 @@ void *memcpy(void *out, const void *in, size_t n) {
 
 int memcmp(const void *s1, const void *s2, size_t n) {
     assert(s1 != NULL && s2 != NULL);
+    assert((s1 + n < s2) || (s2 + n < s1)); //检测重叠
     const char *p1 = s1, *p2 = s2;
     while(n--) {
         if(*p1 != *p2) return *p1 - *p2;

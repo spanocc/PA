@@ -40,6 +40,7 @@ void *malloc(size_t size) {
     assert(size > 0);
     char* ret = addr;
     addr += size;
+    if(addr >= (char *)heap.end) return NULL;
     return ret;
 #endif
   return NULL;
