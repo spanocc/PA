@@ -37,7 +37,7 @@ int dig2str(char *str, long long dig) {
     return strlen(buf);
 }
 
-int dig2str16(char*str, uintptr_t dig) {
+int dig2str16(char*str, uintptr_t dig) { //uintptr_t 有可移植性 在64(32)位机器上是 64(32)位
     char c[32] = "0123456789abcdef";
     char  buf[32];
     char *p = buf;
@@ -112,7 +112,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                     ret += dig_len;
                     break;
                 case 'p':
-                    arg_ptr = (int)va_arg(ap, int*);
+                    arg_ptr = (int)va_arg(ap, uintptr_t);
                     dig_len = dig2str16(out, arg_ptr);
                     out += dig_len;
                     ret += dig_len;
