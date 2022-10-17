@@ -38,11 +38,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
 // Elf_Phdr *phar = malloc(sizeof(Elf_Phdr) * elf_head.e_phnum);
 // Elf_Phdr *phar = (Elf_Phdr *)(&ramdisk_start + elf_head.e_phoff);   // printf("\n\n%p\n\n", phar);
+// ramdisk_start的地址不是4字节对齐的，所以可能出问题  
   Elf_Phdr phar;
   for(int i = 0; i < elf_head.e_phnum; ++i) {  //printf("%d",i);
     ramdisk_read(&phar, elf_head.e_phoff + i * sizeof(phar), sizeof(phar)); //必须借助memcpy函数把phdr结构体读进来，直接用指针访问的话会有地址不是4字节对齐的问题，所以只要是访问内存都用memcpy函数就行了，而创建的这个phdr变量肯定是对齐的
     //if(phar[i].p_type == PT_LOAD) {      这样子访问p_type会产生lw操作，且地址不是4字节对齐，会有difftest错误                       //printf("%x\n", phar[i].p_vaddr);
-    if(phar.p_type == PT_LOAD) {           printf("%x\n", phar.p_vaddr);
+    if(phar.p_type == PT_LOAD) {           //printf("%x\n", phar.p_vaddr);
       const char *buf = (char *)(&ramdisk_start + phar.p_offset);
       //size_t offest = (uint8_t *)phar[i].p_vaddr - &ramdisk_start;
       //ramdisk_write(buf, offest, phar[i].p_filesz);
