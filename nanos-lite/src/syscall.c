@@ -1,7 +1,7 @@
 #include <common.h>
 #include "syscall.h"
 
-#define CONFIG_STRACE
+//#define CONFIG_STRACE
 
 uintptr_t sys_yield();
 void sys_exit(uintptr_t);
