@@ -21,6 +21,7 @@ Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中�
           break;
         }else {
           ev.event = EVENT_SYSCALL;
+          c->mepc += 4;
           break;
         }
       default: ev.event = EVENT_ERROR; break;
