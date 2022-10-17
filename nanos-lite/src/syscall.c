@@ -33,7 +33,13 @@ void do_syscall(Context *c) {
       break;
     case SYS_write:
       c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
+      
+      #ifdef CONFIG_STRACE
+        printf("sys_write(%d, %x, %d) == %d\n", a[1], a[2], a[3], c->GPRx);
+      #endif
 
+
+      break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
