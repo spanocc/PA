@@ -21,8 +21,8 @@ def_EHelper(ecall) {
   // $a7 == -1
   if(gpr(17) == -1) in_addr = isa_raise_intr(11, cpu.pc);  //返回的是下一条指令的pc
   else {
-    in_addr = isa_raise_intr(11, cpu.pc); 
-    printf("$a7 == %d\n",gpr(7));
+    in_addr = isa_raise_intr(gpr(17), cpu.pc); 
+    printf("$a7 == %d\n",gpr(17));
   }
 
   rtl_j(s, in_addr);
