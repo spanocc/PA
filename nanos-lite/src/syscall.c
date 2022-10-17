@@ -1,9 +1,7 @@
 #include <common.h>
 #include "syscall.h"
 
-#ifdef CONFIG_STRACE
-printf("sys_yield() == %d\n", c->GPRx);
-#endif
+#define CONFIG_STRACE
 
 uintptr_t sys_yield();
 void sys_exit(uintptr_t);
@@ -21,7 +19,7 @@ void do_syscall(Context *c) {
 
       break;
     case SYS_exit:
-    
+
       #ifdef CONFIG_STRACE
         printf("sys_exit(%d) == void\n", a[0]);
       #endif
