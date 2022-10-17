@@ -123,11 +123,12 @@ void ftrace_display(vaddr_t ad,int flag) {
         printf("call [%s@0x%x]\n\n", func_name, ad_start);         //  printf("0x%x\n",ad);
         ++space_num;
     }
-    else if(flag == RET_TYPE) {
+    else if(flag == RET_TYPE || flag == 2) {
         printf("0x%x: ",cpu.pc);
         --space_num;
         print_space();
-        printf("ret  [%s]\n\n", func_name);
+        if(flag == 2) printf("mret [%s]\n\n", func_name);
+        else printf("ret  [%s]\n\n", func_name);
     }
 }
 

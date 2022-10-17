@@ -27,7 +27,7 @@ def_EHelper(ecall) {
 def_EHelper(mret) {
   rtl_j(s, cpu.mepc);
 #ifdef CONFIG_FTRACE 
-  ftrace_display(cpu.pc, 1);  // 0 代表CALL_TYPE
+  ftrace_display(cpu.pc, 2);  // 0 代表CALL_TYPE
 #endif
 }
 
