@@ -37,7 +37,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   assert(elf_head.e_machine == EXPECT_TYPE);
 
 // Elf_Phdr *phar = malloc(sizeof(Elf_Phdr) * elf_head.e_phnum);
-  Elf_Phdr *phar = (Elf_Phdr *)(&ramdisk_start + elf_head.e_phoff);
+  Elf_Phdr *phar = (Elf_Phdr *)(&ramdisk_start + elf_head.e_phoff);    printf("\n\n%p\n\n", phar);
   for(int i = 0; i < elf_head.e_phnum; ++i) {  //printf("%d",i);
     if(phar[i].p_type == PT_LOAD) {      //printf("%x\n", phar[i].p_vaddr);
       const char *buf = (char *)(&ramdisk_start + phar[i].p_offset);
