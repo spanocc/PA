@@ -39,9 +39,9 @@ static void invalid_instr(vaddr_t thispc) {
 def_rtl(hostcall, uint32_t id, rtlreg_t *dest, const rtlreg_t *src1,
     const rtlreg_t *src2, word_t imm) {
   switch (id) {
-    case HOSTCALL_EXIT:
+    case HOSTCALL_EXIT:  //正常退出，绿色的
       difftest_skip_ref();
-      set_nemu_state(NEMU_END, s->pc, *src1);//src1寄存器是a0寄存器，存着结束码, a0存的是函数返回值，此时是main函数的返回值
+      set_nemu_state(NEMU_END, s->pc, *src1);  //src1寄存器是a0寄存器，存着结束码, a0存的是函数返回值，此时是main函数的返回值
       break;
     case HOSTCALL_INV: invalid_instr(s->pc); break;
 #ifdef CONFIG_HAS_PORT_IO

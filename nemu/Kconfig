@@ -155,6 +155,11 @@ config MTRACE
   bool "Enable memory trace"
   default y
 
+config STRACE
+  depends on TRACE
+  bool "Enable system_call trace"
+  default y
+
 config ETRACE
   depends on TRACE
   bool "Enable exception trace"
