@@ -21,16 +21,17 @@ def_EHelper(jal) {
 //auipc + jalr  32 比特位 pc 相对寻址范围的任意地址跳转
 //可以实现调用返回（只需 ra 作为源寄存器，零寄存器（x0）作为目的寄存器）
 def_EHelper(jalr) {
+    uint32_t addr = (*dsrc1 + id_src2->imm) & 0xfffffffe;  //有可能目的寄存器和源寄存器是一个，所以要把地址先存下来
+    rtl_j(s, addr); //先更新pc，有可能目的寄存器和源寄存器是一个，所以要把地址先存下来
     rtl_li(s, ddest, s->snpc); //把 jump 指令的下一地址（pc + 4）写入寄存器 rd
     //由寄存器 rs1 中的操作数加上 12 比特位的 I 格式的有符号立即数，然后把最小有效位设置为 0 来产生分支目标地址。
-    rtl_j(s, (*dsrc1 + id_src2->imm) & 0xfffffffe);
 
 #ifdef CONFIG_FTRACE 
     if(dsrc1 == &gpr(1) && id_src2->imm == 0) { //ret
         ftrace_display(cpu.pc, RET_TYPE);
     }
     else {   //printf("64646545"); 
-        ftrace_display((*dsrc1 + id_src2->imm) & 0xfffffffe, CALL_TYPE);
+        ftrace_display(addr, CALL_TYPE);
     }
 #endif
 
