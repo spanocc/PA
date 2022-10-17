@@ -76,7 +76,29 @@ void *memcpy(void *out, const void *in, size_t n) {
     }
     return out;
 }
-
+/*
+void *memcpy(void *out, const void *in, size_t n) {
+    assert(out != NULL && in != NULL);
+    char *p1 = out;
+    const char *p2 = in;
+    while(n) {
+        if(((uintptr_t)out % 4 == 0) && ((uintptr_t)in % 4 == 0) && n >= 4) {
+            int *l1 = (int *)p1;
+            const int *l2 = (const int *)p2;
+            *l1 = *l2;
+            p1 += 4;
+            p2 += 4;
+            n -= 4;
+        }else {
+            *p1 = *p2;
+            p1++;
+            p2++;
+            n--;
+        }
+    }
+    return out;
+}
+*/
 int memcmp(const void *s1, const void *s2, size_t n) {
     assert(s1 != NULL && s2 != NULL);
     assert((s1 + n < s2) || (s2 + n < s1)); //检测重叠
