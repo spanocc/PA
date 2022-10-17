@@ -14,7 +14,7 @@ Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中�
     switch (c->mcause) {
       case 11:     //$a7 是第一个参数，也就是syscall函数中的type参数，且type从0开始（enum类型）
         printf("mcause == 11\n");
-        printf("$a7 == %d\n", c->gpr[17]);
+        printf("$a7 == %d\n\n", c->gpr[17]);
         if(c->gpr[17] == -1) {
           ev.event = EVENT_YIELD; 
           c->mepc += 4;
