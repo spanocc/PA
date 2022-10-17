@@ -59,6 +59,7 @@ int _open(const char *path, int flags, mode_t mode) {
   _exit(SYS_open);
   return 0;
 }
+//./libs/libc/include/_syslist.h:#define _write write
 
 int _write(int fd, void *buf, size_t count) {
  _syscall_(SYS_write, fd, buf, count);

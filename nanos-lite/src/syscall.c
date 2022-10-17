@@ -26,16 +26,16 @@ void do_syscall(Context *c) {
     case SYS_exit:
 
       #ifdef CONFIG_STRACE
-        printf("sys_exit(%d) == void\n", a[1]);
+        printf("sys_exit(%d) == void\n", (int)a[1]); 
       #endif
 
       sys_exit(a[0]);
       break;
     case SYS_write:
-      c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
+      c->GPRx = sys_write((int)a[1], (void *)a[2], a[3]);
       
       #ifdef CONFIG_STRACE
-        printf("sys_write(%d, %x, %d) == %d\n", a[1], a[2], a[3], c->GPRx);
+        printf("sys_write(%d, %x, %d) == %d\n", (int)a[1], a[2], (int)a[3], c->GPRx);
       #endif
 
 
