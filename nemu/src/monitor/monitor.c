@@ -40,7 +40,7 @@ Elf32_Sym sym_table[512];
 int sym_num = 0;
 char str_table[65536];
 static int space_num = 0;
-enum func_type { CALL_TYPE, RET_TYPE };
+enum func_type { CALL_TYPE, RET_TYPE, MRET_TYPE, ECALL_TYPE };
 
 void sys_table_display() {
     for(int i =0;i<sym_num;++i) printf("%-12x%-12x%s\n", sym_table[i].st_value, sym_table[i].st_size, str_table+sym_table[i].st_name);
@@ -108,7 +108,7 @@ void ftrace_display(vaddr_t ad,int flag) {
     vaddr_t ad_start = 0;
     for(int i = 0; i < sym_num; ++i) {
         if(1) {  //类型不是函数的也算上 比如汇编代码里的函数
-            if( (flag == CALL_TYPE && ad == sym_table[i].st_value) || (flag == RET_TYPE && ad >= sym_table[i].st_value && ad < sym_table[i].st_value + sym_table[i].st_size)) {
+            if( ((flag == CALL_TYPE || flag == ECALL_TYPE) && ad == sym_table[i].st_value) || ((flag == RET_TYPE || flag == MRET_TYPE) && ad >= sym_table[i].st_value && ad < sym_table[i].st_value + sym_table[i].st_size)) {
                  strcpy(func_name, str_table+sym_table[i].st_name);
                  ad_start = sym_table[i].st_value;
             }
@@ -117,17 +117,18 @@ void ftrace_display(vaddr_t ad,int flag) {
     }
     if(!strcmp(func_name, "putch")) return;  //不看putch函数
     if((!strcmp(func_name, "???")) && flag == CALL_TYPE) return; //函数内的跳转不算，只有call函数首地址的时候才打印
-    if(flag == CALL_TYPE) {
+    if(flag == CALL_TYPE || flag == ECALL_TYPE) {
         printf("0x%x: ",cpu.pc);
         print_space();
-        printf("call [%s@0x%x]\n\n", func_name, ad_start);         //  printf("0x%x\n",ad);
+        if(flag == ECALL_TYPE) printf("ecall[%s]\n\n", func_name);
+        else printf("call [%s@0x%x]\n\n", func_name, ad_start);         //  printf("0x%x\n",ad);
         ++space_num;
     }
-    else if(flag == RET_TYPE || flag == 2) {
+    else if(flag == RET_TYPE || flag == MRET_TYPE) {
         printf("0x%x: ",cpu.pc);
         --space_num;
         print_space();
-        if(flag == 2) printf("mret [%s]\n\n", func_name);
+        if(flag == MRET_TYPE) printf("mret [%s]\n\n", func_name);
         else printf("ret  [%s]\n\n", func_name);
     }
 }
