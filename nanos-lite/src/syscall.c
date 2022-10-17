@@ -5,7 +5,7 @@
 
 uintptr_t sys_yield();
 void sys_exit(uintptr_t);
-uintptr_t sys_write(int fd, const void * buf, uintptr_t count);
+uintptr_t sys_write(int fd, const void * buf, size_t count);
 
 
 void do_syscall(Context *c) {
@@ -19,7 +19,7 @@ void do_syscall(Context *c) {
       c->GPRx = sys_yield();
 
       #ifdef CONFIG_STRACE
-        printf("sys_yield() == %d\n", c->GPRx);
+        printf("sys_yield() == %d\n", (int)(c->GPRx));
       #endif
 
       break;
@@ -40,7 +40,7 @@ void do_syscall(Context *c) {
 
 
       break;
-    default: panic("Unhandled syscall ID = %d", a[0]);
+    default: panic("Unhandled syscall ID = %d", (int)a[0]);
   }
 }
 
@@ -54,7 +54,7 @@ void sys_exit(uintptr_t _exit) {
   halt(_exit);
 }
 
-uintptr_t sys_write(int fd, const void * buf, uintptr_t count) {
+uintptr_t sys_write(int fd, const void * buf, size_t count) {
   if(fd == 1 || fd == 2) {
     for(uintptr_t i = 0; i < count; ++i) {
       const char *c = buf;
