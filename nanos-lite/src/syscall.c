@@ -43,7 +43,7 @@ void do_syscall(Context *c) {
       c->GPRx = sys_brk(a[1]);
       
       #ifdef CONFIG_STRACE
-        printf("sys_brk(%d) == %d\n", (int)a[1], (int)(c->GPRx));
+        printf("sys_brk(%d) == %x\n", a[1], (int)(c->GPRx));
       #endif
 
       break;
