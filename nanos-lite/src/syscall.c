@@ -5,8 +5,18 @@
 
 int sys_yield();
 void sys_exit(intptr_t);
-int sys_write(int fd, const void * buf, size_t count);
+size_t sys_write(int fd, const void * buf, size_t count);
+size_t sys_read(int fd, void * buf, size_t count);
 int sys_brk(intptr_t incr);
+size_t sys_lseek(int fd, size_t offset, int whence);
+int sys_close(int fd);
+int sys_open(const char *pathname, int flags, int mode);
+
+int fs_open(const char *pathname, int flags, int mode);
+size_t fs_read(int fd, void *buf, size_t len);
+size_t fs_write(int fd, const void *buf, size_t len);
+size_t fs_lseek(int fd, size_t offset, int whence);
+int fs_close(int fd);
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -43,11 +53,42 @@ void do_syscall(Context *c) {
       c->GPRx = sys_brk(a[1]);
       
       #ifdef CONFIG_STRACE
-        printf("sys_brk(%d) == %x\n", a[1], (int)(c->GPRx));
+        printf("sys_brk(%d) == %d\n", (int)a[1], (int)(c->GPRx));
       #endif
 
       break;
+    case SYS_read:
+      c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
 
+      #ifdef CONFIG_STRACE
+        printf("sys_read(%d, %x, %d) == %d\n", (int)a[1], a[2], (int)a[3], (int)(c->GPRx));
+      #endif
+
+      break;
+    case SYS_open:
+      c->GPRx = sys_open((const char*)a[1], a[2], a[3]);
+
+      #ifdef CONFIG_STRACE
+        printf("sys_open(%s, %d, %d) == %d\n", (const char*)a[1], (int)a[2], (int)a[3], (int)(c->GPRx));
+      #endif
+
+      break;
+    case SYS_lseek:
+      c->GPRx = sys_lseek(a[1], a[2], a[3]);
+
+      #ifdef CONFIG_STRACE
+        printf("sys_lseek(%d, %d, %d) == %d\n", (int)a[1], (int)a[2], (int)a[3], (int)(c->GPRx));
+      #endif
+
+      break;
+    case SYS_close:
+      c->GPRx = sys_close(a[1]);
+
+      #ifdef CONFIG_STRACE
+        printf("sys_close(%d == %d\n", (int)a[1], (int)(c->GPRx));
+      #endif
+
+      break;
     default: panic("Unhandled syscall ID = %d", (int)a[0]);
   }
 }
@@ -62,7 +103,7 @@ void sys_exit(intptr_t _exit) {
   halt(_exit);
 }
 
-int sys_write(int fd, const void * buf, size_t count) {
+size_t sys_write(int fd, const void * buf, size_t count) {
   if(fd == 1 || fd == 2) {
     for(uintptr_t i = 0; i < count; ++i) {
       const char *c = buf;
@@ -70,10 +111,28 @@ int sys_write(int fd, const void * buf, size_t count) {
     }
     return count;
   }
-  return 0;
+  else {
+    return fs_write(fd, buf, count);
+  }
 }
 
 int sys_brk(intptr_t incr) {
 
   return 0;
+}
+
+size_t sys_read(int fd, void * buf, size_t count) {
+  return fs_read(fd, buf, count);
+}
+
+int sys_open(const char *pathname, int flags, int mode) {
+  return fs_open(pathname, flags, mode);
+}
+
+size_t sys_lseek(int fd, size_t offset, int whence) {
+  return fs_lseek(fd, offset, whence);
+}
+
+int sys_close(int fd) {
+  return fs_close(fd);
 }

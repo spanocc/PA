@@ -32,7 +32,7 @@ f(30) f(31)
 __am_asm_trap:
   addi sp, sp, -CONTEXT_SIZE          //;给上下文创建栈空间
 
-  MAP(REGS, PUSH)                     //;寄存器压栈  sp栈顶指针不保存
+  MAP(REGS, PUSH)                     //;寄存器压栈  sp栈顶指针不保存 
 
   csrr t0, mcause
   csrr t1, mstatus

@@ -23,14 +23,24 @@ extern uint8_t ramdisk_start;
 extern uint8_t ramdisk_end;
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
+int fs_open(const char *pathname, int flags, int mode);
+size_t fs_read(int fd, void *buf, size_t len);
+size_t fs_write(int fd, const void *buf, size_t len);
+size_t fs_lseek(int fd, size_t offset, int whence);
+int fs_close(int fd);
+
+
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
 // TODO();
 // uintptr_t prog_addr = 0x83000000;
 
+  int fd;
+  fd = fs_open(filename, 0, 0);
+
   int ret ;
   Elf_Ehdr elf_head;
-  ret = ramdisk_read(&elf_head, 0, sizeof(Elf_Ehdr));
+  ret = fs_read(fd, &elf_head, sizeof(Elf_Ehdr));
   assert(ret > 0);
   //printf("0x%x\n", *(elf_head.e_ident));
   assert(*(elf_head.e_ident) == 0x7f);
@@ -40,17 +50,25 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 // Elf_Phdr *phar = (Elf_Phdr *)(&ramdisk_start + elf_head.e_phoff);   // printf("\n\n%p\n\n", phar);
 // ramdisk_start的地址不是4字节对齐的，所以可能出问题  
   Elf_Phdr phar;
+  fs_lseek(fd, elf_head.e_phoff, 0);
   for(int i = 0; i < elf_head.e_phnum; ++i) {  //printf("%d",i);
-    ramdisk_read(&phar, elf_head.e_phoff + i * sizeof(phar), sizeof(phar)); //必须借助memcpy函数把phdr结构体读进来，直接用指针访问的话会有地址不是4字节对齐的问题，所以只要是访问内存都用memcpy函数就行了，而创建的这个phdr变量肯定是对齐的
+    fs_lseek(fd, elf_head.e_phoff + i * sizeof(phar), 0);
+    fs_read(fd, &phar, sizeof(phar));
+    //ramdisk_read(&phar, elf_head.e_phoff + i * sizeof(phar), sizeof(phar)); //必须借助memcpy函数把phdr结构体读进来，直接用指针访问的话会有地址不是4字节对齐的问题，所以只要是访问内存都用memcpy函数就行了，而创建的这个phdr变量肯定是对齐的
     //if(phar[i].p_type == PT_LOAD) {      这样子访问p_type会产生lw操作，且地址不是4字节对齐，会有difftest错误                       //printf("%x\n", phar[i].p_vaddr);
     if(phar.p_type == PT_LOAD) {           printf("%x\n", phar.p_vaddr);
-      const char *buf = (char *)(&ramdisk_start + phar.p_offset);
+      //const char *buf = (char *)(&ramdisk_start + phar.p_offset);
       //size_t offest = (uint8_t *)phar[i].p_vaddr - &ramdisk_start;
       //ramdisk_write(buf, offest, phar[i].p_filesz);
-      memcpy((uint8_t *)phar.p_vaddr, buf, phar.p_filesz);
+      //memcpy((uint8_t *)phar.p_vaddr, buf, phar.p_filesz);
+
+      fs_lseek(fd, phar.p_offset, 0);
+      fs_read(fd, (uint8_t *)phar.p_vaddr, phar.p_filesz);
       memset((char *)(phar.p_vaddr + phar.p_filesz), 0, phar.p_memsz - phar.p_filesz);
     }
   }
+
+  fs_close(fd);
   return elf_head.e_entry;
 }
 
