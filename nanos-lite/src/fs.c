@@ -64,8 +64,9 @@ size_t fs_read(int fd, void *buf, size_t len) {
   size_t ret = ramdisk_read(buf, file_table[fd].open_offset, tlen);
   file_table[fd].open_offset += tlen;
 
+int num = 10;
 char *c = buf;
-while(*c != '\n') {
+while(num--) {
   putch(*c); ++c;
 }
 
