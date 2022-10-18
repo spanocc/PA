@@ -3,10 +3,10 @@
 
 //#define CONFIG_STRACE
 
-uintptr_t sys_yield();
-void sys_exit(uintptr_t);
-uintptr_t sys_write(int fd, const void * buf, size_t count);
-
+int sys_yield();
+void sys_exit(intptr_t);
+int sys_write(int fd, const void * buf, size_t count);
+int sys_brk(intptr_t incr);
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -35,26 +35,34 @@ void do_syscall(Context *c) {
       c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
       
       #ifdef CONFIG_STRACE
-        printf("sys_write(%d, %x, %d) == %d\n", (int)a[1], a[2], (int)a[3], c->GPRx);
+        printf("sys_write(%d, %x, %d) == %d\n", (int)a[1], a[2], (int)a[3], (int)(c->GPRx));
+      #endif
+    
+      break;
+    case SYS_brk:
+      c->GPRx = sys_brk(a[1]);
+      
+      #ifdef CONFIG_STRACE
+        printf("sys_brk(%d) == %d\n", (int)a[1], (int)(c->GPRx));
       #endif
 
-
       break;
+
     default: panic("Unhandled syscall ID = %d", (int)a[0]);
   }
 }
 
 
-uintptr_t sys_yield() {
+int sys_yield() {
   yield();
   return 0;
 }
 
-void sys_exit(uintptr_t _exit) {
+void sys_exit(intptr_t _exit) {
   halt(_exit);
 }
 
-uintptr_t sys_write(int fd, const void * buf, size_t count) {
+int sys_write(int fd, const void * buf, size_t count) {
   if(fd == 1 || fd == 2) {
     for(uintptr_t i = 0; i < count; ++i) {
       const char *c = buf;
@@ -62,5 +70,10 @@ uintptr_t sys_write(int fd, const void * buf, size_t count) {
     }
     return count;
   }
+  return 0;
+}
+
+int sys_brk(intptr_t incr) {
+
   return 0;
 }
