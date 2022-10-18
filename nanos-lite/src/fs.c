@@ -63,6 +63,13 @@ size_t fs_read(int fd, void *buf, size_t len) {
   //tlen表示实际读入的字节数
   size_t ret = ramdisk_read(buf, file_table[fd].open_offset, tlen);
   file_table[fd].open_offset += tlen;
+
+char *c = buf;
+while(*c != '\n') {
+  putch(*c); ++c;
+}
+
+
   return ret;
 }
 
