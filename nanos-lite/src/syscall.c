@@ -58,7 +58,7 @@ void do_syscall(Context *c) {
 
       break;
     case SYS_read:
-      c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
+      c->GPRx = sys_read(a[1], (void *)a[2], a[3]);
 
       #ifdef CONFIG_STRACE
         printf("sys_read(%d, %x, %d) == %d\n", (int)a[1], a[2], (int)a[3], (int)(c->GPRx));
