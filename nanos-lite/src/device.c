@@ -52,6 +52,8 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
     *(char *)(buf + i) = dispinfo[i];
   }
 
+  printf("%s\n",dispinfo);
+
   return len;
 }
 
