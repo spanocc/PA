@@ -1,7 +1,7 @@
 #include <common.h>
 #include "syscall.h"
 
-//#define CONFIG_STRACE
+#define CONFIG_STRACE
 struct timeval {
     long int tv_sec;     // 秒数
     long int tv_usec;     // 微秒数
