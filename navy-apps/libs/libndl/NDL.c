@@ -58,6 +58,7 @@ void NDL_OpenCanvas(int *w, int *h) {
       if(flag == 0) {
         sscanf(c, "%d", &sw);
         flag = 1;
+        while(*c <= '9' && *c >= '0') c++;
       }
       else sscanf(c, "%d", &sh);
     }
