@@ -44,10 +44,10 @@ size_t events_read(void *buf, size_t offset, size_t len) {  //printf("\n\n\nssss
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  int w = io_read(AM_GPU_CONFIG).width;  
-  int h = io_read(AM_GPU_CONFIG).height; 
+  int sw = io_read(AM_GPU_CONFIG).width;  
+  int sh = io_read(AM_GPU_CONFIG).height; 
   char dispinfo[256];
-  sprintf(dispinfo, "WIDTH : %d\nHEIGHT : %d\n", w, h);
+  sprintf(dispinfo, "WIDTH : %d\nHEIGHT : %d\n", sw, sh);
   for(int i = 0; i < len; ++i) {
     *(char *)(buf + i) = dispinfo[i];
   }
@@ -56,9 +56,13 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 
   return len;
 }
-
+//一行一行调用fb_write,len是在这一行的像素个数,一个像素是一个32位数
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  int sw = io_read(AM_GPU_CONFIG).width;  
+  //int sh = io_read(AM_GPU_CONFIG).height; 
+  io_write(AM_GPU_FBDRAW, offset % sw, offset / sw, (uint32_t *)buf, len, 1, true); //每次都同步到屏幕
+
+  return len;
 }
 
 void init_device() {

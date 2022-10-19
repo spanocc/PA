@@ -49,8 +49,9 @@ void NDL_OpenCanvas(int *w, int *h) {
     close(fbctl);
   }
 
+  int fd = open("/proc/dispinfo", 0, 0);
   char dispinfo[64];
-  int ret = read(4, dispinfo, sizeof(dispinfo)-1);
+  int ret = read(fd, dispinfo, sizeof(dispinfo)-1);
   int sw, sh, flag = 0;
   char *c = dispinfo;
   while(*c != '\0') {
@@ -64,19 +65,47 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     c++;
   }
-  
+/* 
   printf("sw:%d  sh:%d\n",sw ,sh);
-  printf("w:%d  h:%d\n",*w, *h);
-
+  printf("w:%d   h:%d\n",*w, *h);
+*/
   if(*w == 0 && *h == 0) {
     *w = sw;
     *h = sh;
   }
+  close(fd);
   assert(*w <= sw && *h <= sh);
 
 }
-
+//一行一行写
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+
+  int fd = open("/proc/dispinfo", 0, 0);
+  char dispinfo[64];
+  int ret = read(fd, dispinfo, sizeof(dispinfo)-1);
+  int sw, sh, flag = 0;
+  char *c = dispinfo;
+  while(*c != '\0') {
+    if(*c <= '9' && *c >= '0') {
+      if(flag == 0) {
+        sscanf(c, "%d", &sw);
+        flag = 1;
+      }
+      else sscanf(c, "%d", &sh);
+      while(*(c+1) <= '9' && *(c+1) >= '0') c++;
+    }
+    c++;
+  }
+  close(fd);
+
+  fd = open("/dev/fb", 0, 0);
+  uint32_t *cur = pixels;
+  for(int i = 0; i < h; ++i)  {
+    lseek(fd, (y + i) * sw + x, 0); //移动到（x,y+i)处 写 w个像素
+    write(fd, cur, w);
+    cur += w;
+  }
+  close(fd);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
