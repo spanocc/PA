@@ -66,6 +66,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   }
   
   printf("sw:%d  sh:%d\n",sw ,sh);
+  printf("w:%d  h:%d\n",*w, *h);
 
   if(*w == 0 && *h == 0) {
     *w = sw;
