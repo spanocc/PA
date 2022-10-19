@@ -3,13 +3,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+//后加的
 #include <sys/time.h> //timeval
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include<assert.h>
+
 
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
-int _open(const char *path, int flags, mode_t mode);
 
 uint32_t NDL_GetTicks() {
   struct timeval t;
@@ -43,6 +48,30 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
   }
+
+  char dispinfo[64];
+  int ret = read(4, dispinfo, sizeof(dispinfo)-1);
+  int sw, sh, flag = 0;
+  char *c = dispinfo;
+  while(*c != '\0') {
+    if(*c <= '9' && *c >= '0') {
+      if(flag == 0) {
+        sscanf(c, "%d", &sw);
+        flag = 1;
+      }
+      else sscanf(c, "%d", &sh);
+    }
+    c++;
+  }
+  
+  printf("sw:%d  sh:%d\n",sw ,sh);
+
+  if(*w == 0 && *h == 0) {
+    *w = sw;
+    *h = sh;
+  }
+  assert(*w <= sw && *h <= sh);
+
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
