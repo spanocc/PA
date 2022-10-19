@@ -33,11 +33,14 @@ size_t events_read(void *buf, size_t offset, size_t len) {  //printf("\n\n\nssss
 
   if(ev.keydown) event[1] = 'd';
   strcat(event, keyname[ev.keycode]);
-  strcat(event, "\n");                                printf("\n\n\n%s\n\n\n",event);
+  strcat(event, "\n");                                //printf("\n\n\n%s\n\n\n",event);
   while(event[ret] != '\0' && ret < len) {
-    *(char *)buf = event[ret++];
-  } //空字符不复制
-  return ret;
+    *(char *)(buf + ret) = event[ret];
+    ++ret;
+  } 
+  if(ret < len) *(char *)(buf + ret) = '\0';
+  else *(char *)(buf + len - 1) = '\0';
+  return ret; 
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
