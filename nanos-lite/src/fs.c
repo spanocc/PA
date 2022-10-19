@@ -65,7 +65,7 @@ size_t fs_read(int fd, void *buf, size_t len) {
   //tlen表示实际读入的字节数
   size_t ret = 0;
   if(file_table[fd].read == NULL) ret = ramdisk_read(buf, file_table[fd].open_offset, tlen); //普通文件
-  else ret = file_table[fd].read(buf, file_table[fd].open_offset, tlen);
+  else ret = file_table[fd].read(buf, file_table[fd].open_offset, len); //使用原长度
 
   file_table[fd].open_offset += tlen;
   return ret;
@@ -77,7 +77,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   //tlen表示实际读入的字节数
   size_t ret = 0;
   if(file_table[fd].write == NULL) ret = ramdisk_write(buf, file_table[fd].open_offset, tlen);
-  else ret = file_table[fd].write(buf, file_table[fd].open_offset, tlen);
+  else ret = file_table[fd].write(buf, file_table[fd].open_offset, len);
 
   file_table[fd].open_offset += tlen;
   return ret;
