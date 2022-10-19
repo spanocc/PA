@@ -121,16 +121,16 @@ void sys_exit(intptr_t _exit) {
 }
 
 size_t sys_write(int fd, const void * buf, size_t count) {
-  /*if(fd == 1 || fd == 2) {
+  if(fd == 1 || fd == 2) {
     for(uintptr_t i = 0; i < count; ++i) {
       const char *c = buf;
       putch(*(c + i));
     }
     return count;
-  }*/
-  //else {
+  }
+  else {
     return fs_write(fd, buf, count);
-  //}
+  }
 }
 
 int sys_brk(intptr_t incr) {
