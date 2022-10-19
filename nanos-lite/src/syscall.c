@@ -99,12 +99,12 @@ void do_syscall(Context *c) {
 
       break;
     case SYS_gettimeofday:
-      
-
       c->GPRx = sys_gettimeofday((struct timeval*)a[1], (struct timezone*)a[2]);
+
       #ifdef CONFIG_STRACE
-        printf("sys_gettimeofday()\n");
+        printf("sys_gettimeofday() == %d\n",(int)c->GPRx);
       #endif
+
       break;
     default: panic("Unhandled syscall ID = %d", (int)a[0]);
   }
@@ -155,8 +155,9 @@ int sys_close(int fd) {
 }
 
 int sys_gettimeofday(struct timeval* tv, struct timezone* tz) {
-  /*uint64_t us = io_read(AM_TIMER_UPTIME).us;
+  uint64_t us = io_read(AM_TIMER_UPTIME).us;
   tv->tv_sec = us / 1000000;
-  tv->tv_usec = us - (tv->tv_sec * 1000000);*/
+  tv->tv_usec = us - (tv->tv_sec * 1000000);
+  printf("%d  %d\n",(int)tv->tv_sec, (int)tv->tv_usec);
   return 0;
 }
