@@ -99,11 +99,12 @@ void do_syscall(Context *c) {
 
       break;
     case SYS_gettimeofday:
+      
+
+      c->GPRx = sys_gettimeofday((struct timeval*)a[1], (struct timezone*)a[2]);
       #ifdef CONFIG_STRACE
         printf("sys_gettimeofday()\n");
       #endif
-
-      c->GPRx = sys_gettimeofday((struct timeval*)a[1], (struct timezone*)a[2]);
       break;
     default: panic("Unhandled syscall ID = %d", (int)a[0]);
   }
