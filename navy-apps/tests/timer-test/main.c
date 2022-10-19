@@ -5,7 +5,7 @@ int main() {
     uint32_t msec = 500;
     while(1) {
         while(NDL_GetTicks() < msec);
-        printf("%dms\n");
+        printf("%dms\n",msec);
         msec += 500;
     }
 }
