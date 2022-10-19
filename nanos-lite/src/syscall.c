@@ -2,7 +2,14 @@
 #include "syscall.h"
 
 //#define CONFIG_STRACE
-
+struct timeval {
+    long int tv_sec;     // 秒数
+    long int tv_usec;     // 微秒数
+};
+struct timezone {
+    int tz_minuteswest;/*格林威治时间往西方的时差*/
+    int tz_dsttime;    /*DST 时间的修正方式*/
+};
 int sys_yield();
 void sys_exit(intptr_t);
 size_t sys_write(int fd, const void * buf, size_t count);
@@ -11,6 +18,8 @@ int sys_brk(intptr_t incr);
 size_t sys_lseek(int fd, size_t offset, int whence);
 int sys_close(int fd);
 int sys_open(const char *pathname, int flags, int mode);
+int sys_gettimeofday(struct timeval* tv, struct timezone* tz);
+
 
 int fs_open(const char *pathname, int flags, int mode);
 size_t fs_read(int fd, void *buf, size_t len);
@@ -89,6 +98,13 @@ void do_syscall(Context *c) {
       #endif
 
       break;
+    case SYS_gettimeofday:
+      #ifdef CONFIG_STRACE
+        printf("sys_gettimeofday()\n");
+      #endif
+
+      c->GPRx = sys_gettimeofday((struct timeval*)a[1], (struct timezone*)a[2]);
+      break;
     default: panic("Unhandled syscall ID = %d", (int)a[0]);
   }
 }
@@ -104,16 +120,16 @@ void sys_exit(intptr_t _exit) {
 }
 
 size_t sys_write(int fd, const void * buf, size_t count) {
-  if(fd == 1 || fd == 2) {
+  /*if(fd == 1 || fd == 2) {
     for(uintptr_t i = 0; i < count; ++i) {
       const char *c = buf;
       putch(*(c + i));
     }
     return count;
-  }
-  else {
+  }*/
+  //else {
     return fs_write(fd, buf, count);
-  }
+  //}
 }
 
 int sys_brk(intptr_t incr) {
@@ -135,4 +151,11 @@ size_t sys_lseek(int fd, size_t offset, int whence) {
 
 int sys_close(int fd) {
   return fs_close(fd);
+}
+
+int sys_gettimeofday(struct timeval* tv, struct timezone* tz) {
+  uint64_t us = io_read(AM_TIMER_UPTIME).us;
+  tv->tv_sec = us / 1000000;
+  tv->tv_usec = us - (tv->tv_sec * 1000000);
+  return 0;
 }

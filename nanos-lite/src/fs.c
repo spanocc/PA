@@ -33,11 +33,13 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
   return 0;
 }
 
+size_t serial_write(const void *buf, size_t offset, size_t len);
+
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
-  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write},
-  [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write},
+  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
+  [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
 #include "files.h"
 };
 
@@ -58,19 +60,25 @@ int fs_open(const char *pathname, int flags, int mode) {
 }
 
 size_t fs_read(int fd, void *buf, size_t len) {
-  assert(fd != FD_STDIN && fd != FD_STDOUT && fd != FD_STDERR);
+  //assert(fd != FD_STDIN && fd != FD_STDOUT && fd != FD_STDERR);
   size_t tlen = (file_table[fd].open_offset + len <= file_table[fd].disk_offset + file_table[fd].size) ? len : (file_table[fd].disk_offset + file_table[fd].size - file_table[fd].open_offset);
   //tlen表示实际读入的字节数
-  size_t ret = ramdisk_read(buf, file_table[fd].open_offset, tlen);
+  size_t ret = 0;
+  if(file_table[fd].read == NULL) ret = ramdisk_read(buf, file_table[fd].open_offset, tlen); //普通文件
+  else ret = file_table[fd].read(buf, file_table[fd].open_offset, tlen);
+
   file_table[fd].open_offset += tlen;
   return ret;
 }
 
 size_t fs_write(int fd, const void *buf, size_t len) {
-  assert(fd != FD_STDIN);
+  //assert(fd != FD_STDIN);
   size_t tlen = (file_table[fd].open_offset + len <= file_table[fd].disk_offset + file_table[fd].size) ? len : (file_table[fd].disk_offset + file_table[fd].size - file_table[fd].open_offset);
   //tlen表示实际读入的字节数
-  size_t ret = ramdisk_write(buf, file_table[fd].open_offset, tlen);
+  size_t ret = 0;
+  if(file_table[fd].write == NULL) ret = ramdisk_write(buf, file_table[fd].open_offset, tlen);
+  else ret = file_table[fd].write(buf, file_table[fd].open_offset, tlen);
+
   file_table[fd].open_offset += tlen;
   return ret;
 }
