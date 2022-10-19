@@ -1,7 +1,8 @@
 #include <common.h>
 #include "syscall.h"
 
-#define CONFIG_STRACE
+//#define CONFIG_STRACE
+
 struct timeval {
     long int tv_sec;     // 秒数
     long int tv_usec;     // 微秒数
@@ -158,6 +159,6 @@ int sys_gettimeofday(struct timeval* tv, struct timezone* tz) {
   uint64_t us = io_read(AM_TIMER_UPTIME).us;
   tv->tv_sec = us / 1000000;
   tv->tv_usec = us - (tv->tv_sec * 1000000);
-  printf("%d  %d\n",(int)tv->tv_sec, (int)tv->tv_usec);
+  //printf("%d  %d\n",(int)tv->tv_sec, (int)tv->tv_usec);
   return 0;
 }
