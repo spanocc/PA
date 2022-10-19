@@ -14,9 +14,9 @@ static const char *keyname[256] __attribute__((used)) = {
   AM_KEYS(NAME)
 };
 
-size_t serial_write(const void *buf, size_t offset, size_t len) {  printf("\n\n\n\nsds\n");
+size_t serial_write(const void *buf, size_t offset, size_t len) {  //printf("\n\n\n\nsds\n");
   const char *c = buf;
-  for(uintptr_t i = 0; i < len; ++i) {
+  for(uintptr_t i = 0; i < len; ++i) {  printf("c");
       putch(*(c + i));
   }
   return len;
