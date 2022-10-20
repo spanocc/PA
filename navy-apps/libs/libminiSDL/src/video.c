@@ -50,7 +50,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
       }
   }
 
-  NDL_DrawRect((uint32_t *)dst->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上NDL_DrawRect((uint32_t *)s->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上
+  //NDL_DrawRect((uint32_t *)dst->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上NDL_DrawRect((uint32_t *)s->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
@@ -60,7 +60,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     tw = w;
     th = h;
   } 
-  NDL_DrawRect((uint32_t *)s->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上
+  //NDL_DrawRect((uint32_t *)s->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上
 }
 
 // APIs below are already implemented.
