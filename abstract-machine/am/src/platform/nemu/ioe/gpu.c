@@ -30,7 +30,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   int w = ctl->w;
   int h = ctl->h;
   int x = ctl->x;
-  int y = ctl->y;
+  int y = ctl->y;         printf("x:%d y:%d w:%d h:%d\n",x,y,w,h);
   int width = io_read(AM_GPU_CONFIG).width;
   //int height = io_read(AM_GPU_CONFIG).height;
 //printf("%s:%d\n","__am_gpu_fbdraw",width);
