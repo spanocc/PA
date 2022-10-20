@@ -158,7 +158,7 @@ int sys_close(int fd) {
 int sys_gettimeofday(struct timeval* tv, struct timezone* tz) {
   uint64_t us = io_read(AM_TIMER_UPTIME).us;
   tv->tv_sec = us / 1000000;
-  tv->tv_usec = us - (tv->tv_sec * 1000000);
+  tv->tv_usec = us - (tv->tv_sec * 1000000);               printf("syscall:%d\n",sizeof(struct timeval));
   //printf("%d  %d\n",(int)tv->tv_sec, (int)tv->tv_usec);
   return 0;
 }
