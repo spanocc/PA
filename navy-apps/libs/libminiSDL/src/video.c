@@ -21,7 +21,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     dy = (int)(dstrect->y);
   }
 
-   //printf("fill: %d %d %d %d\n %d %d %d %d\n",sx,sy,sw,sh,dx,dy,dw,dh);
+   printf("fill: %d %d %d %d\n %d %d %d %d\n",sx,sy,sw,sh,dx,dy,dw,dh);
 
   uint32_t *sp = (uint32_t *)(src->pixels);
   uint32_t *dp = (uint32_t *)(dst->pixels);
