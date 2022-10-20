@@ -31,7 +31,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
       }
   }
   
-  NDL_DrawRect((uint32_t *)dst->pixels, dx, dy, dw, dh);//将s画布的矩形写到屏幕上
+  //NDL_DrawRect((uint32_t *)dst->pixels, dx, dy, dw, dh);//将s画布的矩形写到屏幕上
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
