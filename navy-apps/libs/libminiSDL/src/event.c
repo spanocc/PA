@@ -20,10 +20,13 @@ int SDL_PollEvent(SDL_Event *ev) {
 
 int SDL_WaitEvent(SDL_Event *event) {
   char buf[32];
-  while(!(NDL_PollEvent(buf, sizeof(buf))));
-  event->type = (buf[1] == 'd') ? SDL_KEYDOWN : SDL_KEYUP;
+  while(!(NDL_PollEvent(buf, sizeof(buf))));   printf("%s\n",buf);
+  event->type = (buf[1] == 'd') ? SDL_KEYDOWN : SDL_KEYUP; 
   for(int i = 0; i < KEY_NUM; ++i) {
-    if(!strcmp(buf+3, keyname[i])) event->key.keysym.sym = i;
+    if(!strcmp(buf+3, keyname[i])) {
+      event->key.keysym.sym = i;
+      break;
+    }
   }
   return 1;
 }
