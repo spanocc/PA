@@ -56,7 +56,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   //printf("%d\n%d\n%d\n%d\n",w,h,s->w,s->h);
   int tw = s->w, th = s->h;
-  if(w == 0 && h == 0) {
+  if(!(w == 0 && h == 0)) {
     tw = w;
     th = h;
   } 
