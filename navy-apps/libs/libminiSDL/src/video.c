@@ -21,7 +21,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     dy = (int)(dstrect->y);
   }
 
-   printf("fill: %d %d %d %d\n %d %d %d %d\n",sx,sy,sw,sh,dx,dy,dw,dh);
+   //printf("fill: %d %d %d %d\n %d %d %d %d\n",sx,sy,sw,sh,dx,dy,dw,dh);
 
   uint32_t *sp = (uint32_t *)(src->pixels);
   uint32_t *dp = (uint32_t *)(dst->pixels);
@@ -31,7 +31,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
       }
   }
   
-  //NDL_DrawRect((uint32_t *)dst->pixels, dx, dy, dw, dh);//将s画布的矩形写到屏幕上
+  NDL_DrawRect((uint32_t *)dst->pixels, dx, dy, dw, dh);//将s画布的矩形写到屏幕上
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -42,7 +42,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     tw = (int)(dstrect->w);
     th = (int)(dstrect->h);
   }
-  printf("fill: %d %d %d %d\n",x,y,tw,th);
+  //printf("fill: %d %d %d %d\n",x,y,tw,th);
   uint32_t *p = (uint32_t *)(dst->pixels);
   for(int i = 0; i < th; ++i) {
       for(int j = 0; j < tw; ++j) {
@@ -50,7 +50,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
       }
   }
 
-  //NDL_DrawRect((uint32_t *)dst->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上NDL_DrawRect((uint32_t *)s->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上
+  NDL_DrawRect((uint32_t *)dst->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上NDL_DrawRect((uint32_t *)s->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
