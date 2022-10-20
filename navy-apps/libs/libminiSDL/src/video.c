@@ -8,14 +8,56 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  int sx = 0, sy = 0, sw = src->w, sh = src->h;
+  int dx = 0, dy = 0, dw = dst->w, dh = dst->h;
+  if(srcrect) {
+    sx = (int)(srcrect->x);
+    sy = (int)(srcrect->y);
+    sw = (int)(srcrect->w);
+    sh = (int)(srcrect->h);
+  }
+  if(dstrect) {
+    dx = (int)(dstrect->x);
+    dy = (int)(dstrect->y);
+    dw = (int)(dstrect->w);
+    dh = (int)(dstrect->h);
+  }
+  assert((sw == dw) && (sh == dh));
+  uint32_t *sp = (uint32_t *)(src->pixels);
+  uint32_t *dp = (uint32_t *)(dst->pixels);
+  for(int i = 0; i < sh; ++i) {
+      for(int j = 0; j < sw; ++j) {
+           dp[(dy+i) * dst->w + dx+j] = sp[(sy+i) * src->w + sx+j];
+      }
+  }
+
+
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  int x = 0, y = 0, tw = dst->w, th = dst->h;
+  if(dstrect != NULL) {
+    x = (int)(dstrect->x);
+    y = (int)(dstrect->y);
+    tw = (int)(dstrect->w);
+    th = (int)(dstrect->h);
+  }
+  uint32_t *p = (uint32_t *)(dst->pixels);
+  for(int i = 0; i < th; ++i) {
+      for(int j = 0; j < tw; ++j) {
+           p[(y+i) * dst->w + x+j] = color;
+      }
+  }
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   //printf("%d\n%d\n%d\n%d\n",w,h,s->w,s->h);
-  NDL_DrawRect((uint32_t *)s->pixels, x, y, s->w, s->h);//将s画布的矩形写到屏幕上
+  int tw = s->w, th = s->h;
+  if(w == 0 && h == 0) {
+    tw = w;
+    th = h;
+  } 
+  NDL_DrawRect((uint32_t *)s->pixels, x, y, tw, th);//将s画布的矩形写到屏幕上
 }
 
 // APIs below are already implemented.
