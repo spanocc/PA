@@ -127,35 +127,41 @@ typedef	__uint128_t fixedptud;
 
 /* Multiplies a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_muli(fixedpt A, int B) {
-	return 0;
+	fixdpt ans = ((A * fixedpt_fromint(B)) >> FIXEDPT_FBITS) ;
+	return ans;
 }
 
 /* Divides a fixedpt number with an integer, returns the result. */
 static inline fixedpt fixedpt_divi(fixedpt A, int B) {
-	return 0;
+	fixdpt ans = ((A / fixedpt_fromint(B)) << FIXEDPT_FBITS) ;
+	return ans;
 }
 
 /* Multiplies two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_mul(fixedpt A, fixedpt B) {
-	return 0;
+	fixdpt ans = ((A * B) >> FIXEDPT_FBITS) ;
+	return ans;
 }
 
 
 /* Divides two fixedpt numbers, returns the result. */
 static inline fixedpt fixedpt_div(fixedpt A, fixedpt B) {
-	return 0;
+	fixdpt ans = ((A / B) << FIXEDPT_FBITS) ;
+	return ans;
 }
 
 static inline fixedpt fixedpt_abs(fixedpt A) {
-	return 0;
+	return abs(A);
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-	return 0;
-}
+	fixdpt ans = ((A >> FIXEDPT_FBITS) << FIXEDPT_FBITS);
+	return ans;
+} 
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-	return 0;
+	if((A == ((A >> FIXEDPT_FBITS) << FIXEDPT_FBITS))) return A; //整数
+	else return fixedpt_floor(A) + FIXEDPT_ONE; 
 }
 
 /*
@@ -172,6 +178,7 @@ static inline fixedpt fixedpt_ceil(fixedpt A) {
  * be returned, meaning there will be invalid, bogus digits outside the
  * specified precisions.
  */
+//按正常除法算术的方式一点一点分解，每一步都扩大成整数
 void fixedpt_str(fixedpt A, char *str, int max_dec);
 
 /* Converts the given fixedpt number into a string, using a static
