@@ -19,7 +19,8 @@ static int screen_w = 0, screen_h = 0;
 uint32_t NDL_GetTicks() {
   struct timeval t;       //printf("NDL: %d\n",sizeof(struct timeval));
   gettimeofday(&t, NULL);
-  uint32_t ret = t.tv_sec * 1000 + t.tv_usec / 1000; //不用*0.001 浮点数没实现   
+  uint32_t ret = t.tv_sec * 1000 + t.tv_usec / 1000; //不用*0.001 浮点数没实现 
+  printf("%d\n",ret);  
   return ret;
 }
 
