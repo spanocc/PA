@@ -4,6 +4,10 @@
 #include <readline/history.h>
 #include "sdb.h"
 
+#include <memory/paddr.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
@@ -151,6 +155,47 @@ static int cmd_attach(char *args) {
 }
 
 
+static int cmd_save(char *args) {
+  if(!args) return 0;
+  FILE *fp = fopen(args, "w");
+  for(int i = 0; i < 32; ++i) {
+    fprintf(fp, "%d ",cpu.gpr[i]._32);
+  }
+  fprintf(fp, "%d ",cpu.pc);
+  fprintf(fp, "%d ",cpu.mepc);
+  fprintf(fp, "%d ",cpu.mstatus);
+  fprintf(fp, "%d ",cpu.mcause);
+  fprintf(fp, "%d ",cpu.mtvec);
+
+  uint8_t *p = guest_to_host(RESET_VECTOR);
+  for(int i = 0; i < CONFIG_MSIZE; ++i) {
+    fprintf(fp, "%c ", p[i]);
+  }
+  return 0;
+}
+
+static int cmd_load(char *args) {
+  if(!args) return 0;
+  FILE *fp = fopen(args, "r");
+  int ret = 0;
+  for(int i = 0; i < 32; ++i) {
+    ret = fscanf(fp, "%d ",&cpu.gpr[i]._32);
+  }
+  ret = fscanf(fp, "%d ",&cpu.pc);
+  ret = fscanf(fp, "%d ",&cpu.mepc);
+  ret = fscanf(fp, "%d ",&cpu.mstatus);
+  ret = fscanf(fp, "%d ",&cpu.mcause);
+  ret = fscanf(fp, "%d ",&cpu.mtvec);
+
+  uint8_t *p = guest_to_host(RESET_VECTOR);
+  for(int i = 0; i < CONFIG_MSIZE; ++i) {
+    ret = fscanf(fp, "%c ", &p[i]);
+  }
+  assert(ret);
+  return 0;
+}
+
+
 static int cmd_help(char *args);
 
 static struct {
@@ -169,6 +214,8 @@ static struct {
   { "d", "Delete watchpoint", cmd_d },
   { "detach", "Close Difftest", cmd_detach},
   { "attach", "Open Difftest", cmd_attach},
+  { "save", "Save the state to path", cmd_save},
+  { "load", "Load the state from path", cmd_load},
   /* TODO: Add more commands */
 
 };
