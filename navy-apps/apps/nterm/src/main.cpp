@@ -151,8 +151,8 @@ char handle_key(SDL_Event *ev) {
   if (ev->type == SDL_KEYDOWN) {  
     for (auto item: SHIFT) {
       if (item.keycode == key) {   
-        if (shift) {printf(" 1%c\n",item.shift); return item.shift;}
-        else {printf(" 2%c\n",item.noshift); return item.noshift;}
+        if (shift)  return item.shift;
+        else  return item.noshift;
       }
     }
   }

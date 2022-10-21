@@ -17,14 +17,14 @@ int SDL_PushEvent(SDL_Event *ev) {
 
 int SDL_PollEvent(SDL_Event *ev) {
   char buf[32]; 
-  int ret = NDL_PollEvent(buf, sizeof(buf));    printf("%s\n",buf);
+  int ret = NDL_PollEvent(buf, sizeof(buf));    //printf("%s\n",buf);
   //while(!(NDL_PollEvent(buf, sizeof(buf))));   //printf("%s\n",buf);
   if(!ret) return 0;
   buf[strlen(buf)-1] = '\0'; //去掉换行符
   ev->type = (buf[1] == 'd') ? SDL_KEYDOWN : SDL_KEYUP; 
   for(int i = 0; i < KEY_NUM; ++i) {  //printf("%s\n",keyname[i]);
     if(!strcmp(buf+3, keyname[i])) {  //buf的最后有个换行符，不能比较    
-      ev->key.keysym.sym = i;            printf("%s %d\n",keyname[i],i);
+      ev->key.keysym.sym = i;            //printf("%s %d\n",keyname[i],i);
       break;
     }
   } 
