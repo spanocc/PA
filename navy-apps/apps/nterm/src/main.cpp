@@ -21,8 +21,10 @@ int main(int argc, char *argv[]) {
 
   term = new Terminal(W, H);
 
+printf("zzzzzzzzzzzzzzzzzz");
+
   if (argc < 2) { builtin_sh_run(); }
-  else { printf("45546541"); extern_app_run(argv[1]); }
+  else { extern_app_run(argv[1]); }
 
   // should not reach here
   assert(0);
