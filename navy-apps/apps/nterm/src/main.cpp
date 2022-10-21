@@ -10,18 +10,18 @@ Terminal *term = NULL;
 void builtin_sh_run();
 void extern_app_run(const char *app_path);
 
-int main(int argc, char *argv[]) {  printf("3333333333333333");
+int main(int argc, char *argv[]) { 
   SDL_Init(0);
   font = new BDF_Font(font_fname);
-printf("aaaaaaaaaaaaaaaaaaaa");
+
   // setup display
   int win_w = font->w * W;
   int win_h = font->h * H;
   screen = SDL_SetVideoMode(win_w, win_h, 32, SDL_HWSURFACE);
-printf("bbbbbbbbbbbbbbbbbb");
+
   term = new Terminal(W, H);
 
-printf("zzzzzzzzzzzzzzzzzz");
+
 
   if (argc < 2) { builtin_sh_run(); }
   else { extern_app_run(argv[1]); }
