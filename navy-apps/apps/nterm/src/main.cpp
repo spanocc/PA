@@ -10,7 +10,7 @@ Terminal *term = NULL;
 void builtin_sh_run();
 void extern_app_run(const char *app_path);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {  printf("3333333333333333");
   SDL_Init(0);
   font = new BDF_Font(font_fname);
 printf("aaaaaaaaaaaaaaaaaaaa");
