@@ -26,7 +26,7 @@ static void sh_handle_cmd(const char *cmd) {
   char *buf = (char *)malloc(strlen(buf));
   strcpy(buf, cmd);
   buf[strlen(buf) - 1] = '\0';  printf("%s\n",buf);
-  execve(cmd, NULL, NULL);
+  //execve(cmd, NULL, NULL);
 }
 
 void builtin_sh_run() {
