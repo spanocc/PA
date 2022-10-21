@@ -158,6 +158,10 @@ static int cmd_attach(char *args) {
 static int cmd_save(char *args) {
   if(!args) return 0;
   FILE *fp = fopen(args, "w");
+  if(fp == NULL) {
+    printf("open file fault!");
+    return 0;
+  }
   for(int i = 0; i < 32; ++i) {
     fprintf(fp, "%d ",cpu.gpr[i]._32);
   }
@@ -177,6 +181,10 @@ static int cmd_save(char *args) {
 static int cmd_load(char *args) {
   if(!args) return 0;
   FILE *fp = fopen(args, "r");
+  if(fp == NULL) {
+    printf("open file fault!");
+    return 0;
+  }
   int ret = 0;
   for(int i = 0; i < 32; ++i) {
     ret = fscanf(fp, "%d ",&cpu.gpr[i]._32);
