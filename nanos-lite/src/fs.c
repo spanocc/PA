@@ -102,7 +102,7 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
       intr += file_table[fd].open_offset;
       break;
     case SEEK_END:
-      intr += (file_table[fd].disk_offset + file_table[fd].size);  printf("intr:%d\n",intr); assert(0);
+      intr += (file_table[fd].disk_offset + file_table[fd].size);  printf("intr:%d\n",intr); //assert(0);
       break;
     default: assert(0);
   }
