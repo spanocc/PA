@@ -22,7 +22,7 @@ SDL_Surface* IMG_Load(const char *filename) {
   fclose(fp);
   free(buf);
 
-  return fp;
+  return s;
 }
 
 int IMG_isPNG(SDL_RWops *src) {
