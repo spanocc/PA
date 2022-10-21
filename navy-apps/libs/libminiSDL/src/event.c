@@ -23,7 +23,7 @@ int SDL_PollEvent(SDL_Event *ev) {
   ev->type = (buf[1] == 'd') ? SDL_KEYDOWN : SDL_KEYUP; 
   for(int i = 0; i < KEY_NUM; ++i) {  //printf("%s\n",keyname[i]);
     if(!strncmp(buf+3, keyname[i], strlen(buf+3)-1)) {  //buf的最后有个换行符，不能比较    
-      ev->key.keysym.sym = i;
+      ev->key.keysym.sym = i;            printf("%s %d\n",keyname[i],i);
       break;
     }
   } 
