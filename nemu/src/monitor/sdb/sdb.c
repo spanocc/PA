@@ -157,47 +157,47 @@ static int cmd_attach(char *args) {
 
 static int cmd_save(char *args) {
   if(!args) return 0;
-  FILE *fp = fopen(args, "w");
+  FILE *fp = fopen(args, "wb");
   if(fp == NULL) {
     printf("open file fault!");
     return 0;
   }
   for(int i = 0; i < 32; ++i) {
-    fprintf(fp, "%d ",cpu.gpr[i]._32);
+    fwrite(&(cpu.gpr[i]._32), 1, 4, fp);
   }
-  fprintf(fp, "%d ",cpu.pc);
-  fprintf(fp, "%d ",cpu.mepc);
-  fprintf(fp, "%d ",cpu.mstatus);
-  fprintf(fp, "%d ",cpu.mcause);
-  fprintf(fp, "%d ",cpu.mtvec);
+  fwrite(&(cpu.pc), 1, 4, fp);
+  fwrite(&(cpu.mepc), 1, 4, fp);
+  fwrite(&(cpu.mstatus), 1, 4, fp);
+  fwrite(&(cpu.mcause), 1, 4, fp);
+  fwrite(&(cpu.mtvec), 1, 4, fp);
 
   uint8_t *p = guest_to_host(RESET_VECTOR);
   for(int i = 0; i < CONFIG_MSIZE; ++i) {
-    fprintf(fp, "%c ", p[i]);
+    fwrite(&p[i], 1, 1, fp);
   }
   return 0;
 }
 
 static int cmd_load(char *args) {
   if(!args) return 0;
-  FILE *fp = fopen(args, "r");
+  FILE *fp = fopen(args, "rb");
   if(fp == NULL) {
     printf("open file fault!");
     return 0;
   }
   int ret = 0;
   for(int i = 0; i < 32; ++i) {
-    ret = fscanf(fp, "%d ",&cpu.gpr[i]._32);
+    ret = fread(&(cpu.gpr[i]._32), 1, 4, fp);
   }
-  ret = fscanf(fp, "%d ",&cpu.pc);
-  ret = fscanf(fp, "%d ",&cpu.mepc);
-  ret = fscanf(fp, "%d ",&cpu.mstatus);
-  ret = fscanf(fp, "%d ",&cpu.mcause);
-  ret = fscanf(fp, "%d ",&cpu.mtvec);
+  ret = fread(&(cpu.pc), 1, 4, fp);
+  ret = fread(&(cpu.mepc), 1, 4, fp);
+  ret = fread(&(cpu.mstatus), 1, 4, fp);
+  ret = fread(&(cpu.mcause), 1, 4, fp);
+  ret = fread(&(cpu.mtvec), 1, 4, fp);
 
   uint8_t *p = guest_to_host(RESET_VECTOR);
   for(int i = 0; i < CONFIG_MSIZE; ++i) {
-    ret = fscanf(fp, "%c ", &p[i]);
+    ret = fread(&p[i], 1, 1, fp);
   }
   assert(ret);
   return 0;
