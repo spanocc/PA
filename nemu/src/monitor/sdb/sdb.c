@@ -16,6 +16,11 @@ void free_wp(WP *wp);
 void delete_wp(int num);
 void display_watchpoint();
 
+#ifdef CONFIG_DIFFTEST
+  extern bool difftest_open;
+  void set_diff();
+#endif
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -130,6 +135,21 @@ static int cmd_d(char*args) {
     return 0;
 }
 
+static int cmd_detach(char *args) {
+#ifdef CONFIG_DIFFTEST
+  difftest_open = false;
+#endif
+  return 0;
+} 
+
+static int cmd_attach(char *args) {
+#ifdef CONFIG_DIFFTEST
+  difftest_open = true;
+  set_diff();
+#endif
+  return 0;
+}
+
 
 static int cmd_help(char *args);
 
@@ -146,7 +166,9 @@ static struct {
   { "x", "Scan memory", cmd_x },
   { "p", "Expression evaluation", cmd_p },
   { "w", "Set watchpoint", cmd_w },
-  { "d", "Delete watchpoint", cmd_d }
+  { "d", "Delete watchpoint", cmd_d },
+  { "detach", "Close Difftest", cmd_detach},
+  { "attach", "Open Difftest", cmd_attach},
   /* TODO: Add more commands */
 
 };
