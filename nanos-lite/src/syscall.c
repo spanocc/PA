@@ -1,6 +1,8 @@
 #include <common.h>
 #include "syscall.h"
 
+#include <proc.h>
+
 //#define CONFIG_STRACE
 
 struct timeval {
@@ -20,6 +22,7 @@ size_t sys_lseek(int fd, size_t offset, int whence);
 int sys_close(int fd);
 int sys_open(const char *pathname, int flags, int mode);
 int sys_gettimeofday(struct timeval* tv, struct timezone* tz);
+int sys_execve(const char* filename, const char *argv[], const char *envp[]);
 
 
 int fs_open(const char *pathname, int flags, int mode);
@@ -27,6 +30,8 @@ size_t fs_read(int fd, void *buf, size_t len);
 size_t fs_write(int fd, const void *buf, size_t len);
 size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
+
+void naive_uload(PCB *pcb, const char *filename);
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -107,6 +112,14 @@ void do_syscall(Context *c) {
       #endif
 
       break;
+    case SYS_execve:
+
+      #ifdef CONFIG_STRACE
+        printf("sys_execve(%s)\n",(const char*)a[1]);
+      #endif
+
+      c->GPRx = sys_execve((const char*)a[1], (const char **)a[2], (const char **)a[3]);
+      break;
     default: panic("Unhandled syscall ID = %d", (int)a[0]);
   }
 }
@@ -161,4 +174,9 @@ int sys_gettimeofday(struct timeval* tv, struct timezone* tz) {
   tv->tv_usec = us - (tv->tv_sec * 1000000);               //printf("syscall:%d\n",sizeof(struct timeval));
   //printf("%d  %d\n",(int)tv->tv_sec, (int)tv->tv_usec);
   return 0;
+}
+
+int sys_execve(const char* filename, const char *argv[], const char *envp[]) {
+  naive_uload(NULL, filename);
+  return -1;
 }
