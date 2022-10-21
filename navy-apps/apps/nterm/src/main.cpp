@@ -135,8 +135,8 @@ char handle_key(const char *buf) {
     }
     for (auto item: SHIFT) {
       if (strcmp(item.name, key) == 0) {
-        if (shift) return item.shift;
-        else return item.noshift;
+        if (shift) {printf("%1c\n",item.shift); return item.shift;}
+        else {printf("%2c\n",item.noshift); return item.noshift; }
       }
     }
   }
