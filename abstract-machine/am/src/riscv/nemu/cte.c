@@ -57,7 +57,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   kcon->mstatus = 0x1800;
   kcon->mepc = (uintptr_t)entry;
 
-  return NULL;
+  return kcon;
 }
 
 void yield() {
