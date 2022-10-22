@@ -48,6 +48,15 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
+/*
+  cpu.gpr[0]._32 = 0;
+  cpu.mstatus = 0x1800; 
+*/
+  Context *kcon = (Context *)(kstack.end - sizeof(Context));
+  kcon->gpr[0] = 0;
+  kcon->mstatus = 0x1800;
+  kcon->mepc = (uintptr_t)entry;
+
   return NULL;
 }
 
