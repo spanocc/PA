@@ -16,7 +16,7 @@ void switch_boot_pcb() {
 void hello_fun(void *arg) {
   int j = 1;
   while (1) {
-    Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
+    Log("Hello World from Nanos-lite with arg '%s' for the %dth time!", (char *)arg, j);
     j ++;
     yield();
   }
@@ -24,7 +24,8 @@ void hello_fun(void *arg) {
 
 void init_proc() {
 
-  context_kload(&pcb[0], hello_fun, NULL);
+  context_kload(&pcb[0], hello_fun, "Adachi");
+  context_kload(&pcb[1], hello_fun, "Shimamura");
 
   switch_boot_pcb();
 
@@ -39,7 +40,8 @@ Context* schedule(Context *prev) {
   current->cp = prev;   //保存当前进程的上下文(sp)
 
   // always select pcb[0] as the new process
-  current = &pcb[0];
+  // current = &pcb[0];
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 
   // then return the new context
   return current->cp;

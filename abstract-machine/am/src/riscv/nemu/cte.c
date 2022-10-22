@@ -24,6 +24,9 @@ Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中�
           c->mepc += 4;
           break;
         }
+      case 0x80000001:
+        ev.event = EVENT_IRQ_TIMER;
+        break;
       default: ev.event = EVENT_ERROR; break;
     }
 
@@ -56,6 +59,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   kcon->gpr[0] = 0;
   kcon->mstatus = 0x1800;
   kcon->mepc = (uintptr_t)entry;
+  kcon->gpr[10] = (uintptr_t)arg;
 
   return kcon;
 }
