@@ -68,12 +68,17 @@ int printf(const char *fmt, ...) {
     ret = vsprintf(buf, fmt, ap);
     va_end(ap);
 
+    assert(ret >= 65536);
+
     buf[ret] = '\0';
     char *p = buf;
     while(*p != '\0') putch(*p++);
 
     return ret;
 }
+
+
+
 //返回值为写入的字符数
 int vsprintf(char *out, const char *fmt, va_list ap) {
     int ret = 0;
