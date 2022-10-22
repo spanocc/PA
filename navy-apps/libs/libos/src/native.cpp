@@ -259,7 +259,7 @@ struct Init {
 
     char newpath[512];
     get_fsimg_path(newpath, "/bin");
-    setenv("PATH", newpath, 1); // overwrite the current PATH
+    setenv("PATH", newpath, 0); // overwrite the current PATH
 
     SDL_Init(0);
     if (!getenv("NWM_APP")) {
