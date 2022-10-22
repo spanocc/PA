@@ -38,7 +38,7 @@ void init_proc() {
 Context* schedule(Context *prev) {
   // save the context pointer
   current->cp = prev;   //保存当前进程的上下文(sp)
-printf("adr:%p\n",&(pcb[0].cp));
+//printf("adr:%p\n",&(pcb[0].cp));
   // always select pcb[0] as the new process
   // current = &pcb[0];
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
