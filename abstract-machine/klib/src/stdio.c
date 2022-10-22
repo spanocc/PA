@@ -68,7 +68,7 @@ int printf(const char *fmt, ...) {
     ret = vsprintf(buf, fmt, ap);
     va_end(ap);
 
-    //assert(ret >= 65536);
+    assert(ret >= 65536);
 
     buf[ret] = '\0';
     char *p = buf;
