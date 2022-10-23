@@ -15,6 +15,7 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {  //printf("\n\n\n\nsds\n");
+  yield();
   const char *c = buf;
   for(uintptr_t i = 0; i < len; ++i) { // printf("c");
       putch(*(c + i));
@@ -23,6 +24,7 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {  //printf("\n\
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {  //printf("\n\n\nssssssssssssss\n\n\n");
+  yield();
   size_t ret = 0;
   char event[32] = "ku ";
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
@@ -58,6 +60,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 //一行一行调用fb_write,len是在这一行的像素个数,一个像素是一个32位数
 size_t fb_write(const void *buf, size_t offset, size_t len) {
+  yield();
   int sw = io_read(AM_GPU_CONFIG).width;  
   //int sh = io_read(AM_GPU_CONFIG).height; 
   io_write(AM_GPU_FBDRAW, offset % sw, offset / sw, (uint32_t *)buf, len, 1, true); //每次都同步到屏幕

@@ -4,6 +4,7 @@
 
 void naive_uload(PCB *pcb, const char *filename);
 void context_kload(PCB *new_pcb, void (*entry)(void *), void *arg);
+void context_uload(PCB *new_pcb, const char *file_name);
 
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
@@ -23,16 +24,18 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-
+  // kload用am的栈（_stack_pointer），uload用heap.end的栈
   context_kload(&pcb[0], hello_fun, "Adachi");
-  context_kload(&pcb[1], hello_fun, "Shimamura");
+  //context_kload(&pcb[1], hello_fun, "Shimamura");
+  context_uload(&pcb[1], "/bin/bird");       //如果两个都是uload，那么这两个用户程序的用户栈是一样的，会相互覆盖，发生错误
 
   switch_boot_pcb();
 
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(NULL, "/bin/dummy");
+  // naive_uload(NULL, "/bin/dummy");
+  yield();
 }
 
 Context* schedule(Context *prev) {
@@ -49,10 +52,5 @@ Context* schedule(Context *prev) {
   //return NULL;
 }
 
-void context_kload(PCB *new_pcb, void (*entry)(void *), void *arg) {
-  Area kstack;
-  kstack.start = new_pcb->stack;
-  kstack.end = new_pcb->stack + STACK_SIZE;
-  new_pcb->cp = kcontext(kstack, entry, arg);
-}
+
 

@@ -78,3 +78,20 @@ void naive_uload(PCB *pcb, const char *filename) {
   ((void(*)())entry) (); //调用entry这个地址的函数，相当于跳转到这里
 }
 
+void context_kload(PCB *new_pcb, void (*entry)(void *), void *arg) {
+  Area kstack;
+  kstack.start = new_pcb->stack;
+  kstack.end = new_pcb->stack + STACK_SIZE;
+  new_pcb->cp = kcontext(kstack, entry, arg);
+}
+
+void context_uload(PCB *new_pcb, const char *file_name) {
+  Area kstack;
+  kstack.start = new_pcb->stack;
+  kstack.end = new_pcb->stack + STACK_SIZE;
+  
+  uintptr_t entry = loader(new_pcb, file_name);
+
+  new_pcb->cp = ucontext(NULL, kstack, (void *)entry);
+  new_pcb->cp->gpr[10] = (uintptr_t)heap.end;
+}
