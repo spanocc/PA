@@ -109,7 +109,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
     ep++;
   }                                                          //NULL
   pstack -= (((argv_size + envp_size + sizeof(int) + (argc + 1 + envpc + 1) * sizeof(char *)) / 8 + 1) * 8);  //开辟8的倍数的空间
-  uint8_t *str_tab = heap.end - (argv_size + envp_size);   printf("0:%p\n",str_tab);
+  uint8_t *str_tab = heap.end - (argv_size + envp_size);   //printf("0:%p\n",str_tab);
   uint8_t *p = pstack;
 
   *(int *)p = argc;         //printf("1:%d\n",argc);
@@ -118,7 +118,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   av = (char **)argv, ep = (char **)envp;  // printf("1:%p\n",p);
   while(*av != NULL) {
     strcpy((char *)str_tab, *av);
-    *(char **)p = (char *)str_tab;    printf("S:%s  %s\n", *av, *(char **)p);
+    *(char **)p = (char *)str_tab;    //printf("S:%s  %s\n", *av, *(char **)p);
     av++;
     str_tab += (strlen((char *)str_tab) +1);
     p += sizeof(char *);
