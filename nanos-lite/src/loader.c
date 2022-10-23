@@ -98,12 +98,12 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   int argc = 0, envpc = 0;
   int argv_size = 0, envp_size = 0;
   char **av = (char **)argv, **ep = (char **)envp;
-  while(av != NULL) {
+  while(*av != NULL) {
     argc++;
     argv_size += (strlen(*av) + 1); //空字符也算长度
     av++;
   }
-  while(ep != NULL) {
+  while(*ep != NULL) {
     envpc++;
     envp_size += (strlen(*ep) + 1); //空字符也算长度
     ep++;
@@ -112,7 +112,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   uint8_t *str_tab = heap.end - (argv_size + envp_size);
   uint8_t *p = pstack;
 
-  *(int *)p = argc;         printf("1:%d\n",argc);
+  *(int *)p = argc;         //printf("1:%d\n",argc);
   p += sizeof(int);
 
   av = (char **)argv, ep = (char **)envp;
