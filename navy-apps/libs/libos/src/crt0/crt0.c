@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
 
 int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
@@ -10,7 +11,7 @@ void call_main(uintptr_t *args) {
   int argc = *(int *)p;
   p += sizeof(int);
 
-  char **argv = (char **)p;
+  char **argv = (char **)p;        printf("2:%s\n",*argv);
   p += (argc + 1) * sizeof(char **);
 
   char **envp = (char **)p;
