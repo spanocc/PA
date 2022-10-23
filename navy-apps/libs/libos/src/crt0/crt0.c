@@ -4,9 +4,20 @@
 
 int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
+
 void call_main(uintptr_t *args) {
-  char *empty[] =  {NULL };
-  environ = empty;
-  exit(main(0, empty, empty));
+  uint8_t *p = (uint8_t *)args;
+  int argc = *(int *)p;
+  p += sizeof(int);
+
+  char **argv = (char **)p;
+  p += (argc + 1) * sizeof(char **);
+
+  char **envp = (char **)p;
+
+  // char *empty[] =  {NULL };
+  // environ = empty;
+  environ = envp;
+  exit(main(argc, argv, envp));
   assert(0);
 }

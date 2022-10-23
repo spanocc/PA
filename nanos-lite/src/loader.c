@@ -85,7 +85,7 @@ void context_kload(PCB *new_pcb, void (*entry)(void *), void *arg) {
   new_pcb->cp = kcontext(kstack, entry, arg);
 }
 
-void context_uload(PCB *new_pcb, const char *file_name) {
+void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char *const envp[]) {
   Area kstack;
   kstack.start = new_pcb->stack;
   kstack.end = new_pcb->stack + STACK_SIZE;
@@ -93,5 +93,51 @@ void context_uload(PCB *new_pcb, const char *file_name) {
   uintptr_t entry = loader(new_pcb, file_name);
 
   new_pcb->cp = ucontext(NULL, kstack, (void *)entry);
-  new_pcb->cp->gpr[10] = (uintptr_t)heap.end;
+  //new_pcb->cp->gpr[10] = (uintptr_t)heap.end;
+  uint8_t* pstack = heap.end;  //栈从heap.end向下延伸
+  int argc = 0, envpc = 0;
+  int argv_size = 0, envp_size = 0;
+  char **av = (char **)argv, **ep = (char **)envp;
+  while(av != NULL) {
+    argc++;
+    argv_size += (strlen(*av) + 1); //空字符也算长度
+    av++;
+  }
+  while(ep != NULL) {
+    envpc++;
+    envp_size += (strlen(*ep) + 1); //空字符也算长度
+    ep++;
+  }                                                          //NULL
+  pstack -= (((argv_size + envp_size + sizeof(int) + (argc + 1 + envpc + 1) * sizeof(char *)) / 8 + 1) * 8);  //开辟8的倍数的空间
+  uint8_t *str_tab = heap.end - (argv_size + envp_size);
+  uint8_t *p = pstack;
+
+  *(int *)p = argc;
+  p += sizeof(int);
+
+  av = (char **)argv, ep = (char **)envp;
+  while(av != NULL) {
+    strcpy((char *)str_tab, *av);
+    *(char **)p = (char *)str_tab;
+    av++;
+    str_tab += (strlen((char *)str_tab) +1);
+    p += sizeof(char *);
+  }
+
+  *(char **)p = NULL;
+  p += sizeof(char *);
+
+  while(ep != NULL) {
+    strcpy((char *)str_tab, *ep);
+    *(char **)p = (char *)str_tab;
+    ep++;
+    str_tab += (strlen((char *)str_tab) + 1);
+    p += sizeof(char *);
+  }
+
+  *(char **)p = NULL;
+  p += sizeof(char *);
+
+  new_pcb->cp->gpr[10] = (uintptr_t)pstack;
+
 }
