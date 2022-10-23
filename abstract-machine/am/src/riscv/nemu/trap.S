@@ -50,7 +50,7 @@ __am_asm_trap:
   mv a0, sp                          //;把栈顶指针（context指针）作为参数传递给__am_irq_handle，x86中的 pushl %esp指令同理
   jal __am_irq_handle
 
-  //mv sp, a0                         // 返回值（新进程的contest指针）赋值给sp
+  mv sp, a0                         // 返回值（新进程的contest指针）赋值给sp
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
