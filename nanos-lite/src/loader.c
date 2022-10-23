@@ -112,7 +112,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   uint8_t *str_tab = heap.end - (argv_size + envp_size);
   uint8_t *p = pstack;
 
-  *(int *)p = argc;
+  *(int *)p = argc;         printf("1:%d\n",argc);
   p += sizeof(int);
 
   av = (char **)argv, ep = (char **)envp;
