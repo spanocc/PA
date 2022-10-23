@@ -34,8 +34,8 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  // naive_uload(NULL, "/bin/dummy");
-  yield();
+   naive_uload(NULL, "/bin/bird");
+  // yield();
 }
 
 Context* schedule(Context *prev) {
