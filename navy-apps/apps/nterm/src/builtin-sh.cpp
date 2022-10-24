@@ -30,7 +30,7 @@ static void sh_handle_cmd(const char *cmd) {
   char *argv[10];
   argv[0] = tmp[0];
   argv[1] = tmp[1];
-  argv[2] = tmp[2];
+  argv[2] = NULL;
   //char *file_name = (char *)malloc(strlen(cmd)); 
   /*argv[0] = (char *)malloc(strlen(cmd));        //如果用malloc创建数组空间，则argv[0]的指针在0x83000000+的地方，此时加载程序，会把这些参数指针覆盖掉
   argv[1] = (char *)malloc(strlen(cmd));
