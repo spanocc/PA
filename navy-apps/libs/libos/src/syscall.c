@@ -8,6 +8,8 @@
 #include<stdio.h> //调试
 #include <sys/types.h>
 #include <fcntl.h>
+#include <errno.h>
+
 
 // helper macros
 #define _concat(x, y) x ## y
