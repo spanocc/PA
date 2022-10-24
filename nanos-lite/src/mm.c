@@ -2,7 +2,7 @@
 
 static void *pf = NULL;
 
-void* new_page(size_t nr_page) {  printf("AAA:%p   %p\n",heap.start,heap.end);
+void* new_page(size_t nr_page) {  printf("BB:%p\n",pf);   //printf("AAA:%p   %p\n",heap.start,heap.end);
   if(pf == NULL) pf = (void *)heap.end; //初始化   
   char *np = (char *)pf;
   void *op = pf;
