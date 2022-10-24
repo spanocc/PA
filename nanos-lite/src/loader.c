@@ -95,7 +95,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
 
   new_pcb->cp = ucontext(NULL, kstack, (void *)entry);
   //new_pcb->cp->gpr[10] = (uintptr_t)heap.end;
-  uint8_t* stack_end = new_page(8);
+  uint8_t* stack_end = new_page(8);                                   printf("stack:%p\n",stack_end);
   uint8_t* pstack = stack_end;  //栈从stack_end向下延伸
   int argc = 0, envpc = 0;
   int argv_size = 0, envp_size = 0;
