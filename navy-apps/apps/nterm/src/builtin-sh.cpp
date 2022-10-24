@@ -31,7 +31,7 @@ static void sh_handle_cmd(const char *cmd) {
   argv[1] = (char *)malloc(strlen(cmd));
   argv[2] = NULL;
   strcpy(buf, cmd);
-  buf[strlen(buf) - 1] = '\0';  printf("%s\n",buf);
+  buf[strlen(buf) - 1] = '\0';  printf("arg: %s\n",buf);
   
   sscanf(buf, "%s %s", argv[0], argv[1]);  printf("%s %s\n",argv[0],argv[1]);
 
