@@ -91,7 +91,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   kstack.start = new_pcb->stack;
   kstack.end = new_pcb->stack + STACK_SIZE;
   
-  uintptr_t entry = loader(new_pcb, file_name);
+  uintptr_t entry = loader(new_pcb, file_name);        printf("entry:%p\n",entry);
 
   new_pcb->cp = ucontext(NULL, kstack, (void *)entry);
   //new_pcb->cp->gpr[10] = (uintptr_t)heap.end;
