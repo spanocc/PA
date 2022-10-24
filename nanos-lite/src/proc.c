@@ -28,14 +28,15 @@ void init_proc() {
   // 测试main函数的参数
   // char *argv[10] = {"/bin/exec-test", "Shimamura", "-type", "f", NULL};
   // char *envp[10] = {"ARCH=riscv32-nemu", "HOME=llh", NULL};
-   char *argv[10] = { NULL};  //argv要是一个以NULL结尾的数组，而不能是空指针NULL
+  // char *argv[10] = { NULL};  //argv要是一个以NULL结尾的数组，而不能是空指针NULL
+   char *argv[10] = { "echo", "abc", NULL};
    char *envp[10] = { NULL};
 
 
   // kload用am的栈（_stack_pointer），uload用heap.end的栈
   context_kload(&pcb[0], hello_fun, "Adachi");
   //context_kload(&pcb[1], hello_fun, "Shimamura");
-  context_uload(&pcb[1], "/bin/nterm", argv, envp);       //如果两个都是uload，那么这两个用户程序的用户栈是一样的，会相互覆盖，发生错误
+  context_uload(&pcb[1], "/bin/busybox", argv, envp);       //如果两个都是uload，那么这两个用户程序的用户栈是一样的，会相互覆盖，发生错误
 
   switch_boot_pcb();
 
