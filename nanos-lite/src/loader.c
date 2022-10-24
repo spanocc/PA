@@ -28,6 +28,7 @@ size_t fs_read(int fd, void *buf, size_t len);
 size_t fs_write(int fd, const void *buf, size_t len);
 size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
+void* new_page(size_t nr_page);
 
 
 
@@ -94,7 +95,8 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
 
   new_pcb->cp = ucontext(NULL, kstack, (void *)entry);
   //new_pcb->cp->gpr[10] = (uintptr_t)heap.end;
-  uint8_t* pstack = heap.end;  //栈从heap.end向下延伸
+  uint8_t* stack_end = new_page(8);
+  uint8_t* pstack = stack_end;  //栈从stack_end向下延伸
   int argc = 0, envpc = 0;
   int argv_size = 0, envp_size = 0;
   char **av = (char **)argv, **ep = (char **)envp;
@@ -109,7 +111,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
     ep++;
   }                                                          //NULL
   pstack -= (((argv_size + envp_size + sizeof(int) + (argc + 1 + envpc + 1) * sizeof(char *)) / 8 + 1) * 8);  //开辟8的倍数的空间
-  uint8_t *str_tab = heap.end - (argv_size + envp_size);   //printf("0:%p\n",str_tab);
+  uint8_t *str_tab = stack_end - (argv_size + envp_size);   //printf("0:%p\n",str_tab);
   uint8_t *p = pstack;
 
   *(int *)p = argc;         //printf("1:%d\n",argc);

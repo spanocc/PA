@@ -3,7 +3,11 @@
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
-  return NULL;
+  char *np = (char *)pf;
+  void *op = pf;
+  np -= (1024 * 4 * nr_page);
+  pf = (void *)np;
+  return op;
 }
 
 #ifdef HAS_VME

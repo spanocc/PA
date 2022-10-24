@@ -14,7 +14,7 @@ void call_main(uintptr_t *args) {
   char **argv = (char **)p;      // printf("2:%p\n",argv);
   p += (argc + 1) * sizeof(char **);
 
-  char **envp = (char **)p;   while(*envp != NULL) {printf("E:%s",*envp); envp++;}
+  char **envp = (char **)p;   
 
   // char *empty[] =  {NULL };
   // environ = empty;

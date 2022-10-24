@@ -32,6 +32,8 @@ size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
 
 void naive_uload(PCB *pcb, const char *filename);
+void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char *const envp[]);
+void switch_boot_pcb();
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -178,6 +180,12 @@ int sys_gettimeofday(struct timeval* tv, struct timezone* tz) {
 }
 
 int sys_execve(const char* filename, const char *argv[], const char *envp[]) {  //printf("hhhhhhhhhhhhhhhhhhhhhhhh\n");
-  naive_uload(NULL, filename);
+  // naive_uload(NULL, filename);
+  
+  context_uload(current, filename, (char **const)argv, (char **const)envp);
+  
+  switch_boot_pcb();
+  yield();
+  
   return -1;
 }
