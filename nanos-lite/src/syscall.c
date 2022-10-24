@@ -133,7 +133,7 @@ int sys_yield() {
 }
 
 void sys_exit(intptr_t _exit) {
-  sys_execve("/bin/nterm", NULL, NULL);
+  //sys_execve("/bin/nterm", NULL, NULL);
   halt(_exit);
 }
 
