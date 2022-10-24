@@ -146,7 +146,10 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
 
   *(char **)p = NULL;
   p += sizeof(char *);
-
+                                               uint8_t *pg = (uint8_t *)pstack; 
+                                               int c = *(int *)pg;    pg += sizeof(int);
+                                               printf("LOAD:%d %s %s\n",c,(char *)pg, (char *)(pg+8));
+                                                
   new_pcb->cp->gpr[10] = (uintptr_t)pstack;
 
 }
