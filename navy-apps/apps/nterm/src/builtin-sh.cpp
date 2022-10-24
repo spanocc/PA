@@ -28,7 +28,8 @@ static void sh_handle_cmd(const char *cmd) {
   char *buf = (char *)malloc(strlen(cmd));
   char *file_name = (char *)malloc(strlen(cmd));
   argv[0] = (char *)malloc(strlen(cmd));
-  argv[1] = NULL;
+  argv[1] = (char *)malloc(strlen(cmd));
+  argv[2] = NULL;
   strcpy(buf, cmd);
   buf[strlen(buf) - 1] = '\0';  printf("%s\n",buf);
   
