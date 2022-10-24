@@ -21,20 +21,20 @@ static void sh_banner() {
 static void sh_prompt() {
   sh_printf("sh> ");
 }
-
+//malloc和字面值常量在堆上，数组在栈上，为了防止被加载的用户程序覆盖，要在栈上存参数
 static void sh_handle_cmd(const char *cmd) {
-  //char *argv[10] = {"echo", "acha", NULL };
+  //char *argv[10] = {"echo", "acha", NULL };  //这样子初始化，也会导致argv[0]的指针在0x83000000+的内存上
   //char *envp[10] = {"ARCH=riscv32-nemu", "HOME=llh", NULL};
   char *buf = (char *)malloc(strlen(cmd));
-  char tmp[10][128] = {"echo", "acha", NULL };
+  char tmp[10][128] = {"echo", "acha", NULL }; //所以采用数组，这样子是在用户栈上开辟空间 argv[0]地址在0x80746a90
   char *argv[10];
-  //argv[0] = tmp[0];
-  //argv[1] = tmp[1];
-  //argv[2] = tmp[2];
-  //char *file_name = (char *)malloc(strlen(cmd));
-  argv[0] = (char *)malloc(strlen(cmd));
+  argv[0] = tmp[0];
+  argv[1] = tmp[1];
+  argv[2] = tmp[2];
+  //char *file_name = (char *)malloc(strlen(cmd)); 
+  /*argv[0] = (char *)malloc(strlen(cmd));        //如果用malloc创建数组空间，则argv[0]的指针在0x83000000+的地方，此时加载程序，会把这些参数指针覆盖掉
   argv[1] = (char *)malloc(strlen(cmd));
-  argv[2] = NULL;
+  argv[2] = NULL;*/
   strcpy(buf, cmd);
   buf[strlen(buf) - 1] = '\0';  printf("arg: %s\n",buf);  //printf("cmd: %p\n",cmd);
   

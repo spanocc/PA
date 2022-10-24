@@ -87,7 +87,7 @@ void context_kload(PCB *new_pcb, void (*entry)(void *), void *arg) {
 }
 
 void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char *const envp[]) {
-                                                  if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s %p %p %p\n",argv[0],argv[1],argv,argv[0],argv[1]);
+                                                  //if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s %p %p %p\n",argv[0],argv[1],argv,argv[0],argv[1]);
   printf("uload: %s\n",file_name);
 
   Area kstack;
@@ -102,7 +102,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   stack_end += (4 * 8 * 1024);  //new_page返回低地址，栈要用高地址
   uint8_t* pstack = stack_end;  //栈从stack_end向下延伸
 
-   printf("stack:%p\n",stack_end);
+  // printf("stack:%p\n",stack_end);
 
   int argc = 0, envpc = 0;
   int argv_size = 0, envp_size = 0;
@@ -125,7 +125,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   *(int *)p = argc;         //printf("1:%d\n",argc);
   p += sizeof(int);
 
-  av = (const char **)argv, ep = (const char **)envp;   if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s %p %p %p\n",argv[0],argv[1],argv,argv[0],argv[1]);
+  av = (const char **)argv, ep = (const char **)envp;   //if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s %p %p %p\n",argv[0],argv[1],argv,argv[0],argv[1]);
   while(av != NULL && *av != NULL) {
     strcpy((char *)str_tab, *av);
     *(char **)p = (char *)str_tab;    //printf("S:%s  %s\n", *av, *(char **)p);
@@ -149,7 +149,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   p += sizeof(char *);
                                                uint8_t *pg = (uint8_t *)pstack; 
                                                int c = *(int *)pg;    pg += sizeof(int);
-                                               printf("LOAD:%d %s %s\n",c,(char *)pg, (char *)(pg+8));
+                                               printf("LOAD:%d %s %s\n",c,(char *)argv[0], (char *)(argv[1]));
                                                 
   new_pcb->cp->gpr[10] = (uintptr_t)pstack;
 
