@@ -23,10 +23,19 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
+  char *argv[10] = { };
+ // char *envp[10] = {"ARCH=riscv32-nemu", "HOME=llh", NULL};
   char *buf = (char *)malloc(strlen(cmd));
+  char *file_name = (char *)malloc(strlen(cmd));
+  argv[0] = (char *)malloc(strlen(cmd));
+  argv[1] = NULL;
   strcpy(buf, cmd);
   buf[strlen(buf) - 1] = '\0';  printf("%s\n",buf);
-  execve(buf, NULL, NULL);
+  
+  sscanf(buf, "%s %s", file_name, argv[0]);  printf("%s %s\n",file_name,argv[0]);
+
+
+  execve(file_name, argv, NULL);
 }
 
 void builtin_sh_run() {
