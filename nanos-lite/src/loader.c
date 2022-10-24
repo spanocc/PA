@@ -87,7 +87,7 @@ void context_kload(PCB *new_pcb, void (*entry)(void *), void *arg) {
 }
 
 void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char *const envp[]) {
-                                                  if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s\n",argv[0],argv[1]);
+                                                  if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s %p %p %p\n",argv[0],argv[1],argv,argv[0],argv[1]);
   printf("uload: %s\n",file_name);
 
   Area kstack;
@@ -125,7 +125,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   *(int *)p = argc;         //printf("1:%d\n",argc);
   p += sizeof(int);
 
-  av = (const char **)argv, ep = (const char **)envp;   if(argv && argv[0] && argv[1])  printf("LOAD3:%s %s\n",argv[0],argv[1]);
+  av = (const char **)argv, ep = (const char **)envp;   if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s %p %p %p\n",argv[0],argv[1],argv,argv[0],argv[1]);
   while(av != NULL && *av != NULL) {
     strcpy((char *)str_tab, *av);
     *(char **)p = (char *)str_tab;    //printf("S:%s  %s\n", *av, *(char **)p);
