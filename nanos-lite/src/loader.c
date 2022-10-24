@@ -106,7 +106,8 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
 
   int argc = 0, envpc = 0;
   int argv_size = 0, envp_size = 0;
-  char **av = (char **)argv, **ep = (char **)envp;
+  const char **av = (const char **)argv;
+  const char **ep = (const char **)envp;
   while(av !=NULL && *av != NULL) {
     argc++;
     argv_size += (strlen(*av) + 1); //空字符也算长度
@@ -124,7 +125,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   *(int *)p = argc;         //printf("1:%d\n",argc);
   p += sizeof(int);
 
-  av = (char **)argv, ep = (char **)envp;   if(argv && argv[0] && argv[1])  printf("LOAD3:%s %s\n",argv[0],argv[1]);
+  av = (const char **)argv, ep = (const char **)envp;   if(argv && argv[0] && argv[1])  printf("LOAD3:%s %s\n",argv[0],argv[1]);
   while(av != NULL && *av != NULL) {
     strcpy((char *)str_tab, *av);
     *(char **)p = (char *)str_tab;    //printf("S:%s  %s\n", *av, *(char **)p);
