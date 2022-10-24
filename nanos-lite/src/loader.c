@@ -99,7 +99,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   stack_end += (4 * 8 * 1024);  //new_page返回低地址，栈要用高地址
   uint8_t* pstack = stack_end;  //栈从stack_end向下延伸
 
-printf("stack:%p\n",stack_end);
+  // printf("stack:%p\n",stack_end);
 
   int argc = 0, envpc = 0;
   int argv_size = 0, envp_size = 0;
