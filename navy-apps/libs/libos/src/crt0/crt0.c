@@ -6,7 +6,7 @@
 int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
 
-void call_main(uintptr_t *args) {   printf("%p\n",args);
+void call_main(uintptr_t *args) {   //printf("%p\n",args);
   uint8_t *p = (uint8_t *)args;       
   int argc = *(int *)p;              
   p += sizeof(int);
