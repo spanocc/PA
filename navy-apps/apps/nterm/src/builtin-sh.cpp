@@ -23,17 +23,17 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-  char *argv[10] = { };
+  char *argv[10] = {"echo", "acha",NULL };
   //char *envp[10] = {"ARCH=riscv32-nemu", "HOME=llh", NULL};
   char *buf = (char *)malloc(strlen(cmd));
   //char *file_name = (char *)malloc(strlen(cmd));
-  argv[0] = (char *)malloc(strlen(cmd));
+  /*argv[0] = (char *)malloc(strlen(cmd));
   argv[1] = (char *)malloc(strlen(cmd));
-  argv[2] = NULL;
+  argv[2] = NULL;*/
   strcpy(buf, cmd);
   buf[strlen(buf) - 1] = '\0';  printf("arg: %s\n",buf);
   
-  sscanf(buf, "%s %s", argv[0], argv[1]);  printf("%s %s\n",argv[0],argv[1]);
+  //sscanf(buf, "%s %s", argv[0], argv[1]);  printf("%s %s\n",argv[0],argv[1]);
 
 
   execve("/bin/busybox", argv, NULL);
