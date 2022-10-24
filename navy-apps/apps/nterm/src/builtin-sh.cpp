@@ -39,7 +39,7 @@ static void sh_handle_cmd(const char *cmd) {
   buf[strlen(buf) - 1] = '\0';  printf("arg: %s\n",buf);  //printf("cmd: %p\n",cmd);
   
   
-  //sscanf(buf, "%s %s", argv[0], argv[1]);  printf("%s %s\n",argv[0],argv[1]);
+  sscanf(buf, "%s %s", argv[0], argv[1]);  printf("%s %s\n",argv[0],argv[1]);
 
 
   execve("/bin/busybox", argv, NULL);
