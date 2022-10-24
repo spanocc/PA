@@ -122,7 +122,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   uint8_t *str_tab = stack_end - (argv_size + envp_size);   //printf("0:%p\n",str_tab);
   uint8_t *p = pstack;
 
-  *(int *)p = argc;         //printf("1:%d\n",argc);
+  *(int *)p = argc;         printf("1:%d\n",argc);
   p += sizeof(int);
 
   av = (const char **)argv, ep = (const char **)envp;   //if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s %p %p %p\n",argv[0],argv[1],argv,argv[0],argv[1]);
