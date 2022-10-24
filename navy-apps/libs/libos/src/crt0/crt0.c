@@ -11,7 +11,7 @@ void call_main(uintptr_t *args) {   //printf("%p\n",args);
   int argc = *(int *)p;              
   p += sizeof(int);
 
-  char **argv = (char **)p;      // printf("2:%p\n",argv);
+  char **argv = (char **)p;      printf("call main:%s %s\n",argv[0],argv[1]);
   p += (argc + 1) * sizeof(char **);
 
   char **envp = (char **)p;   

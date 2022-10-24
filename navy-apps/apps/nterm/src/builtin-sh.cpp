@@ -24,9 +24,9 @@ static void sh_prompt() {
 
 static void sh_handle_cmd(const char *cmd) {
   char *argv[10] = { };
- // char *envp[10] = {"ARCH=riscv32-nemu", "HOME=llh", NULL};
+  //char *envp[10] = {"ARCH=riscv32-nemu", "HOME=llh", NULL};
   char *buf = (char *)malloc(strlen(cmd));
-  char *file_name = (char *)malloc(strlen(cmd));
+  //char *file_name = (char *)malloc(strlen(cmd));
   argv[0] = (char *)malloc(strlen(cmd));
   argv[1] = (char *)malloc(strlen(cmd));
   argv[2] = NULL;
