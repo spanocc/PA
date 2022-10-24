@@ -26,7 +26,7 @@ static void sh_handle_cmd(const char *cmd) {
   //char *argv[10] = {"echo", "acha", NULL };  //这样子初始化，也会导致argv[0]的指针在0x83000000+的内存上
   //char *envp[10] = {"ARCH=riscv32-nemu", "HOME=llh", NULL};
   char *buf = (char *)malloc(strlen(cmd));
-  char tmp[10][128] = {"echo", "acha", NULL }; //所以采用数组，这样子是在用户栈上开辟空间 argv[0]地址在0x80746a90
+  char tmp[10][128] = {"echo", "acha"}; //所以采用数组，这样子是在用户栈上开辟空间 argv[0]地址在0x80746a90
   char *argv[10];
   argv[0] = tmp[0];
   argv[1] = tmp[1];
