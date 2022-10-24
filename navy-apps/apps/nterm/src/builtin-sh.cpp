@@ -32,10 +32,10 @@ static void sh_handle_cmd(const char *cmd) {
   strcpy(buf, cmd);
   buf[strlen(buf) - 1] = '\0';  printf("%s\n",buf);
   
-  sscanf(buf, "%s %s", file_name, argv[0]);  printf("%s %s\n",file_name,argv[0]);
+  sscanf(buf, "%s %s", argv[0], argv[1]);  printf("%s %s\n",argv[0],argv[1]);
 
 
-  execve(file_name, argv, NULL);
+  execve("/bin/busybox", argv, NULL);
 }
 
 void builtin_sh_run() {
