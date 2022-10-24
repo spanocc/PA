@@ -124,10 +124,10 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   *(int *)p = argc;         //printf("1:%d\n",argc);
   p += sizeof(int);
 
-  av = (char **)argv, ep = (char **)envp;  // printf("1:%p\n",p);
+  av = (char **)argv, ep = (char **)envp;   if(argv && argv[0] && argv[1])  printf("LOAD3:%s %s\n",argv[0],argv[1]);
   while(av != NULL && *av != NULL) {
     strcpy((char *)str_tab, *av);
-    *(char **)p = (char *)str_tab;    printf("S:%s  %s\n", *av, *(char **)p);
+    *(char **)p = (char *)str_tab;    //printf("S:%s  %s\n", *av, *(char **)p);
     av++;
     str_tab += (strlen((char *)str_tab) +1);
     p += sizeof(char *);
