@@ -2,8 +2,8 @@
 
 static void *pf = NULL;
 
-void* new_page(size_t nr_page) {
-  if(pf == NULL) pf = (void *)heap.end; //初始化
+void* new_page(size_t nr_page) {  printf("AAA:%p   %p\n",heap.start,heap.end);
+  if(pf == NULL) pf = (void *)heap.end; //初始化   
   char *np = (char *)pf;
   void *op = pf;
   np -= (1024 * 4 * nr_page);
