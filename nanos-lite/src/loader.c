@@ -102,7 +102,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   stack_end += (4 * 8 * 1024);  //new_page返回低地址，栈要用高地址
   uint8_t* pstack = stack_end;  //栈从stack_end向下延伸
 
-   printf("stack:%p\n",stack_end);
+  // printf("stack:%p\n",stack_end);
 
   int argc = 0, envpc = 0;
   int argv_size = 0, envp_size = 0;
@@ -121,13 +121,13 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   uint8_t *str_tab = stack_end - (argv_size + envp_size);   //printf("0:%p\n",str_tab);
   uint8_t *p = pstack;
 
-  *(int *)p = argc;         printf("1:%d\n",argc);
+  *(int *)p = argc;         //printf("1:%d\n",argc);
   p += sizeof(int);
 
   av = (char **)argv, ep = (char **)envp;  // printf("1:%p\n",p);
   while(av != NULL && *av != NULL) {
     strcpy((char *)str_tab, *av);
-    *(char **)p = (char *)str_tab;    //printf("S:%s  %s\n", *av, *(char **)p);
+    *(char **)p = (char *)str_tab;    printf("S:%s  %s\n", *av, *(char **)p);
     av++;
     str_tab += (strlen((char *)str_tab) +1);
     p += sizeof(char *);
