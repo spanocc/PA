@@ -179,7 +179,7 @@ int sys_gettimeofday(struct timeval* tv, struct timezone* tz) {
   return 0;
 }
 
-int sys_execve(const char* filename, const char *argv[], const char *envp[]) {  //printf("sys_ex: %s %s %s\n",argv[0],argv[1],argv[2]);
+int sys_execve(const char* filename, const char *argv[], const char *envp[]) {  printf("sys_ex: %s %s\n",argv[0],argv[1]);
   // naive_uload(NULL, filename);
   
   context_uload(current, filename, (char **const)argv, (char **const)envp);
