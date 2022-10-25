@@ -76,7 +76,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   dir = (((uintptr_t)va) >> 22) & 0x3ff; 
   page = (((uintptr_t)va) >> 12) & 0x3ff;
   offset = ((uintptr_t)va) & 0xfff;                  
-                                                  if((uintptr_t)va == 0x8073d000) printf("HHHH\n");
+                                                  if((uintptr_t)va == 0x8073d000) printf("%d %d\n",dir,page);
   assert(offset == 0); //按页分配，则offset为0
   assert((((uintptr_t)pa) & 0xfff) == 0);
 
