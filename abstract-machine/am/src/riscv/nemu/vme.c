@@ -28,7 +28,9 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   pgalloc_usr = pgalloc_f;
   pgfree_usr = pgfree_f;
 
-  kas.ptr = pgalloc_f(PGSIZE);   //清0的
+  kas.ptr = pgalloc_f(PGSIZE);   //清0的    
+
+  printf("ptr:%p\n",kas.ptr);
 
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
