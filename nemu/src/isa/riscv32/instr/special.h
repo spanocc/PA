@@ -31,7 +31,7 @@ def_EHelper(mret) {
 #endif
 }
 
-def_EHelper(csrrw) {   printf("ooooooo\n");printf("666:%d %d %d\n",*ddest,*dsrc1,*dsrc2);
+def_EHelper(csrrw) {  // printf("ooooooo\n");printf("666:%d %d %d\n",*ddest,*dsrc1,*dsrc2);
   rtl_mv(s, ddest, dsrc2);
   rtl_mv(s, dsrc2, dsrc1);        
 }
