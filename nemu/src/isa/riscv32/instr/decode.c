@@ -82,8 +82,8 @@ static def_DHelper(R) {
 static def_DHelper(C) {
   decode_op_r(s, id_dest, s->isa.instr.c.rd, true);
   decode_op_r(s, id_src1, s->isa.instr.c.rs1, false);
-  decode_op_c(s, id_src2, s->isa.instr.c.rs1, true);
-  printf("888:%d %d %d",s->isa.instr.c.rd,s->isa.instr.c.rs1,s->isa.instr.c.rs1);
+  decode_op_c(s, id_src2, s->isa.instr.c.csr, true);
+  printf("888:%d %d %d",s->isa.instr.c.rd,s->isa.instr.c.rs1,s->isa.instr.c.csr);
 }
 
 static def_DHelper(CI) {
