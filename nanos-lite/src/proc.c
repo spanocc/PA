@@ -31,7 +31,7 @@ void init_proc() {
   // char *argv[10] = { NULL};  
   // char *argv[10] = { "echo", "abc", NULL};
   // char *envp[10] = { NULL};
-//printf("addd:%p\n",&pcb[0]);
+printf("addd:%p\n",&pcb[0]);
 
   // kload用am的栈（_stack_pointer），uload用heap.end的栈
   context_kload(&pcb[0], hello_fun, "Adachi");
