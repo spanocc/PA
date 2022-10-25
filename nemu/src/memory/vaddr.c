@@ -3,7 +3,7 @@
 
 word_t vaddr_ifetch(vaddr_t addr, int len) {
 /*
-  if(isa_mmu_check(addr, len, MEM_TYPE_IFETCH) == MMU_DIRECT) {
+  if(isa_mmu_check(addr, len, MEM_TYPE_IFETCH) == MMU_TRANSLATE) {
     paddr_t pa = isa_mmu_translate(addr, len, MEM_TYPE_IFETCH);
     pa |= (addr & 0xfff);
     assert(pa == addr); 
@@ -15,7 +15,7 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {
 
 word_t vaddr_read(vaddr_t addr, int len) {
 
-  if(isa_mmu_check(addr, len, MEM_TYPE_READ) == MMU_DIRECT) {
+  if(isa_mmu_check(addr, len, MEM_TYPE_READ) == MMU_TRANSLATE) {
     paddr_t pa = isa_mmu_translate(addr, len, MEM_TYPE_READ);
     pa |= (addr & 0xfff);
     assert(pa == addr); 
@@ -27,7 +27,7 @@ word_t vaddr_read(vaddr_t addr, int len) {
 
 void vaddr_write(vaddr_t addr, int len, word_t data) {
 
-  if(isa_mmu_check(addr, len, MEM_TYPE_WRITE) == MMU_DIRECT) {
+  if(isa_mmu_check(addr, len, MEM_TYPE_WRITE) == MMU_TRANSLATE) {
     paddr_t pa = isa_mmu_translate(addr, len, MEM_TYPE_WRITE);
     pa |= (addr & 0xfff);
     assert(pa == addr); 
