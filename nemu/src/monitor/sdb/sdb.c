@@ -13,7 +13,7 @@ void init_regex();
 void init_wp_pool();
 void isa_reg_display(void);
 //uint8_t* guest_to_host(paddr_t paddr); 
-word_t vaddr_read(vaddr_t addr, int len);
+word_t paddr_read(paddr_t addr, int len);
 word_t expr(char *e, bool *success);
 WP* new_wp();
 void free_wp(WP *wp);
@@ -90,7 +90,7 @@ static int cmd_x(char*args) {
 //    sscanf(expression,"%x", &adr);    //      printf("%d %x\n",N,adr);
     for(int i = 0; i < N; ++i) {
       
-        uint32_t ret = vaddr_read(adr, 4);
+        uint32_t ret = paddr_read(adr, 4);
         printf("0x%x: ",adr);
         uint8_t* ptu = (uint8_t*)&ret;
         for(int j = 0; j < 4; ++j) {  
@@ -306,3 +306,4 @@ void init_sdb() {
   /* Initialize the watchpoint pool. */
   init_wp_pool();
 }
+
