@@ -35,7 +35,7 @@ static def_DopHelper(c) {
     case 0x305:
       op->preg = &cpu.mtvec; break;
     case 0x180:
-      op->preg = &cpu.satp; break;
+      op->preg = &cpu.satp; printf("777777777777"); break;
     default: printf("0x%x\n",val); assert(0);
   }
 }
@@ -83,6 +83,7 @@ static def_DHelper(C) {
   decode_op_r(s, id_dest, s->isa.instr.c.rd, true);
   decode_op_r(s, id_src1, s->isa.instr.c.rs1, false);
   decode_op_c(s, id_src2, s->isa.instr.c.csr, true);
+  //printf("")
 }
 
 static def_DHelper(CI) {
