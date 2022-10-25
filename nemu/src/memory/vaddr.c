@@ -26,14 +26,14 @@ word_t vaddr_read(vaddr_t addr, int len) {
 }
 
 void vaddr_write(vaddr_t addr, int len, word_t data) {
-/*
+
   if(isa_mmu_check(addr, len, MEM_TYPE_WRITE) == MMU_TRANSLATE) {
     paddr_t pa = isa_mmu_translate(addr, len, MEM_TYPE_WRITE);
-    pa |= (addr & 0xfff);
+    pa |= (addr & 0xfff);        printf("ADR::%x %x\n",pa,addr);
     assert(pa == addr); 
-    paddr_write(pa, len, data);
+    paddr_write(pa, len, data); 
     return;
   }
-*/
+
   paddr_write(addr, len, data);
 }
