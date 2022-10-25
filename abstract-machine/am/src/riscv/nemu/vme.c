@@ -50,7 +50,7 @@ void protect(AddrSpace *as) {
   as->area = USER_SPACE;
   as->pgsize = PGSIZE;
   // map kernel space
-  memcpy(updir, kas.ptr, PGSIZE);
+  memcpy(updir, kas.ptr, PGSIZE);  //用户进程和内核用相同的页表
 }
 
 void unprotect(AddrSpace *as) {

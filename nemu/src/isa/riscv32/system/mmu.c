@@ -18,6 +18,6 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   pte = paddr_read(page_p, 1);
   assert((pte & 1) == 1);
 
-  paddr_t ret = ((pte) & (~0xfff)) | MEM_RET_OK;
-  return ret;
+  paddr_t ret = ((pte) & (~0xfff)) | MEM_RET_OK;         printf("%d\n",ret);
+  return ret;  
 }

@@ -90,6 +90,8 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
                                                   //if(argv && argv[0] && argv[1])  printf("LOAD1:%s %s %p %p %p\n",argv[0],argv[1],argv,argv[0],argv[1]);
   printf("uload: %s\n",file_name);
 
+  protect(&(new_pcb->as));
+
   Area kstack;
   kstack.start = new_pcb->stack;
   kstack.end = new_pcb->stack + STACK_SIZE;
