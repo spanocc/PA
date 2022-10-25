@@ -2,7 +2,7 @@
 #include <memory/paddr.h>
 #include <memory/vaddr.h>
 
-paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
+paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {  printf("S:%x\n",cpu.satp);
   assert(cpu.satp >> 31);
 
   paddr_t dir, page;
