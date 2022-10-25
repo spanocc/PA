@@ -2,14 +2,14 @@
 #include <memory/paddr.h>
 
 word_t vaddr_ifetch(vaddr_t addr, int len) {
-/*
+
   if(isa_mmu_check(addr, len, MEM_TYPE_IFETCH) == MMU_TRANSLATE) {
     paddr_t pa = isa_mmu_translate(addr, len, MEM_TYPE_IFETCH);
     pa |= (addr & 0xfff);
     assert(pa == addr); 
     return paddr_read(pa, len);
   }
-*/
+
   return paddr_read(addr, len);
 }
 
