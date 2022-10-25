@@ -5,7 +5,7 @@
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {  //printf("S:%x\n",cpu.satp);
   //assert(cpu.satp >> 31);
 
-  printf("%x\n",vaddr);
+ // printf("%x\n",vaddr);
 
   paddr_t dir, page;
   dir = (((paddr_t)vaddr) >> 22) & 0x3ff; 
