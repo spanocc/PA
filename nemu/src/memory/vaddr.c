@@ -14,14 +14,14 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {
 }
 
 word_t vaddr_read(vaddr_t addr, int len) {
-
+/*
   if(isa_mmu_check(addr, len, MEM_TYPE_READ) == MMU_TRANSLATE) {
     paddr_t pa = isa_mmu_translate(addr, len, MEM_TYPE_READ);
     pa |= (addr & 0xfff);        printf("ADRL::%x %x\n",pa,addr);   assert(0);
     assert(pa == addr);   
     return paddr_read(pa, len);
   }
-
+*/            assert(0);
   return paddr_read(addr, len);
 }
 
