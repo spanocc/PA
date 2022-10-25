@@ -30,6 +30,7 @@ struct diff_context_t {
   rtlreg_t mstatus;
   rtlreg_t mcause;
   rtlreg_t mtvec;
+  rtlreg_t satp;
 };
 
 static sim_t* s = NULL;
@@ -55,6 +56,7 @@ void sim_t::diff_get_regs(void* diff_context) {
   ctx->mstatus = state->mstatus;
   ctx->mcause = state->mcause;
   ctx->mtvec = state->mtvec;
+  ctx->satp = state->satp;
 }
 
 void sim_t::diff_set_regs(void* diff_context) {
@@ -67,6 +69,7 @@ void sim_t::diff_set_regs(void* diff_context) {
   state->mstatus = ctx->mstatus;
   state->mcause = ctx->mcause;
   state->mtvec = ctx->mtvec;
+  state->satp = ctx->satp;
   
 }
 

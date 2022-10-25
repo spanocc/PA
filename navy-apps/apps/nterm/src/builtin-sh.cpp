@@ -21,7 +21,8 @@ static void sh_banner() {
 static void sh_prompt() {
   sh_printf("sh> ");
 }
-//malloc和字面值常量在堆上，数组在栈上，为了防止被加载的用户程序覆盖，要在栈上存参数
+//malloc在堆上，数组在栈上，为了防止被加载的用户程序覆盖，要在栈上存参数
+//字面值常量在常量区，也属于静态存储区
 static void sh_handle_cmd(const char *cmd) {
   //char *argv[10] = {"echo", "acha", NULL };  //这样子初始化，也会导致argv[0]的指针在0x83000000+的内存上
   //char *envp[10] = {"ARCH=riscv32-nemu", "HOME=llh", NULL};

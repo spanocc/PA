@@ -6,7 +6,7 @@ void naive_uload(PCB *pcb, const char *filename);
 void context_kload(PCB *new_pcb, void (*entry)(void *), void *arg);
 void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char *const envp[]);
 
-static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
+static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {}; //0x8070d000开始的地址
 static PCB pcb_boot = {};
 PCB *current = NULL;
 

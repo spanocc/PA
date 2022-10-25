@@ -7,7 +7,7 @@ static void* (*pgalloc_usr)(int) = NULL;
 static void (*pgfree_usr)(void*) = NULL;
 static int vme_enable = 0;
 
-static Area segments[] = {      // Kernel memory mappings
+static Area segments[] = {      // Kernel memory mappings  内核的映射，应用的映射由protect创建
   NEMU_PADDR_SPACE
 };
 
@@ -28,7 +28,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   pgalloc_usr = pgalloc_f;
   pgfree_usr = pgfree_f;
 
-  kas.ptr = pgalloc_f(PGSIZE);
+  kas.ptr = pgalloc_f(PGSIZE);   //清0的
 
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
@@ -45,7 +45,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
 }
 
 void protect(AddrSpace *as) {
-  PTE *updir = (PTE*)(pgalloc_usr(PGSIZE));
+  PTE *updir = (PTE*)(pgalloc_usr(PGSIZE));   //PTE是表项
   as->ptr = updir;
   as->area = USER_SPACE;
   as->pgsize = PGSIZE;
@@ -66,7 +66,27 @@ void __am_switch(Context *c) {
   }
 }
 
+//对于虚拟地址va 分成 10 10 12 三部分，分别为 一级page table的偏移  二级page table的偏移  和页内偏移
+//因为是页映射到页，所以最后12位页内偏移不用管
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  //若这一表项还未分配出去 第0位(V) 是0 反之是1,我们把表项(PTE)的高20位当作下一级页表的基址(或者是物理页的基址)
+  uintptr_t dir, page, offset;
+  dir = (((uintptr_t)va) >> 22) & 0x3ff; 
+  page = (((uintptr_t)va) >> 12) & 0x3ff;
+  offset = ((uintptr_t)va) & 0xfff;
+
+  assert(offset == 0); //按页分配，则offset为0
+  assert((((uintptr_t)pa) & 0xfff) == 0);
+
+  PTE *dir_p, *page_p; 
+  dir_p = (PTE *)as->ptr + dir;
+  if(((*dir_p) & 1 ) == 0) { //未分配页
+    *dir_p = (PTE)(pgalloc_usr(PGSIZE)); //这个地址后12位一定为0；
+    *dir_p |= 1; //表示已分配
+  }
+  page_p = (PTE *)((*dir_p) & (~0xfff)) + page; //表项后12位清0，作为二级页表的基址
+  *page_p = (PTE)pa | 1;
+
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {

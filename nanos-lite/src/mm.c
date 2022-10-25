@@ -2,8 +2,9 @@
 
 static void *pf = NULL;
 
-
+//heap.start是从0x8073e000开始的地址1
 //返回的是这段内存的首地址
+//以new_page分配的地址后12位都是0
 void* new_page(size_t nr_page) {   //printf("AAA:%p   %p\n",heap.start,heap.end);
  
   char *np = (char *)pf;
@@ -15,7 +16,10 @@ void* new_page(size_t nr_page) {   //printf("AAA:%p   %p\n",heap.start,heap.end)
 
 #ifdef HAS_VME
 static void* pg_alloc(int n) {
-  return NULL;
+  assert(n % 4096 == 0); //一定是4096的倍数
+  void *ret = new_page(n / 4096);
+  memset(ret, 0, n);
+  return ret;
 }
 #endif
 
