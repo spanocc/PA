@@ -64,7 +64,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       //memcpy((uint8_t *)phar.p_vaddr, buf, phar.p_filesz);
 
       for(int j = 0; j * 4096 < phar.p_memsz; ++j) {
-        void *pa = new_page(1);                        printf("%p\n",pa);
+        void *pa = new_page(1);                        printf("%p %x\n",pa,phar.p_vaddr + j * 4096);
         map(&(pcb->as), (void *)(phar.p_vaddr + j * 4096), pa, 0xffffffff);
       }
 printf("end\n");
