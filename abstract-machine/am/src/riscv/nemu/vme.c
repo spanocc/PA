@@ -88,7 +88,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   }
   page_p = (PTE *)((*dir_p) & (~0xfff)) + page; //表项后12位清0，作为二级页表的基址
   *page_p = (PTE)pa | 1;
-                                if((uintptr_t)va == 0x40000000) printf("%p %p\n",dir_p,page_p);
+                                if((uintptr_t)va == 0x40000000) printf("%p %p %p\n",as->ptr,dir_p,page_p);
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {

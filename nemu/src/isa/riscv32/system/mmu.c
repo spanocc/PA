@@ -15,7 +15,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {  //printf("S:%x\n"
   dir_p = ((cpu.satp) << 12) + dir * 4;  //printf("dir:%x\n",dir_p);
   uint32_t pte = paddr_read(dir_p, 4);    //printf("%p\n",)
 
-if((pte & 1) == 0) printf("ADD:%x\n",dir_p); 
+if((pte & 1) == 0) printf("ADD:%x %x\n",(cpu.satp<<12),dir_p); 
 
   assert((pte & 1) == 1);
 
