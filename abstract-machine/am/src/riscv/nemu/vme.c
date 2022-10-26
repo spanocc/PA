@@ -9,7 +9,7 @@ static int vme_enable = 0;
 
 static Area segments[] = {      // Kernel memory mappings  内核的映射，应用的映射由protect创建
   NEMU_PADDR_SPACE
-};
+};                              //从0x80000000开始的内存，虚拟地址和物理地址相同，都属于内核空间
 
 #define USER_SPACE RANGE(0x40000000, 0x80000000)
 
@@ -52,7 +52,7 @@ void protect(AddrSpace *as) {
   as->area = USER_SPACE;
   as->pgsize = PGSIZE;
   // map kernel space
-  memcpy(updir, kas.ptr, PGSIZE);  //用户进程和内核用相同的页表
+  memcpy(updir, kas.ptr, PGSIZE);  //所有用户进程的内核区域的映射都是相同的
 }
 
 void unprotect(AddrSpace *as) {
