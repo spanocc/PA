@@ -72,6 +72,8 @@ printf("end\n");
       fs_lseek(fd, phar.p_offset, 0);
       fs_read(fd, (uint8_t *)phar.p_vaddr, phar.p_filesz);
       memset((char *)(phar.p_vaddr + phar.p_filesz), 0, phar.p_memsz - phar.p_filesz);
+
+printf("end1\n");
     }
   }
 
