@@ -47,7 +47,7 @@ void init_proc() {
   yield();
 }
 
-Context* schedule(Context *prev) {  //printf("ddd\n");
+Context* schedule(Context *prev) {  assert(prev!=NULL);
   // save the context pointer
   current->cp = prev;   //保存当前进程的上下文(sp)
 //printf("adr:%p\n",&(pcb[0].cp));
