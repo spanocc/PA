@@ -57,23 +57,23 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     fs_read(fd, &phar, sizeof(phar));
     //ramdisk_read(&phar, elf_head.e_phoff + i * sizeof(phar), sizeof(phar)); //必须借助memcpy函数把phdr结构体读进来，直接用指针访问的话会有地址不是4字节对齐的问题，所以只要是访问内存都用memcpy函数就行了，而创建的这个phdr变量肯定是对齐的
     //if(phar[i].p_type == PT_LOAD) {      这样子访问p_type会产生lw操作，且地址不是4字节对齐，会有difftest错误                       //printf("%x\n", phar[i].p_vaddr);
-    if(phar.p_type == PT_LOAD) {           printf("%x\n", phar.p_vaddr);
+    if(phar.p_type == PT_LOAD) {          // printf("%x\n", phar.p_vaddr);
       //const char *buf = (char *)(&ramdisk_start + phar.p_offset);
       //size_t offest = (uint8_t *)phar[i].p_vaddr - &ramdisk_start;
       //ramdisk_write(buf, offest, phar[i].p_filesz);
       //memcpy((uint8_t *)phar.p_vaddr, buf, phar.p_filesz);
 
       for(int j = 0; j * 4096 < phar.p_memsz; ++j) {
-        void *pa = new_page(1);                        printf("%p %x\n",pa,phar.p_vaddr + j * 4096);
+        void *pa = new_page(1);                        //printf("%p %x\n",pa,phar.p_vaddr + j * 4096);
         map(&(pcb->as), (void *)(phar.p_vaddr + j * 4096), pa, 0xffffffff);
       }
-printf("end\n");
+//printf("end\n");
 
       fs_lseek(fd, phar.p_offset, 0);
       fs_read(fd, (uint8_t *)phar.p_vaddr, phar.p_filesz);
       memset((char *)(phar.p_vaddr + phar.p_filesz), 0, phar.p_memsz - phar.p_filesz);
 
-printf("end1\n");
+//printf("end1\n");
     }
   }
 
