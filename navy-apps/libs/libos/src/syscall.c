@@ -64,7 +64,7 @@ void _exit(int status) {
   while (1);
 }
 
-int _open(const char *path, int flags, mode_t mode) {    printf("SYS:%x %x\n",prog_brk,(intptr_t)&end);
+int _open(const char *path, int flags, mode_t mode) {    //printf("SYS:%x %x\n",prog_brk,(intptr_t)&end);
   intptr_t ret = _syscall_(SYS_open, (intptr_t)path, flags, mode);
   //_exit(SYS_open);
   return ret;
@@ -77,9 +77,9 @@ int _write(int fd, void *buf, size_t count) {
   return ret;
 }
 
-void *_sbrk(intptr_t increment) {       //printf("SYS:%x %x\n",prog_brk,(intptr_t)&end);
+void *_sbrk(intptr_t increment) {      char buf[128]; //printf("SYS:%x %x\n",prog_brk,(intptr_t)&end);
   intptr_t new_brk = prog_brk + increment;
-  intptr_t old_brk = prog_brk;	
+  intptr_t old_brk = prog_brk;	                    sprintf(buf,"%x\n",new_brk);  write(1,buf,20);
   intptr_t ret = _syscall_(SYS_brk, new_brk, 0, 0);
   if(ret == 0) {
       prog_brk = new_brk;
