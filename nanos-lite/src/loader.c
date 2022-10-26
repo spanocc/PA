@@ -95,11 +95,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       //fs_read(fd, (uint8_t *)phar.p_vaddr, phar.p_filesz);
       //memset((char *)(phar.p_vaddr + phar.p_filesz), 0, phar.p_memsz - phar.p_filesz);
 
-
     }
   }
 
-  fs_close(fd);          assert(0);
+  fs_close(fd);          //assert(0);
   return elf_head.e_entry;
 }
 
