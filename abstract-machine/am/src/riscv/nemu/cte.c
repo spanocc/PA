@@ -11,7 +11,7 @@ Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中�
  
   /*for(int i = 0 ; i < 32; i++) printf("%d ",c->gpr[i]);
   printf("\n%d\n%d\n%d\n",c->mcause,c->mstatus,c->mepc);*/
-  //__am_get_cur_as(c);
+  __am_get_cur_as(c);
 
   if (user_handler) {
     Event ev = {0};

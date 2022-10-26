@@ -67,7 +67,7 @@ void do_syscall(Context *c) {
       #endif
     
       break;
-    case SYS_brk:
+    case SYS_brk:   
       c->GPRx = sys_brk(a[1]);
       
       #ifdef CONFIG_STRACE
