@@ -23,7 +23,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {  //printf("S:%x\n"
   page_p = (pte & (~0xfff)) + page * 4;       
   pte = paddr_read(page_p, 4);         if(vaddr == 0x4000523c) printf("dir:%x\n",pte);
   assert((pte & 1) == 1);
-
+                                         if(vaddr == 0x4000523c) printf("end\n");
   paddr_t ret = ((pte) & (~0xfff)) | MEM_RET_OK;         //printf("%x\n",ret);
   return ret;  
 }
