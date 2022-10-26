@@ -151,7 +151,7 @@ size_t sys_write(int fd, const void * buf, size_t count) {
   //}
 }
 
-int sys_brk(intptr_t incr) {        
+int sys_brk(intptr_t incr) {      printf("aaaaaa\n");   
 
   return mm_brk(incr);
 }
