@@ -57,23 +57,45 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     fs_read(fd, &phar, sizeof(phar));
     //ramdisk_read(&phar, elf_head.e_phoff + i * sizeof(phar), sizeof(phar)); //必须借助memcpy函数把phdr结构体读进来，直接用指针访问的话会有地址不是4字节对齐的问题，所以只要是访问内存都用memcpy函数就行了，而创建的这个phdr变量肯定是对齐的
     //if(phar[i].p_type == PT_LOAD) {      这样子访问p_type会产生lw操作，且地址不是4字节对齐，会有difftest错误                       //printf("%x\n", phar[i].p_vaddr);
-    if(phar.p_type == PT_LOAD) {          // printf("%x\n", phar.p_vaddr);
+    if(phar.p_type == PT_LOAD) {           printf("%x\n", phar.p_vaddr);
       //const char *buf = (char *)(&ramdisk_start + phar.p_offset);
       //size_t offest = (uint8_t *)phar[i].p_vaddr - &ramdisk_start;
       //ramdisk_write(buf, offest, phar[i].p_filesz);
       //memcpy((uint8_t *)phar.p_vaddr, buf, phar.p_filesz);
 
+      // 应当把数据放到物理地址里，因为此时nemu还在内核态，地址映射是内核地址空间，而不是应用地址空间
+      // 对0x80000000开头的地址访问，虚拟地址和物理地址相同
+      fs_lseek(fd, phar.p_offset, 0);
       for(int j = 0; j * 4096 < phar.p_memsz; ++j) {
         void *pa = new_page(1);                        //printf("%p %x\n",pa,phar.p_vaddr + j * 4096);
         map(&(pcb->as), (void *)(phar.p_vaddr + j * 4096), pa, 0xffffffff);
+        //接下来的4096个字节的内存都在filesz之内，直接复制
+        if((j + 1) * 4096 <= phar.p_filesz) {
+          fs_read(fd, (uint8_t *)pa, 4096);
+        }
+        //接下来这4096个字节都在filesz和memsz之间，要清0
+        else if(j * 4096 >= phar.p_filesz) {
+          int msize = 4096;
+          if((j + 1) * 4096 > phar.p_memsz) msize = phar.p_memsz - j * 4096;
+          memset(pa, 0, msize);
+        }
+        //前半复制，后半清0
+        else {
+          int fsize = phar.p_filesz - j * 4096;
+          int msize = phar.p_memsz - phar.p_filesz;
+          if(fsize + msize > 4096) msize = 4096 - fsize;
+          fs_read(fd, (uint8_t *)pa, fsize);
+          memset(pa, 0, msize);
+        }
+
       }
-//printf("end\n");
 
-      fs_lseek(fd, phar.p_offset, 0);
-      fs_read(fd, (uint8_t *)phar.p_vaddr, phar.p_filesz);
-      memset((char *)(phar.p_vaddr + phar.p_filesz), 0, phar.p_memsz - phar.p_filesz);
 
-//printf("end1\n");
+      //fs_lseek(fd, phar.p_offset, 0);
+      //fs_read(fd, (uint8_t *)phar.p_vaddr, phar.p_filesz);
+      //memset((char *)(phar.p_vaddr + phar.p_filesz), 0, phar.p_memsz - phar.p_filesz);
+
+
     }
   }
 
@@ -108,10 +130,11 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
 
   new_pcb->cp = ucontext(&(new_pcb->as), kstack, (void *)entry);
   //new_pcb->cp->gpr[10] = (uintptr_t)heap.end;
-  uint8_t* pa = new_page(8); 
-  uint8_t* stack_end = new_pcb->as.area.end - (4 * 8 * 1024);
+  //与loader函数同理，此时要访问物理地址，而不是虚拟地址
+  uint8_t* stack_end = new_page(8); 
+  uint8_t* va = new_pcb->as.area.end - (4 * 8 * 1024);
   for(int i = 0; i < 8; ++ i) {
-    map(&(new_pcb->as), (void *)(stack_end + i * 4096), (void *)(pa + i *4096), 0xffffffff);
+    map(&(new_pcb->as), (void *)(va + i * 4096), (void *)(stack_end + i *4096), 0xffffffff);
   }
   //uint8_t* stack_end = new_page(8);                                   
   stack_end += (4 * 8 * 1024);  //new_page返回低地址，栈要用高地址
