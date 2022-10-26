@@ -2,12 +2,16 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+void __am_get_cur_as(Context *c);
+void __am_switch(Context *c);
+
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中变出来的参数sp指针，而不是在c语言中创建的
  
   /*for(int i = 0 ; i < 32; i++) printf("%d ",c->gpr[i]);
   printf("\n%d\n%d\n%d\n",c->mcause,c->mstatus,c->mepc);*/
+  __am_get_cur_as(c);
 
   if (user_handler) {
     Event ev = {0};
@@ -33,6 +37,8 @@ Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中�
     c = user_handler(ev, c);
     assert(c != NULL);
   }
+
+  __am_switch(c);
 
   return c;   //返回c的指针，同时也是sp的指针，所以sp可以不用保存
 }
