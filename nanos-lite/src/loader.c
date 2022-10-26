@@ -64,8 +64,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       //memcpy((uint8_t *)phar.p_vaddr, buf, phar.p_filesz);
 
       fs_lseek(fd, phar.p_offset, 0);
-      fs_read(fd, (uint8_t *)phar.p_vaddr, phar.p_filesz);
-      memset((char *)(phar.p_vaddr + phar.p_filesz), 0, phar.p_memsz - phar.p_filesz);
+      //fs_read(fd, (uint8_t *)phar.p_vaddr, phar.p_filesz);
+      //memset((char *)(phar.p_vaddr + phar.p_filesz), 0, phar.p_memsz - phar.p_filesz);
     }
   }
 
