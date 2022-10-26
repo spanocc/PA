@@ -1,6 +1,10 @@
 #include <memory.h>
 
+//后加的
+#include<proc.h>
+
 static void *pf = NULL;
+
 
 //heap.start是从0x8073e000开始的地址1
 //返回的是这段内存的首地址
@@ -28,7 +32,8 @@ void free_page(void *p) {
 }
 
 /* The brk() system call handler. */
-int mm_brk(uintptr_t brk) {
+/* malloc()被第一次调用的时候, 会通过sbrk(0)来查询用户程序当前program break的位置 */ 
+int mm_brk(uintptr_t brk) {    printf("mm:%x\n",current->max_brk);
   return 0;
 }
 
