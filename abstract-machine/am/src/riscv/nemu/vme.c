@@ -76,7 +76,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   dir = (((uintptr_t)va) >> 22) & 0x3ff; 
   page = (((uintptr_t)va) >> 12) & 0x3ff;
   offset = ((uintptr_t)va) & 0xfff;                  
-                                                  if((uintptr_t)va == 0x40000000) printf("%d %d\n",dir,page);
+                                                  //if((uintptr_t)va == 0x40000000) printf("%d %d\n",dir,page);
   assert(offset == 0); //按页分配，则offset为0
   assert((((uintptr_t)pa) & 0xfff) == 0);
 
@@ -88,7 +88,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   }
   page_p = (PTE *)((*dir_p) & (~0xfff)) + page; //表项后12位清0，作为二级页表的基址
   *page_p = (PTE)pa | 1;
-                                if((uintptr_t)va == 0x40000000) printf("%p %p %p\n",as->ptr,dir_p,page_p);
+                                //if((uintptr_t)va == 0x40000000) printf("%p %p %p\n",as->ptr,dir_p,page_p);
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
