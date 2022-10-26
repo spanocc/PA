@@ -64,7 +64,7 @@ void _exit(int status) {
   while (1);
 }
 
-int _open(const char *path, int flags, mode_t mode) {  //printf("SYS:%x\n",(intptr_t)&end);
+int _open(const char *path, int flags, mode_t mode) {    printf("SYS:%x %x\n",prog_brk,(intptr_t)&end);
   intptr_t ret = _syscall_(SYS_open, (intptr_t)path, flags, mode);
   //_exit(SYS_open);
   return ret;
