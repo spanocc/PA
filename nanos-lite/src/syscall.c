@@ -23,6 +23,7 @@ int sys_close(int fd);
 int sys_open(const char *pathname, int flags, int mode);
 int sys_gettimeofday(struct timeval* tv, struct timezone* tz);
 int sys_execve(const char* filename, const char *argv[], const char *envp[]);
+int mm_brk(uintptr_t brk);
 
 
 int fs_open(const char *pathname, int flags, int mode);
@@ -152,7 +153,7 @@ size_t sys_write(int fd, const void * buf, size_t count) {
 
 int sys_brk(intptr_t incr) {
 
-  return 0;
+  return mm_brk(incr);
 }
 
 size_t sys_read(int fd, void * buf, size_t count) {
