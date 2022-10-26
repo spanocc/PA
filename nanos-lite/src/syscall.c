@@ -103,7 +103,7 @@ void do_syscall(Context *c) {
       c->GPRx = sys_close(a[1]);
 
       #ifdef CONFIG_STRACE
-        printf("sys_close(%d == %d\n", (int)a[1], (int)(c->GPRx));
+        printf("sys_close(%d) == %d\n", (int)a[1], (int)(c->GPRx));
       #endif
 
       break;
