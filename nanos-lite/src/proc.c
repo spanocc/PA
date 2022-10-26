@@ -23,7 +23,7 @@ void hello_fun(void *arg) {
   }
 }
 
-void init_proc() {
+void init_proc() {       printf("hh%x\n",&pcb[0]);
 
   // 测试main函数的参数
   // char *argv[10] = {"/bin/exec-test", "Shimamura", "-type", "f", NULL};
