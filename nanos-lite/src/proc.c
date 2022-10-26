@@ -36,7 +36,7 @@ void init_proc() {
   // kload用am的栈（_stack_pointer），uload用heap.end的栈
   context_kload(&pcb[0], hello_fun, "Adachi");
   //context_kload(&pcb[1], hello_fun, "Shimamura");
-  context_uload(&pcb[1], "/bin/dummy", NULL, NULL);       //如果两个都是uload，那么这两个用户程序的用户栈是一样的，会相互覆盖，发生错误
+  context_uload(&pcb[1], "/bin/nterm", NULL, NULL);       //如果两个都是uload，那么这两个用户程序的用户栈是一样的，会相互覆盖，发生错误
 
   switch_boot_pcb();
 
