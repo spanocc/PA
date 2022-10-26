@@ -33,7 +33,7 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 /* malloc()被第一次调用的时候, 会通过sbrk(0)来查询用户程序当前program break的位置 */ 
-int mm_brk(uintptr_t brk) {    printf("mm:%x\n",current->max_brk);
+int mm_brk(uintptr_t brk) {    //printf("mm:%x\n",current->max_brk);
   return 0;
 }
 
