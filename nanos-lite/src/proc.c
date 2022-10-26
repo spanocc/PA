@@ -53,7 +53,7 @@ Context* schedule(Context *prev) {  //printf("ddd\n");
 //printf("adr:%p\n",&(pcb[0].cp));
   // always select pcb[0] as the new process
   // current = &pcb[0];
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);  
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);  if(current == &pcb[0]) printf("A\n"); else printf("B\n");
 //printf("adr:%p  %p\n",pcb[0].cp,pcb[1].cp);
   // then return the new context
   return current->cp;    

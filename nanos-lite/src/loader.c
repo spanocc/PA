@@ -127,7 +127,7 @@ void context_uload(PCB *new_pcb, const char *file_name, char *const argv[], char
   
   uintptr_t entry = loader(new_pcb, file_name);        printf("entry:%p\n",entry);
 
-  new_pcb->cp = ucontext(&(new_pcb->as), kstack, (void *)entry);  if(new_pcb->cp != NULL) printf("999\n");
+  new_pcb->cp = ucontext(&(new_pcb->as), kstack, (void *)entry);  
   //new_pcb->cp->gpr[10] = (uintptr_t)heap.end;
   //与loader函数同理，此时要访问物理地址，而不是虚拟地址
   uint8_t* stack_end = new_page(8); 
