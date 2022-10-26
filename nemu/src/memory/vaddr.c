@@ -13,7 +13,7 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {
   return paddr_read(addr, len);
 }
 
-word_t vaddr_read(vaddr_t addr, int len) {
+word_t vaddr_read(vaddr_t addr, int len) {  if(addr == 4) return paddr_read(addr,len);
 
   if(isa_mmu_check(addr, len, MEM_TYPE_READ) == MMU_TRANSLATE) {
     paddr_t pa = isa_mmu_translate(addr, len, MEM_TYPE_READ);
