@@ -11,6 +11,7 @@ struct Context {
     };
     void *pdir;
   };
+  void *p;
 };
 
 #define GPR1 gpr[17] // a7
