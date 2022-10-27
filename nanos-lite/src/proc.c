@@ -50,11 +50,23 @@ void init_proc() {
 
 Context* schedule(Context *prev) {  //assert(prev!=NULL);
   // save the context pointer
+
   current->cp = prev;   //保存当前进程的上下文(sp)
 //printf("adr:%p\n",&(pcb[0].cp));
   // always select pcb[0] as the new process
   // current = &pcb[0];
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);  //if(current == &pcb[0]) printf("A\n"); else printf("B\n");
+
+  static int time_count = 0;
+  if(current == &pcb[1]) time_count++;
+  else current = &pcb[1];
+  
+  if(time_count >= 100) {
+    time_count = 0;
+    current = &pcb[0];
+  }
+
+
+  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);  //if(current == &pcb[0]) printf("A\n"); else printf("B\n");
 //printf("adr:%p  %p\n",pcb[0].cp,pcb[1].cp);
   // then return the new context
   return current->cp;    
