@@ -8,8 +8,6 @@ bool ioe_init() {
  /* int fd;
   fd = open();
 */
-
-
   return true;
 }
 
