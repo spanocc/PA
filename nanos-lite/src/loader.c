@@ -68,7 +68,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       // 对0x80000000开头的地址访问，虚拟地址和物理地址相同
       fs_lseek(fd, phar.p_offset, 0);
       for(int j = 0; j * 4096 < phar.p_memsz; ++j) {
-        void *pa = new_page(1);                        //printf("%p %x\n",pa,phar.p_vaddr + j * 4096);
+        void *pa = new_page(1);                        printf("pa:%p %x\n",pa,phar.p_vaddr + j * 4096);
         map(&(pcb->as), (void *)(phar.p_vaddr + j * 4096), pa, 0xffffffff);
         //接下来的4096个字节的内存都在filesz之内，直接复制
         if((j + 1) * 4096 <= phar.p_filesz) {
