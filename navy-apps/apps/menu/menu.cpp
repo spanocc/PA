@@ -67,7 +67,7 @@ static void clear_display(void) {
   SDL_FillRect(screen, NULL, 0xffffff);
 }
 
-int main(int argc, char *argv[], char *envp[]) {           char buf[128]={"ddd\n"};   write(1,buf,4);
+int main(int argc, char *argv[], char *envp[]) {           //char buf[128]={"ddd\n"};   write(1,buf,4);
   SDL_Init(0);                                           
   screen = SDL_SetVideoMode(0, 0, 32, SDL_HWSURFACE);
 
