@@ -95,7 +95,11 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   Context *kcon = (Context *)(kstack.end - sizeof(Context));
   kcon->gpr[0] = 0;
   kcon->mstatus = 0x1800;
+
+  kcon->mstatus |= (1 << 3);  //开启时钟中断
+
   kcon->mepc = (uintptr_t)entry;
+  
 
   kcon->pdir = as->ptr;
 
