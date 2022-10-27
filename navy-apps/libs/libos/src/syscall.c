@@ -75,7 +75,7 @@ int _write(int fd, void *buf, size_t count) {
   return ret;
 }
 
-void *_sbrk(intptr_t increment) {   char buf[128]; sprintf("PPP:%x %x\n",prog_brk,increment);
+void *_sbrk(intptr_t increment) {   char buf[128]; sprintf(buf,"PPP:%x %x\n",(int)prog_brk,(int)increment); write(1,buf,20);
   intptr_t new_brk = prog_brk + increment;
   intptr_t old_brk = prog_brk;	
   intptr_t ret = _syscall_(SYS_brk, new_brk, 0, 0);
