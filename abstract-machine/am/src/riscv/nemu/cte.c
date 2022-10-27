@@ -68,6 +68,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   // 通过a0寄存器传递参数
   // 参数也可能是通过压栈来实现的，这样就会出现pa3.1中 '保持kcontext()的特性' 的问题
   kcon->gpr[10] = (uintptr_t)arg;  
+
+  kcon->pdir = NULL;
   
 
   return kcon;
