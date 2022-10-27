@@ -65,7 +65,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   kcon->gpr[0] = 0;
   kcon->mstatus = 0x1800;
 
-  kcon->mstatus |= (1 << 3);
+  kcon->mstatus |= (1 << 7);
 
   kcon->mepc = (uintptr_t)entry;
   // 通过a0寄存器传递参数

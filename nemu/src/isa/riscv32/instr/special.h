@@ -27,7 +27,7 @@ def_EHelper(ecall) {
 def_EHelper(mret) {
   rtl_j(s, cpu.mepc);
 
-  uint32_t mpie = (cpu.mstatus >> 7) & 1;   printf("mipe:%d\n",mpie);
+  uint32_t mpie = (cpu.mstatus >> 7) & 1;   //printf("mipe:%d\n",mpie);
   cpu.mstatus = (cpu.mstatus & (~(1 << 3))) | (mpie << 3);
   cpu.mstatus = (cpu.mstatus & (~(1 << 7))) | (1 << 7);
 

@@ -96,7 +96,7 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   kcon->gpr[0] = 0;
   kcon->mstatus = 0x1800;
 
-  kcon->mstatus |= (1 << 3);  //开启时钟中断
+  kcon->mstatus |= (1 << 7);  //开启时钟中断
 
   kcon->mepc = (uintptr_t)entry;
   
