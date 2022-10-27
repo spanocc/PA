@@ -68,14 +68,14 @@ static void clear_display(void) {
 }
 
 int main(int argc, char *argv[], char *envp[]) {           
-  SDL_Init(0);
-  screen = SDL_SetVideoMode(0, 0, 32, SDL_HWSURFACE);
+  SDL_Init(0);                                          assert(0);
+  screen = SDL_SetVideoMode(0, 0, 32, SDL_HWSURFACE);   assert(0);
 
-  font = new BDF_Font(font_fname);
-  logo_sf = SDL_LoadBMP("/share/pictures/projectn.bmp");
+  font = new BDF_Font(font_fname);           assert(0);
+  logo_sf = SDL_LoadBMP("/share/pictures/projectn.bmp");     assert(0);
   assert(logo_sf);
-  set_i_max();
-                                             assert(0);
+  set_i_max();          assert(0);
+                                             //assert(0);
   while (1) {
     display_menu(i_max);
 
