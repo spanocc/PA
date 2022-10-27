@@ -23,7 +23,7 @@ printf("\nexception trace:\nmepc: 0x%x\nmcause: %d\nmtvec: 0x%x\n\n",cpu.mepc,cp
 
 }
 
-word_t isa_query_intr() {    if(((cpu.mstatus >> 3) & 1))  printf("c\n");
+word_t isa_query_intr() {    //if(((cpu.mstatus >> 3) & 1))  printf("c\n");
   if (((cpu.mstatus >> 3) & 1) && cpu.INTR == true) {   //printf("b\n");
     cpu.INTR = false;
     return IRQ_TIMER;
