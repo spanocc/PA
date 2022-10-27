@@ -62,6 +62,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       //size_t offest = (uint8_t *)phar[i].p_vaddr - &ramdisk_start;
       //ramdisk_write(buf, offest, phar[i].p_filesz);
       //memcpy((uint8_t *)phar.p_vaddr, buf, phar.p_filesz);
+      if(pcb->max_brk < phar.p_vaddr+phar.p_memsz) pcb->max_brk = phar.p_vaddr+phar.p_memsz;
 
       // 应当把数据放到物理地址里，因为此时nemu还在内核态，地址映射是内核地址空间，而不是应用地址空间
       // 对0x80000000开头的地址访问，虚拟地址和物理地址相同
