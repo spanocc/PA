@@ -77,7 +77,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         else if(j * 4096 >= phar.p_filesz) {
           int msize = 4096;
           if((j + 1) * 4096 > phar.p_memsz) msize = phar.p_memsz - j * 4096;
-          memset(pa, 0, msize);
+          memset(pa, 0, msize);  
         }
         //前半复制，后半清0
         else {
@@ -85,7 +85,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
           int msize = phar.p_memsz - phar.p_filesz;
           if(fsize + msize > 4096) msize = 4096 - fsize;
           fs_read(fd, (uint8_t *)pa, fsize);
-          memset(pa, 0, msize);
+          memset(pa + fsize, 0, msize);
         }
 
       }
