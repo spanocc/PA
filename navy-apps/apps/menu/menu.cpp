@@ -67,8 +67,8 @@ static void clear_display(void) {
   SDL_FillRect(screen, NULL, 0xffffff);
 }
 
-int main(int argc, char *argv[], char *envp[]) {           
-  SDL_Init(0);                                              printf("ddd\n");
+int main(int argc, char *argv[], char *envp[]) {           printf("ddd\n");
+  SDL_Init(0);                                              //printf("ddd\n");
   screen = SDL_SetVideoMode(0, 0, 32, SDL_HWSURFACE);
 
   font = new BDF_Font(font_fname);
