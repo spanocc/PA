@@ -67,7 +67,7 @@ static void clear_display(void) {
   SDL_FillRect(screen, NULL, 0xffffff);
 }
 
-int main(int argc, char *argv[], char *envp[]) {           assert(0);
+int main(int argc, char *argv[], char *envp[]) {           
   SDL_Init(0);
   screen = SDL_SetVideoMode(0, 0, 32, SDL_HWSURFACE);
 
@@ -75,7 +75,7 @@ int main(int argc, char *argv[], char *envp[]) {           assert(0);
   logo_sf = SDL_LoadBMP("/share/pictures/projectn.bmp");
   assert(logo_sf);
   set_i_max();
-
+                                             assert(0);
   while (1) {
     display_menu(i_max);
 
