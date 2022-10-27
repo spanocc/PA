@@ -28,7 +28,7 @@ Context* __am_irq_handle(Context *c) {  //这个c指针是trap.s汇编代码中�
           c->mepc += 4;
           break;
         }
-      case 0x80000001:
+      case 0x80000007:
         ev.event = EVENT_IRQ_TIMER;
         break;
       default: ev.event = EVENT_ERROR; break;
