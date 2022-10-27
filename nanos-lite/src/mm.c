@@ -37,7 +37,7 @@ int mm_brk(uintptr_t brk) {    //printf("mm:%x\n",current->max_brk);
   uintptr_t start_page = (((current->max_brk) & 0xfff) == 0) ? current->max_brk : (((current->max_brk) & (~0xfff)) + 0x1000);
   uintptr_t end_page = ((brk & 0xfff) == 0) ? (brk - 0x1000) : (brk & (~0xfff));
 
-  printf("BK:%x %x\n",start_page,end_page);
+  //printf("BK:%x %x\n",start_page,end_page);
 
   for(;start_page <= end_page; start_page += 4096) {
     void *pa = new_page(1);
