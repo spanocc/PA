@@ -36,6 +36,8 @@ static def_DopHelper(c) {
       op->preg = &cpu.mtvec; break;
     case 0x180:
       op->preg = &cpu.satp; break;
+    case 0x340:
+      op->preg = &cpu.mscratch; break;
     default: printf("0x%x\n",val); assert(0);
   }
 }
