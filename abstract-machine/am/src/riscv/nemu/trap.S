@@ -26,13 +26,35 @@ f(30) f(31)
 #define OFFSET_CAUSE  (32 * XLEN)
 #define OFFSET_STATUS (33 * XLEN)
 #define OFFSET_EPC    (34 * XLEN)
+#define OFFSET_NP    (35 * XLEN)
 
 .align 3
-.globl __am_asm_trap
+.globl __am_asm_trap                     //每个进程用的是自己的内核栈
 __am_asm_trap:
+
+	csrrw sp, mscratch, sp   // (1) atomically exchange sp and mscratch
+  bnez sp, save_context    // (2) take the branch if we trapped from user
+  csrr sp, mscratch        // (3) if we trapped from kernel, restore the original sp
+
+
+save_context:
   addi sp, sp, -CONTEXT_SIZE          //;给上下文创建栈空间
 
   MAP(REGS, PUSH)                     //;寄存器压栈  sp栈顶指针不保存 
+
+  // c->np = (ksp == 0 ? KERNEL : USER); 
+	// ksp = 0; 
+	csrr t0, mscratch         //将mscratch(此时是用户栈指针)的值赋给t0，同时将mscrach变为0，
+	li t1, 1                  // USER
+	bnez t0, switch_to_user   // t0 != 0 ,代表用户态
+	
+	addi t0, sp, CONTEXT_SIZE // 把内核栈指针(未开辟context之前的)赋值给 c->sp
+	li t1, 0                  // KERNEL
+
+switch_to_user:            
+	STORE t0, OFFSET_SP(sp)       // c->sp = $sp;
+	STORE t1, OFFSET_NP(sp)
+
 
   csrr t0, mcause
   csrr t1, mstatus
@@ -50,8 +72,15 @@ __am_asm_trap:
   mv a0, sp                          //;把栈顶指针（context指针）作为参数传递给__am_irq_handle，x86中的 pushl %esp指令同理
   jal __am_irq_handle
 
-  mv sp, a0                         // 返回值（新进程的contest指针）赋值给sp
+  mv sp, a0                         // 返回值（新进程的contest指针）赋值给sp  (内核栈)
 
+	LOAD t0, OFFSET_SP(sp)	
+	LOAD t1, OFFSET_NP(sp)
+	beqz t1, switch2
+	csrw mscratch, t0
+
+
+switch2:
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
   csrw mstatus, t1
@@ -60,4 +89,7 @@ __am_asm_trap:
   MAP(REGS, POP)
 
   addi sp, sp, CONTEXT_SIZE
+
+	STORE sp, OFFSET_SP(sp)
+
   mret

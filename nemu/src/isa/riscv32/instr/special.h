@@ -38,8 +38,9 @@ def_EHelper(mret) {
 }
 
 def_EHelper(csrrw) {   //printf("ooooooo\n");printf("666:%d %d %d\n",*ddest,*dsrc1,*dsrc2);
+  uint32_t sr1 = *dsrc1;
   rtl_mv(s, ddest, dsrc2);
-  rtl_mv(s, dsrc2, dsrc1);        
+  rtl_li(s, dsrc2, sr1);        
 }
 
 def_EHelper(csrrs) {

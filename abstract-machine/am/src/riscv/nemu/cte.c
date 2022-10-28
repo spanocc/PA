@@ -49,7 +49,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
   //把_am_asm_trap（在trap.s中）的地址作为异常入口地址
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));  //asm volatile是内联汇编指令，类似于之前的halt指令，不过csrw mtvec是riscv32可以识别的指令（本来就有的指令，这点与halt不同）
-
+  asm volatile("csrrw x0, mscratch, 0");
   // register event handler
   user_handler = handler;
 
@@ -68,6 +68,9 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   kcon->mstatus |= (1 << 7);
 
   kcon->mepc = (uintptr_t)entry;
+
+  kcon->np = 0;
+
   // 通过a0寄存器传递参数
   // 参数也可能是通过压栈来实现的，这样就会出现pa3.1中 '保持kcontext()的特性' 的问题
   kcon->gpr[10] = (uintptr_t)arg;  

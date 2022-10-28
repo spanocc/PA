@@ -11,6 +11,8 @@
 #define MMAP_NONE  0x00000000 // no access
 #define MMAP_READ  0x00000001 // can read
 #define MMAP_WRITE 0x00000002 // can write
+//我自己加的
+enum {KERNEL, USER} stack_state;
 
 // Memory area for [@start, @end)
 typedef struct {

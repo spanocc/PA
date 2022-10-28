@@ -99,7 +99,7 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   kcon->mstatus |= (1 << 7);  //开启时钟中断，给mpie置1，mret后会把mpie赋值给mie
 
   kcon->mepc = (uintptr_t)entry;
-  
+  kcon->np = 1;
 
   kcon->pdir = as->ptr;
 
