@@ -54,6 +54,8 @@ save_together:
 	STORE t0, OFFSET_SP(sp)       // c->sp = $sp;    
 	STORE t1, OFFSET_NP(sp)       // c->np
 
+	csrrwi x0, mscratch, 0
+
 
   csrr t0, mcause
   csrr t1, mstatus
