@@ -49,7 +49,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
   //把_am_asm_trap（在trap.s中）的地址作为异常入口地址
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));  //asm volatile是内联汇编指令，类似于之前的halt指令，不过csrw mtvec是riscv32可以识别的指令（本来就有的指令，这点与halt不同）
-  asm volatile("csrrw x0, mscratch, 0");
+  asm volatile("csrrwi x0, mscratch, 0");
   // register event handler
   user_handler = handler;
 
