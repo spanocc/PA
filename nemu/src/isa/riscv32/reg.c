@@ -17,6 +17,7 @@ void isa_reg_display() {
     printf("%-10s: %-15u0x%x\n", "mcause", cpu.mcause, cpu.mcause);
     printf("%-10s: %-15u0x%x\n", "mtvec", cpu.mtvec, cpu.mtvec);
     printf("%-10s: %-15u0x%x\n", "satp", cpu.satp, cpu.satp);
+    printf("%-10s: %-15u0x%x\n", "mscratch", cpu.mscratch, cpu.mscratch);
     printf("\n%-10s: %-15u0x%x\n\n", "pc", cpu.pc, cpu.pc);
     return;
 }
