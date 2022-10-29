@@ -38,7 +38,7 @@ void init_proc() {
   //context_kload(&pcb[1], hello_fun, "Shimamura");
   //context_uload(&pcb[0], "/bin/hello", NULL, NULL);
   context_uload(&pcb[1], "/bin/bird", NULL, NULL);       //如果两个都是uload，那么这两个用户程序的用户栈是一样的，会相互覆盖，发生错误
-  context_uload(&pcb[0], "/bin/hello", NULL, NULL);
+  context_uload(&pcb[0], "/bin/nslider", NULL, NULL);
 
 
   switch_boot_pcb();
