@@ -1,5 +1,8 @@
 #include <common.h>
 
+#include<proc.h>
+
+
 #if defined(MULTIPROGRAM) && !defined(TIME_SHARING)
 # define MULTIPROGRAM_YIELD() yield()
 #else
@@ -13,6 +16,7 @@ static const char *keyname[256] __attribute__((used)) = {
   [AM_KEY_NONE] = "NONE",
   AM_KEYS(NAME)
 };
+
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {  //printf("\n\n\n\nsds\n");
   //yield();
@@ -31,7 +35,6 @@ size_t events_read(void *buf, size_t offset, size_t len) {  //printf("\n\n\nssss
   if(ev.keycode == AM_KEY_NONE) return 0;          
 
   //printf("\n\n\nssssssssssssss\n\n\n");
-
 
   if(ev.keydown) event[1] = 'd';
   strcat(event, keyname[ev.keycode]);

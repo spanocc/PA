@@ -10,6 +10,8 @@ static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {}; //大概(每次都不一
 static PCB pcb_boot = {};
 PCB *current = NULL;
 
+PCB *fg_pcb = NULL;
+
 void switch_boot_pcb() {
   current = &pcb_boot;   
 }
@@ -38,7 +40,10 @@ void init_proc() {
   //context_kload(&pcb[1], hello_fun, "Shimamura");
   //context_uload(&pcb[0], "/bin/hello", NULL, NULL);
   context_uload(&pcb[1], "/bin/bird", NULL, NULL);       //如果两个都是uload，那么这两个用户程序的用户栈是一样的，会相互覆盖，发生错误
-  context_uload(&pcb[0], "/bin/nslider", NULL, NULL);
+  context_uload(&pcb[2], "/bin/nslider", NULL, NULL);
+
+  //前台进程
+  fg_pcb = &pcb[1];
 
 
   switch_boot_pcb();
@@ -58,6 +63,7 @@ Context* schedule(Context *prev) {  //assert(prev!=NULL);
   // always select pcb[0] as the new process
   // current = &pcb[0];
 
+/*带时钟中断的
   static int time_count = 0;
   if(current == &pcb[1]) time_count++;
   else current = &pcb[1];
@@ -66,10 +72,10 @@ Context* schedule(Context *prev) {  //assert(prev!=NULL);
     time_count = 0;
     current = &pcb[0];
   }
+*/
 
-
-  //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);  //if(current == &pcb[0]) printf("A\n"); else printf("B\n");
-//printf("adr:%p  %p\n",pcb[0].cp,pcb[1].cp);
+  current = (current == &pcb[0] ? fg_pcb : &pcb[0]);  //if(current == &pcb[0]) printf("A\n"); else printf("B\n");
+  //printf("adr:%p  %p\n",pcb[0].cp,pcb[1].cp);
   // then return the new context
   return current->cp;    
 

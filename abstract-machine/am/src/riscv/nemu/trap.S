@@ -29,7 +29,7 @@ f(30) f(31)
 #define OFFSET_NP    (35 * XLEN)
 
 .align 3
-.globl __am_asm_trap                     //每个进程用的是自己的内核栈
+.globl __am_asm_trap                     //每个进程用的是自己的内核栈，进入用户态时，保存的是自己的内核栈，进入内核态时，保存上下文用的也是自己的内核栈，就是PCB数组里的那个内核栈
 __am_asm_trap:
 
 	csrrw sp, mscratch, sp        // (1) atomically exchange sp and mscratch
